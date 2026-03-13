@@ -49,13 +49,35 @@ const placeSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      enum: ['opentripmap', 'google', 'osm', 'manual'],
-      default: 'opentripmap',
+      enum: ['opentripmap', 'google', 'osm', 'manual', 'ml_model'],
+      default: 'ml_model',
     },
     place_id: {
       type: String,
       unique: true,
       sparse: true,
+    },
+    avg_cost: {
+      type: Number,
+      default: 0,
+    },
+    visit_duration: {
+      type: Number,
+      default: 1.0,
+    },
+    best_time: {
+      type: String,
+      enum: ['morning', 'afternoon', 'evening', 'any'],
+      default: 'any',
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
+    budget_level: {
+      type: String,
+      enum: ['free', 'low', 'medium', 'luxury'],
+      default: 'medium',
     },
     createdAt: {
       type: Date,

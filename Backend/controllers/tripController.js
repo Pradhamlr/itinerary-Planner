@@ -1,11 +1,12 @@
 const TripService = require('../services/tripService');
+const ItineraryService = require('../services/itineraryService');
 
 // @route   POST /api/trips
-// @desc    Create a new trip
+// @desc    Create a new trip with auto-generated itinerary
 // @access  Private
 exports.createTrip = async (req, res) => {
   try {
-    const { city, days, budget, interests } = req.body;
+    const { city, days, budget, interests, pace, budgetCategory } = req.body;
     const userId = req.user.userId;
 
     // Validation
@@ -16,11 +17,45 @@ exports.createTrip = async (req, res) => {
       });
     }
 
+    // Generate itinerary
+    let itineraryData = {};
+    try {
+      const generated = await ItineraryService.generateItinerary({
+        city,
+        days: Number(days),
+        budget: Number(budget),
+        interests: interests || [],
+        pace: pace || 'moderate',
+        budgetCategory: budgetCategory || 'medium',
+      });
+      itineraryData = {
+        itinerary: generated.itinerary,
+        restaurants: generated.restaurants,
+        estimatedCost: generated.estimatedCost,
+        optimizationInfo: generated.optimizationInfo,
+        places: generated.itinerary.flatMap((day) =>
+          day.places.map((p) => ({
+            name: p.name,
+            category: p.category,
+            rating: p.rating,
+            lat: p.lat,
+            lng: p.lng,
+            description: p.description,
+          }))
+        ),
+      };
+    } catch (itinError) {
+      console.error('Itinerary generation failed, creating trip without:', itinError.message);
+    }
+
     const tripData = {
       city,
-      days,
-      budget,
+      days: Number(days),
+      budget: Number(budget),
       interests: interests || [],
+      pace: pace || 'moderate',
+      budgetCategory: budgetCategory || 'medium',
+      ...itineraryData,
     };
 
     const trip = await TripService.createTrip(userId, tripData);

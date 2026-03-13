@@ -4,10 +4,13 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { useAuth } from './context/useAuth'
 import CreateTrip from './pages/CreateTrip'
 import Dashboard from './pages/Dashboard'
+import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import TripDetails from './pages/TripDetails'
 import ForgotPassword from './pages/ForgotPassword'
+import ModelShowcase from './pages/ModelShowcase'
+import RouteOptimizer from './pages/RouteOptimizer'
 
 function App() {
   const { token } = useAuth()
@@ -17,6 +20,7 @@ function App() {
       <Navbar />
       <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <Routes>
+          <Route path="/" element={token ? <Navigate to="/dashboard" replace /> : <Landing />} />
           <Route path="/login" element={token ? <Navigate to="/dashboard" replace /> : <Login />} />
           <Route path="/signup" element={token ? <Navigate to="/dashboard" replace /> : <Signup />} />
           <Route path="/forgot-password" element={token ? <Navigate to="/dashboard" replace /> : <ForgotPassword />} />
@@ -44,8 +48,9 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<Navigate to={token ? '/dashboard' : '/login'} replace />} />
-          <Route path="*" element={<Navigate to={token ? '/dashboard' : '/login'} replace />} />
+          <Route path="/ml-model" element={<ModelShowcase />} />
+          <Route path="/optimize-route" element={<RouteOptimizer />} />
+          <Route path="*" element={<Navigate to={token ? '/dashboard' : '/'} replace />} />
         </Routes>
       </main>
     </div>

@@ -5,6 +5,8 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const tripRoutes = require('./routes/tripRoutes');
 const placesRoutes = require('./routes/placesRoutes');
+const itineraryRoutes = require('./routes/itineraryRoutes');
+const mlRoutes = require('./routes/mlRoutes');
 
 // Initialize Express app
 const app = express();
@@ -41,6 +43,11 @@ app.get('/', (req, res) => {
         cachedByCity: 'GET /api/places/city/:city (cached only)',
         byCategory: 'GET /api/places/category/:city/:category',
       },
+      itinerary: {
+        generate: 'POST /api/itinerary/generate',
+        optimizeRoute: 'POST /api/itinerary/optimize-route',
+        estimateCost: 'POST /api/itinerary/estimate-cost',
+      },
     },
   });
 });
@@ -49,6 +56,8 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/trips', tripRoutes);
 app.use('/api/places', placesRoutes);
+app.use('/api/itinerary', itineraryRoutes);
+app.use('/api/ml', mlRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -23,6 +23,16 @@ const tripSchema = new mongoose.Schema(
       required: [true, 'Please provide a budget'],
       min: [0, 'Budget cannot be negative'],
     },
+    budgetCategory: {
+      type: String,
+      enum: ['low', 'medium', 'luxury'],
+      default: 'medium',
+    },
+    pace: {
+      type: String,
+      enum: ['relaxed', 'moderate', 'packed'],
+      default: 'moderate',
+    },
     interests: {
       type: [String],
       enum: [
@@ -36,6 +46,7 @@ const tripSchema = new mongoose.Schema(
         'beaches',
         'art',
         'sports',
+        'spiritual',
       ],
       default: [],
     },
@@ -44,8 +55,30 @@ const tripSchema = new mongoose.Schema(
         name: String,
         category: String,
         rating: Number,
+        lat: Number,
+        lng: Number,
+        description: String,
+        place_id: String,
         visitDate: Date,
         notes: String,
+      },
+    ],
+    itinerary: [
+      {
+        day: Number,
+        label: String,
+        places: [
+          {
+            name: String,
+            category: String,
+            rating: Number,
+            lat: Number,
+            lng: Number,
+            description: String,
+            order: Number,
+            dayNumber: Number,
+          },
+        ],
       },
     ],
     optimizedRoute: [
@@ -53,9 +86,26 @@ const tripSchema = new mongoose.Schema(
         place: String,
         dayNumber: Number,
         order: Number,
-        duration: Number, // in hours
+        duration: Number,
       },
     ],
+    restaurants: [
+      {
+        name: String,
+        category: String,
+        rating: Number,
+        lat: Number,
+        lng: Number,
+      },
+    ],
+    estimatedCost: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
+    optimizationInfo: {
+      algorithm: String,
+      totalDistance: Number,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

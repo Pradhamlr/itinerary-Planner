@@ -1,84 +1,96 @@
 const axios = require('axios');
 const Place = require('../models/Place');
 
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:5001';
+
 class PlacesService {
-  static async fetchPlacesFromAPI(lat, lon, radius = 10000) {
+  /**
+   * Fetch places from the local ML recommendation service.
+   */
+  static async fetchPlacesFromMLService(city) {
     try {
-      const apiKey = process.env.OPENTRIPMAP_API_KEY;
-
-      if (!apiKey || apiKey === 'your_opentripmap_api_key_here') {
-        throw new Error('OpenTripMap API key not configured. Please add OPENTRIPMAP_API_KEY to .env');
-      }
-
-      const response = await axios.get('https://api.opentripmap.com/0.1/en/places/radius', {
-        params: {
-          lat,
-          lon,
-          radius,
-          kinds: 'interesting_places',
-          limit: 40,
-          apikey: apiKey,
-        },
-        timeout: 15000,
+      const response = await axios.get(`${ML_SERVICE_URL}/places/${encodeURIComponent(city)}`, {
+        timeout: 10000,
       });
 
-      if (!response.data || !response.data.features) {
+      if (!response.data || !response.data.places) {
         return [];
       }
 
-      return response.data.features.map((feature) => ({
-        name: feature.properties.name || 'Unnamed Place',
-        lat: feature.geometry.coordinates[1],
-        lng: feature.geometry.coordinates[0],
-        category: this.mapCategory(feature.properties.kinds),
-        rating: feature.properties.rate || null,
-        description: feature.properties.wikipedia_extracts?.text || '',
-        source: 'opentripmap',
-        place_id: feature.properties.xid,
+      return response.data.places.map((place) => ({
+        name: place.name,
+        city: place.city,
+        lat: place.lat,
+        lng: place.lng,
+        category: place.category,
+        rating: place.rating,
+        description: place.description,
+        source: 'ml_model',
+        place_id: `ml_${place.city}_${place.name.replace(/\s+/g, '_').toLowerCase()}`,
+        avg_cost: place.avg_cost,
+        visit_duration: place.visit_duration,
+        best_time: place.best_time,
+        tags: place.tags,
+        budget_level: place.budget_level,
       }));
     } catch (error) {
-      if (error.response?.status === 429) {
-        throw new Error('OpenTripMap rate limit exceeded. Please try again later.');
+      if (error.code === 'ECONNREFUSED') {
+        throw new Error('ML Service is not running. Please start it with: python app.py');
       }
       throw error;
     }
   }
 
-  static mapCategory(kinds) {
-    if (!kinds) return 'other';
+  /**
+   * Get ML-powered recommendations for a city with interest matching.
+   */
+  static async getRecommendations(city, interests = [], budgetCategory = 'medium', topN = 15) {
+    try {
+      const response = await axios.post(`${ML_SERVICE_URL}/recommend`, {
+        city,
+        interests,
+        budget_category: budgetCategory,
+        top_n: topN,
+      }, { timeout: 10000 });
 
-    const categoryMap = {
-      museum: 'museum',
-      monument: 'monument',
-      historic: 'historic',
-      'natural': 'nature',
-      'nature': 'nature',
-      religious: 'religious',
-      architecture: 'architecture',
-      restaurants: 'restaurant',
-      'eating': 'restaurant',
-      entertainment: 'entertainment',
-      parks: 'park',
-      'park': 'park',
-    };
-
-    // Check if kinds contains any mapped category
-    const kindsArray = kinds.split(',');
-    for (let kind of kindsArray) {
-      kind = kind.trim().toLowerCase();
-      if (categoryMap[kind]) {
-        return categoryMap[kind];
+      if (!response.data || !response.data.recommendations) {
+        return [];
       }
-    }
 
-    return 'interesting_places';
+      return response.data.recommendations.map((place) => ({
+        name: place.name,
+        city: place.city,
+        lat: place.lat,
+        lng: place.lng,
+        category: place.category,
+        rating: place.rating,
+        description: place.description,
+        source: 'ml_model',
+        place_id: `ml_${place.city}_${place.name.replace(/\s+/g, '_').toLowerCase()}`,
+        avg_cost: place.avg_cost,
+        visit_duration: place.visit_duration,
+        best_time: place.best_time,
+        tags: place.tags,
+        budget_level: place.budget_level,
+        score: place.score,
+        interest_match: place.interest_match,
+      }));
+    } catch (error) {
+      if (error.code === 'ECONNREFUSED') {
+        throw new Error('ML Service is not running. Please start it with: python app.py');
+      }
+      throw error;
+    }
   }
 
+  /**
+   * Get places for a city - uses ML service, caches in MongoDB.
+   */
   static async getPlacesByCity(city, forceRefresh = false) {
     try {
-      const cityLower = city.toLowerCase();
+      const cityLower = city.toLowerCase().trim();
 
-      // Check if places exist in cache (unless force refresh)
+      // Check MongoDB cache first
       if (!forceRefresh) {
         const cachedPlaces = await Place.find({ city: cityLower });
         if (cachedPlaces.length > 0) {
@@ -86,32 +98,25 @@ class PlacesService {
         }
       }
 
-      // Import here to avoid circular dependency
-      const GeocodingService = require('./geocodingService');
+      // Fetch from ML service
+      const places = await this.fetchPlacesFromMLService(cityLower);
 
-      // Get coordinates from Nominatim
-      const coordinates = await GeocodingService.getCoordinates(city);
+      if (places.length === 0) {
+        throw new Error(`No places found for "${city}". This city may not be in our dataset.`);
+      }
 
-      // Fetch places from OpenTripMap
-      const places = await this.fetchPlacesFromAPI(coordinates.latitude, coordinates.longitude);
-
-      // Store in database
+      // Store in database for caching
       const placesToInsert = places.map((place) => ({
         ...place,
         city: cityLower,
       }));
 
-      // Use insertMany with ordered: false to skip duplicates
+      await Place.deleteMany({ city: cityLower });
       await Place.insertMany(placesToInsert, { ordered: false }).catch((err) => {
-        // Ignore duplicate key errors
-        if (err.code !== 11000) {
-          throw err;
-        }
+        if (err.code !== 11000) throw err;
       });
 
-      // Return all places for this city
-      const allPlaces = await Place.find({ city: cityLower }).limit(50);
-      return allPlaces;
+      return await Place.find({ city: cityLower }).limit(50);
     } catch (error) {
       throw error;
     }
@@ -119,7 +124,7 @@ class PlacesService {
 
   static async getPlacesFromCache(city) {
     try {
-      const cityLower = city.toLowerCase();
+      const cityLower = city.toLowerCase().trim();
       const places = await Place.find({ city: cityLower }).limit(50);
       return places;
     } catch (error) {

@@ -60,7 +60,7 @@ class TripService {
       }
 
       // Update only allowed fields
-      const allowedUpdates = ['city', 'days', 'budget', 'interests', 'places', 'optimizedRoute'];
+      const allowedUpdates = ['city', 'days', 'budget', 'interests', 'places', 'optimizedRoute', 'pace', 'budgetCategory', 'itinerary', 'restaurants', 'estimatedCost', 'optimizationInfo'];
       Object.keys(updateData).forEach((key) => {
         if (allowedUpdates.includes(key)) {
           trip[key] = updateData[key];
