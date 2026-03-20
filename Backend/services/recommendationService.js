@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Place = require('../models/Place');
+const logger = require('../utils/logger');
 const {
   recommendationConfig,
   interestTypeMap,
@@ -406,16 +407,18 @@ class RecommendationService {
       requiredAttractionCount,
     );
 
-    console.log('[recommendations] total_places:', places.length);
-    console.log('[recommendations] after_type_filter:', afterTypeFilter.length);
-    console.log('[recommendations] type_filter_preview:', previewPlaceNames(afterTypeFilter));
-    console.log('[recommendations] after_quality_filter:', afterQualityFilter.length);
-    console.log('[recommendations] quality_filter_preview:', previewPlaceNames(afterQualityFilter));
-    console.log('[recommendations] after_popularity_filter:', afterPopularityFilter.length);
-    console.log('[recommendations] popularity_filter_preview:', previewPlaceNames(afterPopularityFilter));
-    console.log('[recommendations] candidate_pool_size:', dedupedCandidatePool.length);
-    console.log('[recommendations] after_interest_filter:', interestFilteredPlaces.length);
-    console.log('[recommendations] interest_filter_preview:', previewPlaceNames(interestFilteredPlaces));
+    logger.info('Recommendation candidate pipeline', {
+      total_places: places.length,
+      after_type_filter: afterTypeFilter.length,
+      type_filter_preview: previewPlaceNames(afterTypeFilter),
+      after_quality_filter: afterQualityFilter.length,
+      quality_filter_preview: previewPlaceNames(afterQualityFilter),
+      after_popularity_filter: afterPopularityFilter.length,
+      popularity_filter_preview: previewPlaceNames(afterPopularityFilter),
+      candidate_pool_size: dedupedCandidatePool.length,
+      after_interest_filter: interestFilteredPlaces.length,
+      interest_filter_preview: previewPlaceNames(interestFilteredPlaces),
+    });
 
     return {
       candidatePool: interestFilteredPlaces,
@@ -546,7 +549,9 @@ class RecommendationService {
       sampledCandidates = sampleArray(candidatePool, dynamicSampleSize);
     }
 
-    console.log('[recommendations] sampled_candidates:', sampledCandidates.length);
+    logger.info('Recommendation sampling complete', {
+      sampled_candidates: sampledCandidates.length,
+    });
 
     let mlScoreMap = new Map();
     if (sampledCandidates.length > 0) {
@@ -560,7 +565,7 @@ class RecommendationService {
         );
       } catch (error) {
         const details = error.response?.data?.detail || error.message;
-        console.warn(`[recommendations] ML scoring fallback active: ${details}`);
+        logger.warn('ML scoring fallback active', { details });
         mlScoreMap = new Map(
           sampledCandidates.map((place) => [place.place_id, recommendationConfig.mlFallbackScore]),
         );
@@ -569,8 +574,10 @@ class RecommendationService {
 
     const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap, trip.interests);
     const selectedAttractions = selectDiverseAttractions(rankedAttractions, totalAttractions);
-    console.log('[recommendations] final_attraction_count:', selectedAttractions.length);
-    console.log('[recommendations] final_attraction_preview:', previewPlaceNames(selectedAttractions));
+    logger.info('Recommendation ranking complete', {
+      final_attraction_count: selectedAttractions.length,
+      final_attraction_preview: previewPlaceNames(selectedAttractions),
+    });
 
     const restaurantPool = this.buildRestaurantPool(candidatePlaces);
     const restaurants = this.buildRestaurants(restaurantPool);

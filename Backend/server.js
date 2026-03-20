@@ -9,6 +9,7 @@ const recommendationRoutes = require('./routes/recommendationRoutes');
 const itineraryRoutes = require('./routes/itineraryRoutes');
 const initializePlacesDataset = require('./startup/seedPlaces');
 const validateEnv = require('./config/validateEnv');
+const logger = require('./utils/logger');
 
 // Initialize Express app
 const app = express();
@@ -88,7 +89,11 @@ const startServer = async () => {
 
     // Error handling middleware
     app.use((err, req, res, next) => {
-      console.error('Error:', err);
+      logger.error('Unhandled request error', {
+        path: req.path,
+        method: req.method,
+        message: err.message,
+      });
       res.status(err.status || 500).json({
         success: false,
         message: err.message || 'Internal server error',
@@ -104,7 +109,7 @@ const startServer = async () => {
       console.log(`${'='.repeat(60)}\n`);
     });
   } catch (error) {
-    console.error('Failed to start server:', error);
+    logger.error('Failed to start server', { message: error.message });
     process.exit(1);
   }
 };
