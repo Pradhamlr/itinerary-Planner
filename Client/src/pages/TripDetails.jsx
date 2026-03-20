@@ -14,6 +14,8 @@ function TripDetails() {
   const [metadata, setMetadata] = useState(null)
   const [itineraryDays, setItineraryDays] = useState([])
   const [itineraryRestaurants, setItineraryRestaurants] = useState([])
+  const [recommendationsGeneratedAt, setRecommendationsGeneratedAt] = useState('')
+  const [itineraryGeneratedAt, setItineraryGeneratedAt] = useState('')
   const [loadingTrip, setLoadingTrip] = useState(true)
   const [loadingRecommendations, setLoadingRecommendations] = useState(false)
   const [loadingItinerary, setLoadingItinerary] = useState(false)
@@ -22,13 +24,56 @@ function TripDetails() {
   const [recommendationsError, setRecommendationsError] = useState('')
   const [itineraryError, setItineraryError] = useState('')
   const [tripError, setTripError] = useState('')
+  const [recommendationsFromSnapshot, setRecommendationsFromSnapshot] = useState(false)
+  const [itineraryFromSnapshot, setItineraryFromSnapshot] = useState(false)
+
+  const hydrateSavedPlans = (tripData) => {
+    const recommendationSnapshot = tripData?.recommendationSnapshot
+    const itinerarySnapshot = tripData?.itinerarySnapshot
+
+    if (recommendationSnapshot) {
+      setAttractions(recommendationSnapshot.attractions || [])
+      setRestaurants(recommendationSnapshot.restaurants || [])
+      setMetadata(recommendationSnapshot.metadata || null)
+      setRecommendationsGenerated(Boolean(
+        (recommendationSnapshot.attractions || []).length || (recommendationSnapshot.restaurants || []).length,
+      ))
+      setRecommendationsGeneratedAt(recommendationSnapshot.generatedAt || '')
+      setRecommendationsFromSnapshot(true)
+    } else {
+      setAttractions([])
+      setRestaurants([])
+      setMetadata(null)
+      setRecommendationsGenerated(false)
+      setRecommendationsGeneratedAt('')
+      setRecommendationsFromSnapshot(false)
+    }
+
+    if (itinerarySnapshot) {
+      setItineraryDays(itinerarySnapshot.itinerary || [])
+      setItineraryRestaurants(itinerarySnapshot.restaurants || [])
+      setItineraryGenerated(Boolean(
+        (itinerarySnapshot.itinerary || []).length || (itinerarySnapshot.restaurants || []).length,
+      ))
+      setItineraryGeneratedAt(itinerarySnapshot.generatedAt || '')
+      setItineraryFromSnapshot(true)
+    } else {
+      setItineraryDays([])
+      setItineraryRestaurants([])
+      setItineraryGenerated(false)
+      setItineraryGeneratedAt('')
+      setItineraryFromSnapshot(false)
+    }
+  }
 
   const fetchTrip = async () => {
     try {
       setLoadingTrip(true)
       setTripError('')
       const response = await api.get(`/trips/${id}`)
-      setTrip(response.data.data)
+      const tripData = response.data.data
+      setTrip(tripData)
+      hydrateSavedPlans(tripData)
     } catch (err) {
       setTripError(err.response?.data?.message || 'Failed to load trip details.')
     } finally {
@@ -47,6 +92,8 @@ function TripDetails() {
       setRestaurants(recommendationData.restaurants || [])
       setMetadata(recommendationData.metadata || null)
       setRecommendationsGenerated(true)
+      setRecommendationsGeneratedAt(new Date().toISOString())
+      setRecommendationsFromSnapshot(false)
     } catch (err) {
       setRecommendationsError(err.response?.data?.message || 'Failed to generate recommendations.')
       setRecommendationsGenerated(true)
@@ -65,6 +112,8 @@ function TripDetails() {
       setItineraryDays(itineraryData.itinerary || [])
       setItineraryRestaurants(itineraryData.restaurants || [])
       setItineraryGenerated(true)
+      setItineraryGeneratedAt(new Date().toISOString())
+      setItineraryFromSnapshot(false)
     } catch (err) {
       setItineraryError(err.response?.data?.message || 'Failed to generate itinerary.')
       setItineraryGenerated(true)
@@ -197,6 +246,8 @@ function TripDetails() {
         generated={recommendationsGenerated}
         error={recommendationsError}
         onRefresh={fetchRecommendations}
+        generatedAt={recommendationsGeneratedAt}
+        hydratedFromSnapshot={recommendationsFromSnapshot}
       />
 
       <ItineraryPanel
@@ -206,6 +257,8 @@ function TripDetails() {
         generated={itineraryGenerated}
         error={itineraryError}
         onRefresh={fetchItinerary}
+        generatedAt={itineraryGeneratedAt}
+        hydratedFromSnapshot={itineraryFromSnapshot}
       />
     </section>
   )

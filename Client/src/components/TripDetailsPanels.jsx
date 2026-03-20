@@ -2,6 +2,22 @@ import ItineraryMap from './ItineraryMap'
 import PlaceCard from './PlaceCard'
 import { formatCategory, renderStars } from '../utils/travel'
 
+function formatGeneratedAt(value) {
+  if (!value) {
+    return null
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return null
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(date)
+}
+
 function RecommendationSkeletons({ count = 6 }) {
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -73,7 +89,11 @@ export function RecommendationsPanel({
   generated,
   error,
   onRefresh,
+  generatedAt,
+  hydratedFromSnapshot,
 }) {
+  const formattedGeneratedAt = formatGeneratedAt(generatedAt)
+
   return (
     <div className="rounded-[32px] border border-white/60 bg-white/90 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -113,6 +133,15 @@ export function RecommendationsPanel({
         </div>
       ) : (
         <div className="space-y-8">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+            <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">
+              {hydratedFromSnapshot ? 'Loaded saved recommendations' : 'Freshly generated recommendations'}
+            </span>
+            {formattedGeneratedAt ? (
+              <span>Last generated: {formattedGeneratedAt}</span>
+            ) : null}
+          </div>
+
           <div className="grid gap-4 md:grid-cols-4">
             <div className="rounded-[24px] bg-slate-50 p-5">
               <p className="text-sm text-slate-500">Attractions selected</p>
@@ -190,7 +219,11 @@ export function ItineraryPanel({
   generated,
   error,
   onRefresh,
+  generatedAt,
+  hydratedFromSnapshot,
 }) {
+  const formattedGeneratedAt = formatGeneratedAt(generatedAt)
+
   return (
     <div className="rounded-[32px] border border-white/60 bg-white/90 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -234,6 +267,15 @@ export function ItineraryPanel({
         </div>
       ) : (
         <div className="space-y-5">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+            <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">
+              {hydratedFromSnapshot ? 'Loaded saved itinerary' : 'Freshly generated itinerary'}
+            </span>
+            {formattedGeneratedAt ? (
+              <span>Last generated: {formattedGeneratedAt}</span>
+            ) : null}
+          </div>
+
           <div>
             <h3 className="text-2xl font-semibold text-slate-950">Smart Itinerary Map</h3>
             <p className="mt-2 text-sm leading-7 text-slate-600">
