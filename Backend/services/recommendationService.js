@@ -1,90 +1,14 @@
 const axios = require('axios');
 const Place = require('../models/Place');
-
-const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
-const CANDIDATE_FETCH_LIMIT = 600;
-const CANDIDATE_POOL_LIMIT = 120;
-const CANDIDATE_SAMPLE_SIZE = 40;
-const PLACES_PER_DAY = 4;
-
-const MIN_ATTRACTION_RATING = 4.2;
-const MIN_ATTRACTION_REVIEWS = 500;
-const POPULARITY_GATE_PRIMARY = 7.8;
-const POPULARITY_GATE_FALLBACK = 7.5;
-const POPULARITY_GATE_MIN_RESULTS = 120;
-const WEIGHTED_RATING_THRESHOLD = 2000;
-
-const MIN_RESTAURANT_RATING = 4.2;
-const MIN_RESTAURANT_REVIEWS = 300;
-const RESTAURANT_POOL_LIMIT = 80;
-const RESTAURANT_SAMPLE_SIZE = 20;
-const RESTAURANT_RETURN_COUNT = 8;
-
-const INTEREST_TYPE_MAP = {
-  beaches: ['beach', 'natural_feature'],
-  culture: ['museum', 'art_gallery', 'hindu_temple', 'temple', 'church', 'monument'],
-  nature: ['park', 'zoo', 'garden', 'natural_feature'],
-  food: ['restaurant', 'cafe'],
-  shopping: ['shopping_mall', 'store'],
-  nightlife: ['bar', 'night_club'],
-  history: ['museum', 'historical_landmark', 'monument', 'church', 'synagogue', 'temple'],
-  art: ['art_gallery', 'museum'],
-  adventure: ['amusement_park', 'park', 'natural_feature'],
-  sports: ['park'],
-};
-
-const ALLOWED_ATTRACTION_TYPES = new Set([
-  'tourist_attraction',
-  'museum',
-  'church',
-  'hindu_temple',
-  'temple',
-  'mosque',
-  'synagogue',
-  'art_gallery',
-  'park',
-  'zoo',
-  'aquarium',
-  'amusement_park',
-  'natural_feature',
-  'beach',
-  'historical_landmark',
-  'monument',
-  'landmark',
-]);
-
-const BLOCKED_ATTRACTION_TYPES = new Set([
-  'travel_agency',
-  'tour_operator',
-  'tour_agency',
-  'tourist_information_center',
-  'florist',
-  'store',
-]);
-
-const GENERIC_PLACE_TYPES = new Set([
-  'establishment',
-  'point_of_interest',
-  'premise',
-]);
-
-const RESTAURANT_TYPES = new Set([
-  'restaurant',
-  'cafe',
-  'bar',
-  'bakery',
-  'meal_takeaway',
-  'night_club',
-]);
-
-const BLOCKED_RESTAURANT_TYPES = new Set([
-  'lodging',
-  'hotel',
-  'resort_hotel',
-  'travel_agency',
-  'tour_operator',
-  'tour_agency',
-]);
+const {
+  recommendationConfig,
+  interestTypeMap,
+  allowedAttractionTypes,
+  blockedAttractionTypes,
+  genericPlaceTypes,
+  restaurantTypes,
+  blockedRestaurantTypes,
+} = require('../config/recommendationConfig');
 
 const normalizeInterest = (interest) => String(interest || '').trim().toLowerCase();
 const normalizeType = (type) => String(type || '').trim().toLowerCase();
@@ -93,8 +17,8 @@ const getNormalizedTypes = (place) => (place.types || []).map(normalizeType);
 
 const getPrimaryCategory = (place) => {
   const types = getNormalizedTypes(place);
-  const category = types.find((type) => ALLOWED_ATTRACTION_TYPES.has(type))
-    || types.find((type) => RESTAURANT_TYPES.has(type))
+  const category = types.find((type) => allowedAttractionTypes.has(type))
+    || types.find((type) => restaurantTypes.has(type))
     || types[0];
   return category ? String(category).replace(/_/g, ' ') : 'other';
 };
@@ -198,13 +122,13 @@ const hasAnyType = (place, typeSet) => getNormalizedTypes(place).some((type) => 
 
 const isAllowedAttraction = (place) => {
   const normalizedTypes = getNormalizedTypes(place);
-  const specificTypes = normalizedTypes.filter((type) => !GENERIC_PLACE_TYPES.has(type));
+  const specificTypes = normalizedTypes.filter((type) => !genericPlaceTypes.has(type));
 
-  return specificTypes.some((type) => ALLOWED_ATTRACTION_TYPES.has(type))
-    && !specificTypes.some((type) => BLOCKED_ATTRACTION_TYPES.has(type));
+  return specificTypes.some((type) => allowedAttractionTypes.has(type))
+    && !specificTypes.some((type) => blockedAttractionTypes.has(type));
 };
 
-const isBlockedRestaurant = (place) => getNormalizedTypes(place).some((type) => BLOCKED_RESTAURANT_TYPES.has(type));
+const isBlockedRestaurant = (place) => getNormalizedTypes(place).some((type) => blockedRestaurantTypes.has(type));
 
 const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
   const normalizedInterests = (tripInterests || []).map(normalizeInterest).filter(Boolean);
@@ -215,7 +139,7 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
     };
   }
 
-  const allowedTypes = new Set(normalizedInterests.flatMap((interest) => INTEREST_TYPE_MAP[interest] || []));
+  const allowedTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
   const filteredPlaces = places.filter((place) =>
     getNormalizedTypes(place).some((type) => allowedTypes.has(type)),
   );
@@ -273,12 +197,12 @@ class RecommendationService {
   static async fetchCandidatePlaces(city) {
     return Place.find({ city: String(city).toLowerCase() })
       .sort({ user_ratings_total: -1 })
-      .limit(CANDIDATE_FETCH_LIMIT);
+      .limit(recommendationConfig.candidateFetchLimit);
   }
 
   static async fetchMlRecommendations(places) {
     const response = await axios.post(
-      `${ML_SERVICE_URL}/recommend`,
+      `${recommendationConfig.mlServiceUrl}/recommend`,
       {
         places: places.map(buildMlPayloadPlace),
         top_k: places.length,
@@ -297,24 +221,24 @@ class RecommendationService {
   static buildAttractionCandidatePool(places, tripInterests, requiredAttractionCount) {
     const afterTypeFilter = places.filter((place) => isAllowedAttraction(place));
     const afterQualityFilter = afterTypeFilter
-      .filter((place) => Number(place.rating || 0) >= MIN_ATTRACTION_RATING)
-      .filter((place) => Number(place.user_ratings_total || 0) >= MIN_ATTRACTION_REVIEWS);
+      .filter((place) => Number(place.rating || 0) >= recommendationConfig.minAttractionRating)
+      .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.minAttractionReviews);
 
     let afterPopularityFilter = afterQualityFilter
-      .filter((place) => getPopularitySignal(place) >= POPULARITY_GATE_PRIMARY);
+      .filter((place) => getPopularitySignal(place) >= recommendationConfig.popularityGatePrimary);
 
-    if (afterPopularityFilter.length < POPULARITY_GATE_MIN_RESULTS) {
+    if (afterPopularityFilter.length < recommendationConfig.popularityGateMinResults) {
       afterPopularityFilter = afterQualityFilter
-        .filter((place) => getPopularitySignal(place) >= POPULARITY_GATE_FALLBACK);
+        .filter((place) => getPopularitySignal(place) >= recommendationConfig.popularityGateFallback);
     }
 
     const candidatePool = afterPopularityFilter
       .sort((a, b) => {
-    const scoreA = (getPopularitySignal(a) * 0.7) + ((a.rating || 0) * 0.3);
-    const scoreB = (getPopularitySignal(b) * 0.7) + ((b.rating || 0) * 0.3);
-    return scoreB - scoreA;
-    })
-      .slice(0, CANDIDATE_POOL_LIMIT);
+        const scoreA = (getPopularitySignal(a) * 0.7) + ((a.rating || 0) * 0.3);
+        const scoreB = (getPopularitySignal(b) * 0.7) + ((b.rating || 0) * 0.3);
+        return scoreB - scoreA;
+      })
+      .slice(0, recommendationConfig.candidatePoolLimit);
 
     const { places: interestFilteredPlaces, interestFilterApplied } = filterByInterests(
       candidatePool,
@@ -341,10 +265,10 @@ class RecommendationService {
 
   static buildRestaurantPool(places) {
     return places
-      .filter((place) => hasAnyType(place, RESTAURANT_TYPES))
+      .filter((place) => hasAnyType(place, restaurantTypes))
       .filter((place) => !isBlockedRestaurant(place))
-      .filter((place) => Number(place.rating || 0) >= MIN_RESTAURANT_RATING)
-      .filter((place) => Number(place.user_ratings_total || 0) >= MIN_RESTAURANT_REVIEWS)
+      .filter((place) => Number(place.rating || 0) >= recommendationConfig.minRestaurantRating)
+      .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.minRestaurantReviews)
       .sort((first, second) => {
         if ((second.rating || 0) !== (first.rating || 0)) {
           return (second.rating || 0) - (first.rating || 0);
@@ -352,7 +276,7 @@ class RecommendationService {
 
         return (second.user_ratings_total || 0) - (first.user_ratings_total || 0);
       })
-      .slice(0, RESTAURANT_POOL_LIMIT);
+      .slice(0, recommendationConfig.restaurantPoolLimit);
   }
 
   static rankAttractions(attractions, mlScoreMap) {
@@ -370,8 +294,8 @@ class RecommendationService {
       .map((place) => {
         const rating = Number(place.rating || 0);
         const reviewCount = Number(place.user_ratings_total || 0);
-        const weightedRating = ((reviewCount / (reviewCount + WEIGHTED_RATING_THRESHOLD)) * rating)
-          + ((WEIGHTED_RATING_THRESHOLD / (reviewCount + WEIGHTED_RATING_THRESHOLD)) * averageRating);
+        const weightedRating = ((reviewCount / (reviewCount + recommendationConfig.weightedRatingThreshold)) * rating)
+          + ((recommendationConfig.weightedRatingThreshold / (reviewCount + recommendationConfig.weightedRatingThreshold)) * averageRating);
         const normalizedPopularitySignal = normalizePopularitySignal(getPopularitySignal(place));
         const sentimentScore = getSentimentSignal(place);
         const mlScore = Number(mlScoreMap.get(place.place_id) || 0);
@@ -399,7 +323,7 @@ class RecommendationService {
   }
 
   static buildRestaurants(restaurants) {
-    const sampledRestaurants = sampleArray(restaurants, RESTAURANT_SAMPLE_SIZE)
+    const sampledRestaurants = sampleArray(restaurants, recommendationConfig.restaurantSampleSize)
       .sort((first, second) => {
         if ((second.rating || 0) !== (first.rating || 0)) {
           return (second.rating || 0) - (first.rating || 0);
@@ -407,13 +331,16 @@ class RecommendationService {
 
         return (second.user_ratings_total || 0) - (first.user_ratings_total || 0);
       })
-      .slice(0, RESTAURANT_RETURN_COUNT);
+      .slice(0, recommendationConfig.restaurantReturnCount);
 
     return sampledRestaurants.map(buildRestaurantResponse);
   }
 
   static async getRecommendationsForTrip(trip) {
-    const totalAttractions = Math.max(PLACES_PER_DAY, Number(trip.days || 1) * PLACES_PER_DAY);
+    const totalAttractions = Math.max(
+      recommendationConfig.placesPerDay,
+      Number(trip.days || 1) * recommendationConfig.placesPerDay,
+    );
     const requiredAttractionCount = totalAttractions;
     const candidatePlaces = await this.fetchCandidatePlaces(trip.city);
     const { candidatePool, interestFilterApplied } = this.buildAttractionCandidatePool(
@@ -422,9 +349,9 @@ class RecommendationService {
       requiredAttractionCount,
     );
 
-    const dynamicSampleSize = Math.max(CANDIDATE_SAMPLE_SIZE, requiredAttractionCount * 3);
+    const dynamicSampleSize = Math.max(recommendationConfig.candidateSampleSize, requiredAttractionCount * 3);
     const normalizedInterests = (trip.interests || []).map(normalizeInterest);
-    const interestTypes = new Set(normalizedInterests.flatMap((interest) => INTEREST_TYPE_MAP[interest] || []));
+    const interestTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
 
     let sampledCandidates;
 
@@ -459,7 +386,10 @@ class RecommendationService {
         );
       } catch (error) {
         const details = error.response?.data?.detail || error.message;
-        throw new Error(`ML service unavailable: ${details}`);
+        console.warn(`[recommendations] ML scoring fallback active: ${details}`);
+        mlScoreMap = new Map(
+          sampledCandidates.map((place) => [place.place_id, recommendationConfig.mlFallbackScore]),
+        );
       }
     }
 
@@ -479,6 +409,8 @@ class RecommendationService {
         total_candidates: candidatePlaces.length,
         interest_filter_applied: interestFilterApplied,
         ranking_strategy: 'dynamic multi-stage tourism ranking',
+        ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>
+          Number(mlScoreMap.get(place.place_id)) === recommendationConfig.mlFallbackScore),
       },
     };
   }

@@ -8,6 +8,7 @@ const placesRoutes = require('./routes/placesRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const itineraryRoutes = require('./routes/itineraryRoutes');
 const initializePlacesDataset = require('./startup/seedPlaces');
+const validateEnv = require('./config/validateEnv');
 
 // Initialize Express app
 const app = express();
@@ -15,6 +16,8 @@ const app = express();
 // Async startup function
 const startServer = async () => {
   try {
+    validateEnv();
+
     // Connect to MongoDB
     await connectDB();
 
