@@ -49,13 +49,14 @@ function Login() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-      <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-      <p className="mt-2 text-sm text-slate-600">Log in to manage your travel plans.</p>
+    <section className="mx-auto w-full max-w-xl surface-card p-7 sm:p-10">
+      <p className="field-label">Smart Itinerary</p>
+      <h1 className="editorial-title mt-3 text-4xl font-semibold text-brand-palm">Welcome back</h1>
+      <p className="mt-3 max-w-md text-sm leading-7 text-[#5a5843]">Log in to continue planning your Kerala journey with recommendation-aware itineraries.</p>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="email" className="field-label block">
             Email
           </label>
           <input
@@ -65,12 +66,12 @@ function Login() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="password" className="field-label block">
             Password
           </label>
           <input
@@ -80,34 +81,34 @@ function Login() {
             value={formData.password}
             onChange={handleChange}
             required
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
           />
         </div>
 
         <div className="flex justify-end">
-          <Link to="/forgot-password" className="text-sm text-brand-600 hover:text-brand-700 font-semibold">
+          <Link to="/forgot-password" className="text-sm font-semibold text-brand-secondary hover:text-brand-terracottaInk">
             Forgot password?
           </Link>
         </div>
 
         {successMessage && (
-          <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">{successMessage}</p>
+          <p className="rounded-xl bg-[#deeadf] px-4 py-3 text-sm text-[#1e4f36]">{successMessage}</p>
         )}
 
-        {error ? <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p> : null}
+        {error ? <p className="rounded-xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p> : null}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
 
-      <p className="mt-4 text-sm text-slate-600">
+      <p className="mt-6 text-sm text-[#5a5843]">
         Don&apos;t have an account?{' '}
-        <Link to="/signup" className="font-semibold text-brand-700 hover:underline">
+        <Link to="/signup" className="font-semibold text-brand-secondary hover:text-brand-terracottaInk hover:underline">
           Create one
         </Link>
       </p>

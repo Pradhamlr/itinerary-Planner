@@ -34,7 +34,7 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
 
   if (!apiKey) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-500">
+      <div className="rounded-2xl bg-[#efe8cd] px-4 py-3 text-sm text-[#6d6a51]">
         Add `VITE_GOOGLE_MAPS_API_KEY` to use place search for start location.
       </div>
     )
@@ -42,7 +42,7 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
 
   if (loadError) {
     return (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+      <div className="rounded-2xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">
         Unable to load Google place search right now.
       </div>
     )
@@ -50,7 +50,7 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
 
   if (!isLoaded) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500">
+      <div className="rounded-2xl bg-[#efe8cd] px-4 py-3 text-sm text-[#6d6a51]">
         Loading place search...
       </div>
     )
@@ -70,23 +70,23 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
           type="text"
           placeholder={city ? `Search a hotel or start point in ${city}` : 'Search hotel or start point'}
           defaultValue={value?.name || ''}
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+          className="input-minimal"
         />
       </Autocomplete>
 
       {value?.name ? (
-        <div className="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 rounded-2xl bg-[#efe8cd] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Selected start location</p>
-            <p className="mt-1 truncate text-sm font-medium text-slate-800">{value.name}</p>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8b886f]">Selected start location</p>
+            <p className="mt-1 truncate text-sm font-medium text-brand-palm">{value.name}</p>
+            <p className="mt-1 text-xs text-[#6d6a51]">
               {value.lat?.toFixed?.(4)}, {value.lng?.toFixed?.(4)}
             </p>
           </div>
           <button
             type="button"
             onClick={onClear}
-            className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-white"
+            className="btn-ghost px-4 py-2 text-xs"
           >
             Clear
           </button>

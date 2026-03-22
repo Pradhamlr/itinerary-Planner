@@ -116,14 +116,15 @@ export default function ForgotPassword() {
 
   const renderStep1 = () => (
     <>
-      <h1 className="text-2xl font-bold text-slate-900">Forgot Password?</h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="field-label">Recovery</p>
+      <h1 className="editorial-title mt-3 text-4xl font-semibold text-brand-palm">Forgot Password?</h1>
+      <p className="mt-3 text-sm leading-7 text-[#5a5843]">
         Enter your email to receive a verification code
       </p>
 
-      <form onSubmit={handleEmailSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleEmailSubmit} className="mt-8 space-y-6">
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="email" className="field-label block">
             Email Address
           </label>
           <input
@@ -133,19 +134,19 @@ export default function ForgotPassword() {
             value={formData.email}
             onChange={handleChange}
             placeholder="your@email.com"
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
             required
           />
         </div>
 
         {error && (
-          <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>
+          <p className="rounded-xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
         >
           {loading ? 'Sending...' : 'Send Verification Code'}
         </button>
@@ -155,14 +156,15 @@ export default function ForgotPassword() {
 
   const renderStep2 = () => (
     <>
-      <h1 className="text-2xl font-bold text-slate-900">Enter Verification Code</h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="field-label">Verification</p>
+      <h1 className="editorial-title mt-3 text-4xl font-semibold text-brand-palm">Enter Verification Code</h1>
+      <p className="mt-3 text-sm leading-7 text-[#5a5843]">
         We sent a 6-digit code to {formData.email}
       </p>
 
-      <form onSubmit={handleCodeSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleCodeSubmit} className="mt-8 space-y-6">
         <div>
-          <label htmlFor="code" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="code" className="field-label block">
             Verification Code
           </label>
           <input
@@ -173,19 +175,19 @@ export default function ForgotPassword() {
             onChange={handleChange}
             placeholder="123456"
             maxLength={6}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2 text-center text-lg tracking-widest"
+            className="input-minimal text-center text-lg tracking-[0.4em]"
             required
           />
         </div>
 
         {error && (
-          <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>
+          <p className="rounded-xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
         >
           {loading ? 'Verifying...' : 'Verify Code'}
         </button>
@@ -194,7 +196,7 @@ export default function ForgotPassword() {
           type="button"
           onClick={() => handleEmailSubmit({ preventDefault: () => {} })}
           disabled={loading}
-          className="w-full text-sm text-brand-600 hover:text-brand-700 font-medium disabled:opacity-50"
+          className="w-full text-sm font-semibold text-brand-secondary hover:text-brand-terracottaInk disabled:opacity-50"
         >
           Resend Code
         </button>
@@ -202,7 +204,7 @@ export default function ForgotPassword() {
         <button
           type="button"
           onClick={() => setStep(1)}
-          className="w-full text-sm text-slate-600 hover:text-slate-700 font-medium"
+          className="w-full text-sm font-semibold text-[#5a5843] hover:text-brand-palm"
         >
           Back to Email
         </button>
@@ -212,14 +214,15 @@ export default function ForgotPassword() {
 
   const renderStep3 = () => (
     <>
-      <h1 className="text-2xl font-bold text-slate-900">Set New Password</h1>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="field-label">Reset Password</p>
+      <h1 className="editorial-title mt-3 text-4xl font-semibold text-brand-palm">Set New Password</h1>
+      <p className="mt-3 text-sm leading-7 text-[#5a5843]">
         Enter your new password below
       </p>
 
-      <form onSubmit={handlePasswordSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handlePasswordSubmit} className="mt-8 space-y-6">
         <div>
-          <label htmlFor="newPassword" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="newPassword" className="field-label block">
             New Password
           </label>
           <input
@@ -229,13 +232,13 @@ export default function ForgotPassword() {
             value={formData.newPassword}
             onChange={handleChange}
             minLength={6}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="confirmPassword" className="field-label block">
             Confirm New Password
           </label>
           <input
@@ -245,19 +248,19 @@ export default function ForgotPassword() {
             value={formData.confirmPassword}
             onChange={handleChange}
             minLength={6}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
             required
           />
         </div>
 
         {error && (
-          <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>
+          <p className="rounded-xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
         >
           {loading ? 'Resetting...' : 'Reset Password'}
         </button>
@@ -266,14 +269,14 @@ export default function ForgotPassword() {
   );
 
   return (
-    <section className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="mx-auto w-full max-w-xl surface-card p-7 sm:p-10">
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && renderStep3()}
 
-      <p className="mt-4 text-sm text-slate-600">
+      <p className="mt-6 text-sm text-[#5a5843]">
         Remember your password?{' '}
-        <Link to="/login" className="font-semibold text-brand-700 hover:underline">
+        <Link to="/login" className="font-semibold text-brand-secondary hover:text-brand-terracottaInk hover:underline">
           Sign in
         </Link>
       </p>

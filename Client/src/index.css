@@ -1,9 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
+  --surface: #fefae0;
+  --surface-low: #f8f4db;
+  --surface-high: #e7e3ca;
+  --palm: #012d1d;
+  --palm-container: #1b4332;
+  --terracotta: #fda055;
+  --terracotta-ink: #703800;
+  --secondary: #924c00;
+  --outline: #717973;
+  --on-surface: #1d1c0d;
 }
 
 * {
@@ -17,9 +29,12 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
-  color: #0f172a;
-  background: linear-gradient(180deg, #f8fbff 0%, #f6f7fb 45%, #eef7f3 100%);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--on-surface);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(253, 160, 85, 0.08), transparent 28%),
+    radial-gradient(circle at 90% 8%, rgba(1, 45, 29, 0.1), transparent 34%),
+    linear-gradient(180deg, var(--surface) 0%, #f9f2dc 45%, #f3ecd1 100%);
 }
 
 #root {
@@ -27,5 +42,73 @@ body {
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.25);
+  background: rgba(253, 160, 85, 0.35);
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-[28px] bg-brand-surfaceLow shadow-soft;
+  }
+
+  .hero-panel {
+    @apply overflow-hidden rounded-[34px] text-white shadow-ambient;
+    background: radial-gradient(circle at 18% 10%, rgba(253, 160, 85, 0.28), transparent 36%),
+      radial-gradient(circle at 90% 100%, rgba(255, 255, 255, 0.08), transparent 40%),
+      linear-gradient(135deg, var(--palm) 0%, var(--palm-container) 100%);
+  }
+
+  .editorial-title {
+    @apply font-display tracking-tight;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-brand-palm px-5 py-3 text-sm font-semibold text-white transition;
+  }
+
+  .btn-primary:hover {
+    background: #0b3a28;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl bg-brand-terracotta px-5 py-3 text-sm font-semibold text-brand-terracottaInk transition;
+  }
+
+  .btn-secondary:hover {
+    background: #f1913e;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold text-brand-palm transition;
+    background: rgba(1, 45, 29, 0.08);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(1, 45, 29, 0.14);
+  }
+
+  .input-minimal {
+    @apply w-full bg-transparent px-0 pb-3 pt-2 text-sm text-brand-onSurface outline-none transition;
+    border-bottom: 1px solid rgba(113, 121, 115, 0.32);
+  }
+
+  .input-minimal:focus {
+    border-bottom-color: var(--secondary);
+  }
+
+  .field-label {
+    @apply text-xs font-semibold uppercase tracking-[0.18em];
+    color: rgba(146, 76, 0, 0.86);
+  }
+
+  .chip-token {
+    @apply rounded-full px-3 py-1.5 text-xs font-semibold tracking-[0.12em] transition;
+    background: var(--surface-high);
+    color: var(--palm);
+  }
+
+  .chip-token[data-selected='true'] {
+    background: #56340e;
+    color: #fefae0;
+    box-shadow: inset 0 0 0 1px rgba(253, 215, 143, 0.6);
+  }
 }

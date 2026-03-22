@@ -88,15 +88,16 @@ function Signup() {
 
   if (step === 2) {
     return (
-      <section className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="text-2xl font-bold text-slate-900">Verify Your Email</h1>
-        <p className="mt-2 text-sm text-slate-600">
+      <section className="mx-auto w-full max-w-xl surface-card p-7 sm:p-10">
+        <p className="field-label">Account Setup</p>
+        <h1 className="editorial-title mt-3 text-4xl font-semibold text-brand-palm">Verify Your Email</h1>
+        <p className="mt-3 text-sm leading-7 text-[#5a5843]">
           We sent a 6-digit code to {formData.email}
         </p>
 
-        <form onSubmit={handleVerificationSubmit} className="mt-6 space-y-4">
+        <form onSubmit={handleVerificationSubmit} className="mt-8 space-y-6">
           <div>
-            <label htmlFor="verificationCode" className="mb-1 block text-sm font-medium text-slate-700">
+            <label htmlFor="verificationCode" className="field-label block">
               Verification Code
             </label>
             <input
@@ -107,19 +108,19 @@ function Signup() {
               onChange={handleChange}
               placeholder="123456"
               maxLength={6}
-              className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2 text-center text-lg tracking-widest"
+              className="input-minimal text-center text-lg tracking-[0.4em]"
               required
             />
           </div>
 
           {error && (
-            <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>
+            <p className="rounded-xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+            className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? 'Verifying...' : 'Verify Email'}
           </button>
@@ -129,7 +130,7 @@ function Signup() {
               type="button"
               onClick={resendCode}
               disabled={loading}
-              className="text-sm text-brand-600 hover:text-brand-700 font-medium disabled:opacity-50"
+              className="text-sm font-semibold text-brand-secondary hover:text-brand-terracottaInk disabled:opacity-50"
             >
               Resend Code
             </button>
@@ -138,7 +139,7 @@ function Signup() {
           <button
             type="button"
             onClick={() => setStep(1)}
-            className="w-full text-sm text-slate-600 hover:text-slate-700 font-medium"
+            className="w-full text-sm font-semibold text-[#5a5843] hover:text-brand-palm"
           >
             Back to Signup
           </button>
@@ -148,13 +149,14 @@ function Signup() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-      <h1 className="text-2xl font-bold text-slate-900">Create account</h1>
-      <p className="mt-2 text-sm text-slate-600">Start planning your next journey in minutes.</p>
+    <section className="mx-auto w-full max-w-xl surface-card p-7 sm:p-10">
+      <p className="field-label">New Account</p>
+      <h1 className="editorial-title mt-3 text-4xl font-semibold text-brand-palm">Create account</h1>
+      <p className="mt-3 text-sm leading-7 text-[#5a5843]">Start planning your next journey in minutes.</p>
 
-      <form onSubmit={handleSignupSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleSignupSubmit} className="mt-8 space-y-6">
         <div>
-          <label htmlFor="name" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="name" className="field-label block">
             Full Name
           </label>
           <input
@@ -164,12 +166,12 @@ function Signup() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="email" className="field-label block">
             Email
           </label>
           <input
@@ -179,12 +181,12 @@ function Signup() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="password" className="field-label block">
             Password
           </label>
           <input
@@ -195,12 +197,12 @@ function Signup() {
             onChange={handleChange}
             required
             minLength={6}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
           />
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="confirmPassword" className="field-label block">
             Confirm Password
           </label>
           <input
@@ -211,24 +213,24 @@ function Signup() {
             onChange={handleChange}
             required
             minLength={6}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 outline-none ring-brand-500 transition focus:ring-2"
+            className="input-minimal"
           />
         </div>
 
-        {error && <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
+        {error && <p className="rounded-xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
         >
           {loading ? 'Creating account...' : 'Create Account'}
         </button>
       </form>
 
-      <p className="mt-4 text-sm text-slate-600">
+      <p className="mt-6 text-sm text-[#5a5843]">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-brand-700 hover:underline">
+        <Link to="/login" className="font-semibold text-brand-secondary hover:text-brand-terracottaInk hover:underline">
           Login
         </Link>
       </p>

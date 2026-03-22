@@ -329,8 +329,8 @@ function TripDetails() {
 
   if (loadingTrip) {
     return (
-      <section className="rounded-[30px] border border-white/60 bg-white/85 p-8 text-center shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-        <p className="text-slate-600">Loading trip details...</p>
+      <section className="surface-card p-8 text-center">
+        <p className="text-[#6d6a51]">Loading trip details...</p>
       </section>
     )
   }
@@ -340,12 +340,12 @@ function TripDetails() {
       <section>
         <button
           onClick={() => navigate('/dashboard')}
-          className="mb-4 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+          className="btn-ghost mb-4 px-4 py-2"
         >
           Back to dashboard
         </button>
-        <div className="rounded-[30px] border border-white/60 bg-white/85 p-8 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-          <p className="rounded-2xl bg-rose-50 px-4 py-3 text-rose-700">{tripError}</p>
+        <div className="surface-card p-8">
+          <p className="rounded-2xl bg-[#f5ddd8] px-4 py-3 text-[#8a3022]">{tripError}</p>
         </div>
       </section>
     )
@@ -356,12 +356,12 @@ function TripDetails() {
       <section>
         <button
           onClick={() => navigate('/dashboard')}
-          className="mb-4 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+          className="btn-ghost mb-4 px-4 py-2"
         >
           Back to dashboard
         </button>
-        <div className="rounded-[30px] border border-white/60 bg-white/85 p-8 text-center shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-          <p className="text-slate-600">Trip not found.</p>
+        <div className="surface-card p-8 text-center">
+          <p className="text-[#6d6a51]">Trip not found.</p>
         </div>
       </section>
     )
@@ -373,18 +373,18 @@ function TripDetails() {
     <section className="space-y-8">
       <button
         onClick={() => navigate('/dashboard')}
-        className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+        className="btn-ghost px-4 py-2"
       >
         Back to dashboard
       </button>
 
-      <div className={`overflow-hidden rounded-[34px] bg-gradient-to-br ${gradient} text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)]`}>
-        <div className="bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.25),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.22),transparent_32%)] p-8 sm:p-10">
+      <div className={`hero-panel bg-gradient-to-br ${gradient}`}>
+        <div className="p-8 sm:p-10">
           <div className="flex flex-col gap-8 xl:flex-row xl:items-end xl:justify-between">
             <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-white/80">Trip profile</p>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{trip.city}</h1>
-              <p className="mt-4 max-w-xl text-sm leading-7 text-white/85 sm:text-base">
+              <p className="field-label text-[#f7d9b8]">Trip profile</p>
+              <h1 className="editorial-title mt-4 text-5xl font-semibold sm:text-6xl">{trip.city}</h1>
+              <p className="mt-4 max-w-xl text-sm leading-7 text-[#f5e9d7] sm:text-base">
                 A {trip.days}-day trip ready for tourism-aware ranking, attraction selection, and route ordering.
               </p>
             </div>
@@ -392,14 +392,14 @@ function TripDetails() {
               <button
                 onClick={fetchRecommendations}
                 disabled={loadingRecommendations}
-                className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-secondary px-6 py-3 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loadingRecommendations ? 'Preparing candidates...' : 'Generate Smart Recommendations'}
               </button>
               <button
                 onClick={fetchItinerary}
                 disabled={loadingItinerary}
-                className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-ghost border border-white/10 px-6 py-3 text-[#fefae0] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loadingItinerary ? 'Building itinerary...' : 'Generate Day-wise Itinerary'}
               </button>
@@ -408,39 +408,39 @@ function TripDetails() {
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
-              <p className="text-sm text-white/75">Duration</p>
+              <p className="text-sm text-[#f5e9d7]">Duration</p>
               <p className="mt-2 text-3xl font-semibold">{trip.days}</p>
-              <p className="text-sm text-white/75">days</p>
+              <p className="text-sm text-[#f5e9d7]">days</p>
             </div>
             <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
-              <p className="text-sm text-white/75">Budget</p>
+              <p className="text-sm text-[#f5e9d7]">Budget</p>
               <p className="mt-2 text-3xl font-semibold">{formatCurrency(trip.budget)}</p>
-              <p className="text-sm text-white/75">planned spend</p>
+              <p className="text-sm text-[#f5e9d7]">planned spend</p>
             </div>
             <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur">
-              <p className="text-sm text-white/75">Start date</p>
+              <p className="text-sm text-[#f5e9d7]">Start date</p>
               <p className="mt-2 text-2xl font-semibold">{formatTripDate(trip.startDate)}</p>
-              <p className="text-sm text-white/75">used for weekday-aware planning</p>
+              <p className="text-sm text-[#f5e9d7]">used for weekday-aware planning</p>
             </div>
             <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur sm:col-span-3">
-              <p className="text-sm text-white/75">Interests</p>
+              <p className="text-sm text-[#f5e9d7]">Interests</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {trip.interests?.length ? (
                   trip.interests.map((interest) => {
                     const meta = getInterestMeta(interest)
                     return (
-                      <span key={interest} className="rounded-full bg-white/16 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                      <span key={interest} className="rounded-full bg-white/16 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#fefae0]">
                         {meta.label}
                       </span>
                     )
                   })
                 ) : (
-                  <span className="text-sm text-white/80">Flexible trip</span>
+                  <span className="text-sm text-[#f5e9d7]">Flexible trip</span>
                 )}
               </div>
             </div>
             <div className="rounded-[24px] bg-white/14 p-5 backdrop-blur sm:col-span-3">
-              <p className="text-sm text-white/75">Start location</p>
+              <p className="text-sm text-[#f5e9d7]">Start location</p>
               <p className="mt-2 text-lg font-semibold">
                 {trip.hotelLocation?.name
                   ? trip.hotelLocation.name

@@ -107,33 +107,33 @@ function CreateTrip() {
 
   return (
     <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-      <div className="overflow-hidden rounded-[32px] bg-slate-950 text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
-        <div className="h-full bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.35),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.25),transparent_36%)] p-8 sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.32em] text-cyan-200">New itinerary</p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight">Shape a trip the recommendation engine can personalize.</h1>
-          <p className="mt-4 max-w-md text-sm leading-7 text-slate-300">
+      <div className="hero-panel">
+        <div className="h-full p-8 sm:p-10">
+          <p className="field-label text-[#f7d9b8]">New itinerary</p>
+          <h1 className="editorial-title mt-4 text-4xl font-semibold">Shape a trip the recommendation engine can personalize.</h1>
+          <p className="mt-4 max-w-md text-sm leading-7 text-[#f5e9d7]">
             Add your destination, trip length, budget, and interests. We'll use that profile to rank places more intelligently in the next step.
           </p>
 
-          <div className="mt-8 space-y-3 rounded-[26px] border border-white/10 bg-white/10 p-5 backdrop-blur">
+          <div className="mt-8 space-y-3 rounded-[26px] bg-white/8 p-5 backdrop-blur">
             <div>
-              <p className="text-sm text-slate-300">Budget preview</p>
+              <p className="text-sm text-[#f5e9d7]">Budget preview</p>
               <p className="mt-2 text-3xl font-semibold">
                 {formData.budget ? formatCurrency(formData.budget) : '$0'}
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-3 text-sm text-slate-200">
+            <div className="grid grid-cols-2 gap-3 text-sm text-[#f5e9d7]">
               <div className="rounded-2xl bg-white/10 p-3">
-                <p className="text-slate-300">Duration</p>
+                <p className="text-[#f5e9d7]">Duration</p>
                 <p className="mt-1 font-semibold">{formData.days || 0} day plan</p>
               </div>
               <div className="rounded-2xl bg-white/10 p-3">
-                <p className="text-slate-300">Start date</p>
+                <p className="text-[#f5e9d7]">Start date</p>
                 <p className="mt-1 font-semibold">{formData.startDate || 'Flexible dates'}</p>
               </div>
             </div>
-            <div className="rounded-2xl bg-white/10 p-3 text-sm text-slate-200">
-              <p className="text-slate-300">Start location</p>
+            <div className="rounded-2xl bg-white/10 p-3 text-sm text-[#f5e9d7]">
+              <p className="text-[#f5e9d7]">Start location</p>
               <p className="mt-1 font-semibold">
                 {formData.hotelLocation?.name ? 'Hotel routing enabled' : 'Start from top attraction'}
               </p>
@@ -142,17 +142,17 @@ function CreateTrip() {
         </div>
       </div>
 
-      <div className="rounded-[32px] border border-white/60 bg-white/90 p-6 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-8">
+      <div className="surface-card p-6 sm:p-8">
         <div className="mb-6">
-          <h2 className="text-3xl font-semibold text-slate-950">Create a smart trip</h2>
-          <p className="mt-2 text-sm leading-7 text-slate-600">
+          <h2 className="editorial-title text-4xl font-semibold text-brand-palm">Create a smart trip</h2>
+          <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
             The more precisely you describe your trip, the better your recommendation results will feel.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="city" className="mb-2 block text-sm font-semibold text-slate-700">
+            <label htmlFor="city" className="field-label mb-1 block">
               Destination
             </label>
             <input
@@ -163,13 +163,13 @@ function CreateTrip() {
               value={formData.city}
               onChange={handleChange}
               required
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+              className="input-minimal"
             />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="days" className="mb-2 block text-sm font-semibold text-slate-700">
+              <label htmlFor="days" className="field-label mb-1 block">
                 Number of days
               </label>
               <input
@@ -180,12 +180,12 @@ function CreateTrip() {
                 value={formData.days}
                 onChange={handleChange}
                 required
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+                className="input-minimal"
               />
             </div>
 
             <div>
-              <label htmlFor="budget" className="mb-2 block text-sm font-semibold text-slate-700">
+              <label htmlFor="budget" className="field-label mb-1 block">
                 Budget
               </label>
               <input
@@ -197,12 +197,12 @@ function CreateTrip() {
                 value={formData.budget}
                 onChange={handleChange}
                 required
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+                className="input-minimal"
               />
             </div>
 
             <div>
-              <label htmlFor="startDate" className="mb-2 block text-sm font-semibold text-slate-700">
+              <label htmlFor="startDate" className="field-label mb-1 block">
                 Trip start date
               </label>
               <input
@@ -211,15 +211,15 @@ function CreateTrip() {
                 type="date"
                 value={formData.startDate}
                 onChange={handleChange}
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300 focus:bg-white focus:ring-4 focus:ring-cyan-100"
+                className="input-minimal"
               />
             </div>
           </div>
 
           <div>
             <div className="mb-3">
-              <label className="block text-sm font-semibold text-slate-700">Hotel / start location</label>
-              <p className="mt-1 text-sm text-slate-500">
+              <label className="field-label block">Hotel / start location</label>
+              <p className="mt-1 text-sm text-[#6d6a51]">
                 Optional. Search for your hotel, stay, or preferred starting point instead of entering coordinates manually.
               </p>
             </div>
@@ -233,8 +233,8 @@ function CreateTrip() {
 
           <div>
             <div className="mb-3 flex items-center justify-between gap-3">
-              <label className="block text-sm font-semibold text-slate-700">Interests</label>
-              <span className="text-xs font-medium uppercase tracking-[0.24em] text-slate-400">Choose 2 to 4</span>
+              <label className="field-label block">Interests</label>
+              <span className="text-xs font-medium uppercase tracking-[0.24em] text-[#8b886f]">Choose 2 to 4</span>
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -245,11 +245,8 @@ function CreateTrip() {
                     key={interest.value}
                     type="button"
                     onClick={() => toggleInterest(interest.value)}
-                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                      selected
-                        ? 'border-slate-900 bg-slate-900 text-white shadow-lg shadow-slate-900/10'
-                        : `${interest.accent} hover:-translate-y-0.5`
-                    }`}
+                    data-selected={selected}
+                    className={`chip-token ${selected ? '' : interest.accent}`}
                   >
                     {interest.label}
                   </button>
@@ -262,31 +259,31 @@ function CreateTrip() {
                 formData.interests.map((interest) => {
                   const meta = getInterestMeta(interest)
                   return (
-                    <span key={interest} className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide ${meta.accent}`}>
+                    <span key={interest} className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${meta.accent}`}>
                       {meta.label}
                     </span>
                   )
                 })
               ) : (
-                <p className="text-sm text-slate-500">No interests selected yet.</p>
+                <p className="text-sm text-[#6d6a51]">No interests selected yet.</p>
               )}
             </div>
           </div>
 
-          {error ? <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p> : null}
+          {error ? <p className="rounded-2xl bg-[#f5ddd8] px-4 py-3 text-sm text-[#8a3022]">{error}</p> : null}
 
-          <div className="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row">
+          <div className="flex flex-col gap-3 pt-4 sm:flex-row">
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? 'Creating itinerary...' : 'Create smart trip'}
             </button>
             <button
               type="button"
               onClick={() => navigate('/dashboard')}
-              className="inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+              className="btn-ghost"
             >
               Cancel
             </button>
