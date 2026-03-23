@@ -90,6 +90,7 @@ function DayPlaceRow({
   selected,
   onSelect,
   onToggleLock,
+  onRequestSwap,
   draggable,
   onDragStart,
   onDragEnd,
@@ -172,6 +173,17 @@ function DayPlaceRow({
           }`}
         >
           {place.locked ? 'Unlock' : 'Lock'}
+        </button>
+        <button
+          type="button"
+          disabled={place.locked}
+          onClick={(event) => {
+            event.stopPropagation()
+            onRequestSwap?.()
+          }}
+          className="inline-flex items-center justify-center rounded-full bg-[#e7e3ca] px-4 py-2 text-xs font-semibold text-[#5d5a43] transition hover:bg-[#ddd7be] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Swap
         </button>
         <a
           href={`https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}&query_place_id=${place.place_id}`}
@@ -336,6 +348,10 @@ export function ItineraryPanel({
   onFinalize,
   savingFinalized,
   finalizedGeneratedAt,
+  onRequestSwap,
+  onApplySwap,
+  onCloseSwap,
+  swapState,
 }) {
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
   const formattedFinalizedAt = formatGeneratedAt(finalizedGeneratedAt)
@@ -518,6 +534,7 @@ export function ItineraryPanel({
                       selected={selectedStopKey === getStopKey(dayPlan, place, index)}
                       onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
                       onToggleLock={() => onToggleLock?.(dayPlan.day, place.place_id)}
+                      onRequestSwap={() => onRequestSwap?.(dayPlan.day, place)}
                       draggable
                       onDragStart={() => {
                         setDraggedStop({ day: dayPlan.day, index })
@@ -566,6 +583,66 @@ export function ItineraryPanel({
               </article>
             )
           })}
+
+          {swapState?.open ? (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+              <div className="w-full max-w-2xl rounded-[28px] bg-[#f8f1db] p-6 shadow-[0_24px_80px_rgba(15,23,42,0.22)]">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Swap Place</h3>
+                    <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
+                      Replace <span className="font-semibold text-brand-palm">{swapState.place?.name}</span> with a nearby alternative from the trip's master attraction pool.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={onCloseSwap}
+                    className="btn-ghost px-4 py-2"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                {swapState.loading ? (
+                  <div className="mt-6 rounded-2xl bg-[#efe8cd] p-5 text-sm text-[#6d6a51]">
+                    Finding swap suggestions...
+                  </div>
+                ) : swapState.suggestions?.length ? (
+                  <div className="mt-6 space-y-3">
+                    {swapState.suggestions.map((suggestion) => (
+                      <div
+                        key={suggestion.place_id}
+                        className="flex items-center justify-between gap-4 rounded-2xl bg-[#efe8cd] p-4"
+                      >
+                        <div>
+                          <h4 className="font-semibold text-brand-palm">{suggestion.name}</h4>
+                          <p className="mt-1 text-sm text-[#6d6a51]">{formatCategory(suggestion.category || suggestion.types?.[0] || 'place')}</p>
+                          {suggestion.swap_match_reason ? (
+                            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                              {suggestion.swap_match_reason}
+                            </p>
+                          ) : null}
+                          <p className="mt-2 text-sm font-medium text-brand-secondary">{renderStars(suggestion.rating)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => onApplySwap?.(suggestion.place_id)}
+                          disabled={swapState.applyingPlaceId === suggestion.place_id}
+                          className="btn-primary px-4 py-2 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {swapState.applyingPlaceId === suggestion.place_id ? 'Swapping...' : 'Use this'}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-6 rounded-2xl bg-[#efe8cd] p-5 text-sm text-[#6d6a51]">
+                    No good swap suggestions are available for this stop right now.
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : null}
         </div>
       )}
     </div>

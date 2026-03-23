@@ -91,6 +91,14 @@ function TripDetails() {
   const [recommendationsFromSnapshot, setRecommendationsFromSnapshot] = useState(false)
   const [itineraryFromSnapshot, setItineraryFromSnapshot] = useState(false)
   const [itineraryActionDay, setItineraryActionDay] = useState(null)
+  const [swapState, setSwapState] = useState({
+    open: false,
+    dayNumber: null,
+    place: null,
+    suggestions: [],
+    loading: false,
+    applyingPlaceId: '',
+  })
 
   const hydrateSavedPlans = (tripData) => {
     const recommendationSnapshot = tripData?.recommendationSnapshot
@@ -323,6 +331,91 @@ function TripDetails() {
     }
   }
 
+  const openSwapSuggestions = async (dayNumber, place) => {
+    try {
+      setSwapState({
+        open: true,
+        dayNumber,
+        place,
+        suggestions: [],
+        loading: true,
+        applyingPlaceId: '',
+      })
+      setItineraryError('')
+
+      const response = await api.post(`/itinerary/${id}/swap-options/${dayNumber}`, {
+        placeId: place.place_id,
+      })
+
+      setSwapState({
+        open: true,
+        dayNumber,
+        place,
+        suggestions: response.data?.suggestions || [],
+        loading: false,
+        applyingPlaceId: '',
+      })
+    } catch (err) {
+      setSwapState({
+        open: false,
+        dayNumber: null,
+        place: null,
+        suggestions: [],
+        loading: false,
+        applyingPlaceId: '',
+      })
+      setItineraryError(err.response?.data?.message || 'Failed to load swap suggestions.')
+    }
+  }
+
+  const closeSwapSuggestions = () => {
+    setSwapState({
+      open: false,
+      dayNumber: null,
+      place: null,
+      suggestions: [],
+      loading: false,
+      applyingPlaceId: '',
+    })
+  }
+
+  const applySwapSuggestion = async (replacementPlaceId) => {
+    if (!swapState.dayNumber || !swapState.place?.place_id) {
+      return
+    }
+
+    try {
+      setSwapState((current) => ({
+        ...current,
+        applyingPlaceId: replacementPlaceId,
+      }))
+      setItineraryActionDay(swapState.dayNumber)
+      setItineraryError('')
+
+      const response = await api.post(`/itinerary/${id}/swap-place/${swapState.dayNumber}`, {
+        placeId: swapState.place.place_id,
+        replacementPlaceId,
+      })
+      const itineraryData = response.data || {}
+
+      setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
+      setItineraryRestaurants(itineraryData.restaurants || [])
+      setItineraryMetadata(itineraryData.metadata || null)
+      setItineraryGenerated(true)
+      setItineraryGeneratedAt(new Date().toISOString())
+      setItineraryFromSnapshot(false)
+      closeSwapSuggestions()
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to swap itinerary place.')
+      setSwapState((current) => ({
+        ...current,
+        applyingPlaceId: '',
+      }))
+    } finally {
+      setItineraryActionDay(null)
+    }
+  }
+
   useEffect(() => {
     fetchTrip()
   }, [id])
@@ -481,6 +574,10 @@ function TripDetails() {
         onFinalize={finalizeItinerary}
         savingFinalized={savingFinalizedItinerary}
         finalizedGeneratedAt={finalizedItineraryGeneratedAt}
+        onRequestSwap={openSwapSuggestions}
+        onApplySwap={applySwapSuggestion}
+        onCloseSwap={closeSwapSuggestions}
+        swapState={swapState}
       />
     </section>
   )

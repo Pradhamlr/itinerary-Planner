@@ -259,7 +259,10 @@ function CreateTrip() {
                 formData.interests.map((interest) => {
                   const meta = getInterestMeta(interest)
                   return (
-                    <span key={interest} className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${meta.accent}`}>
+                    <span
+                      key={interest}
+                      className={`inline-flex items-center rounded-full px-3 py-1.5 leading-none text-[11px] font-semibold uppercase tracking-[0.18em] ${meta.accent}`}
+                    >
                       {meta.label}
                     </span>
                   )

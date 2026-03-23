@@ -131,8 +131,9 @@ const previewPlaceNames = (places, limit = 10) =>
     .join(' | ');
 
 const hasAnyType = (place, typeSet) => getNormalizedTypes(place).some((type) => typeSet.has(type));
-const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports']);
+const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports', 'shopping']);
 const restaurantDrivenInterests = new Set(['food', 'nightlife']);
+const interestOnlyAttractionTypes = new Set(['shopping_mall', 'store']);
 const LANDMARK_TYPES = new Set([
   'tourist_attraction',
   'historical_landmark',
@@ -202,6 +203,15 @@ const isAllowedAttraction = (place) => {
     && !specificTypes.some((type) => blockedAttractionTypes.has(type));
 };
 
+const isInterestOnlyAttraction = (place, tripInterests) => {
+  const attractionInterests = getAttractionRelevantInterests(tripInterests);
+  if (!attractionInterests.includes('shopping')) {
+    return false;
+  }
+
+  return getNormalizedTypes(place).some((type) => interestOnlyAttractionTypes.has(type));
+};
+
 const isBlockedRestaurant = (place) => getNormalizedTypes(place).some((type) => blockedRestaurantTypes.has(type));
 
 const getAttractionRelevantInterests = (tripInterests) =>
@@ -224,8 +234,9 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
   const normalizedInterests = getAttractionRelevantInterests(tripInterests);
   if (normalizedInterests.length === 0) {
     return {
-      places,
+      places: [],
       interestFilterApplied: false,
+      minimumInterestMatches: 0,
     };
   }
 
@@ -233,10 +244,15 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
   const filteredPlaces = places.filter((place) =>
     getNormalizedTypes(place).some((type) => allowedTypes.has(type)),
   );
+  const minimumInterestMatches = Math.min(
+    filteredPlaces.length,
+    Math.max(2, Math.ceil(requiredAttractionCount * 0.35)),
+  );
 
   return {
-    places: filteredPlaces.length >= requiredAttractionCount ? filteredPlaces : places,
-    interestFilterApplied: filteredPlaces.length >= requiredAttractionCount,
+    places: filteredPlaces,
+    interestFilterApplied: filteredPlaces.length >= minimumInterestMatches && minimumInterestMatches > 0,
+    minimumInterestMatches,
   };
 };
 
@@ -363,6 +379,10 @@ const getThemeBucket = (place) => {
 
   if (types.some((type) => ['tourist_attraction', 'landmark'].includes(type))) {
     return 'landmark';
+  }
+
+  if (types.some((type) => ['shopping_mall', 'store'].includes(type))) {
+    return 'shopping';
   }
 
   return 'other';
@@ -541,6 +561,11 @@ const buildRestaurantResponse = (place) => {
   };
 };
 
+const buildMasterPoolSize = (tripDays, rankedCount, visibleCount) => {
+  const requestedSize = Math.max(40, Number(tripDays || 1) * 10, visibleCount * 2);
+  return Math.min(rankedCount, Math.min(80, requestedSize));
+};
+
 class RecommendationService {
   static async fetchCandidatePlaces(city) {
     return Place.find({ city: String(city).toLowerCase() })
@@ -567,10 +592,25 @@ class RecommendationService {
   }
 
   static buildAttractionCandidatePool(places, tripInterests, requiredAttractionCount) {
-    const afterTypeFilter = places.filter((place) => isAllowedAttraction(place));
+    const attractionInterests = getAttractionRelevantInterests(tripInterests);
+    const hasAttractionInterests = attractionInterests.length > 0;
+    const afterTypeFilter = dedupePlaces(
+      places.filter((place) => isAllowedAttraction(place) || isInterestOnlyAttraction(place, tripInterests)),
+    );
     const afterQualityFilter = afterTypeFilter
       .filter((place) => Number(place.rating || 0) >= recommendationConfig.minAttractionRating)
       .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.minAttractionReviews);
+    const explorationMinRating = Math.min(
+      recommendationConfig.minAttractionRating,
+      recommendationConfig.explorationAttractionRating,
+    );
+    const explorationMinReviews = Math.min(
+      recommendationConfig.minAttractionReviews,
+      recommendationConfig.explorationAttractionReviews,
+    );
+    const relaxedExplorationSource = afterTypeFilter
+      .filter((place) => Number(place.rating || 0) >= explorationMinRating)
+      .filter((place) => Number(place.user_ratings_total || 0) >= explorationMinReviews);
 
     let popularityGateUsed = recommendationConfig.popularityGatePrimary;
     let afterPopularityFilter = afterQualityFilter
@@ -592,23 +632,47 @@ class RecommendationService {
 
     const dedupedPopularPool = dedupePlaces(popularPool);
     const explorationPool = dedupePlaces(
-      afterQualityFilter
+      relaxedExplorationSource
         .sort((a, b) => {
-          const scoreA = (getPopularitySignal(a) * 0.55) + ((a.rating || 0) * 0.45);
-          const scoreB = (getPopularitySignal(b) * 0.55) + ((b.rating || 0) * 0.45);
+          const scoreA = (getPopularitySignal(a) * 0.35) + ((a.rating || 0) * 0.65);
+          const scoreB = (getPopularitySignal(b) * 0.35) + ((b.rating || 0) * 0.65);
           return scoreB - scoreA;
         })
         .filter((place) => !dedupedPopularPool.some((popularPlace) => popularPlace.place_id === place.place_id))
-        .slice(0, Math.min(afterQualityFilter.length, recommendationConfig.candidatePoolLimit * 2)),
+        .slice(
+          0,
+          Math.min(
+            relaxedExplorationSource.length,
+            recommendationConfig.candidatePoolLimit * recommendationConfig.explorationPoolMultiplier,
+          ),
+        ),
     );
-    const baseCandidatePool = blendCandidatePools(
-      dedupedPopularPool,
-      explorationPool,
-      Math.min(afterQualityFilter.length, recommendationConfig.candidatePoolLimit + Math.max(20, requiredAttractionCount)),
-      0.7,
-    );
+    const noInterestCandidateFloor = Math.max(requiredAttractionCount * 2, 30);
+    const baseCandidatePool = hasAttractionInterests
+      ? blendCandidatePools(
+          dedupedPopularPool,
+          explorationPool,
+          Math.min(
+            relaxedExplorationSource.length,
+            recommendationConfig.candidatePoolLimit + Math.max(45, requiredAttractionCount * 3),
+          ),
+          0.55,
+        )
+      : (
+        dedupedPopularPool.length >= noInterestCandidateFloor
+          ? dedupedPopularPool
+          : blendCandidatePools(
+              dedupedPopularPool,
+              explorationPool,
+              Math.min(
+                relaxedExplorationSource.length,
+                Math.max(noInterestCandidateFloor, requiredAttractionCount * 3),
+              ),
+              0.78,
+            )
+      );
 
-    const broaderInterestSource = afterQualityFilter
+    const broaderInterestSource = relaxedExplorationSource
       .sort((a, b) => {
         const scoreA = (getPopularitySignal(a) * 0.7) + ((a.rating || 0) * 0.3);
         const scoreB = (getPopularitySignal(b) * 0.7) + ((b.rating || 0) * 0.3);
@@ -616,15 +680,20 @@ class RecommendationService {
       })
       .slice(0, Math.min(recommendationConfig.candidateFetchLimit, recommendationConfig.candidatePoolLimit * 4));
 
-    const { places: interestFilteredPlaces, interestFilterApplied } = filterByInterests(
+    const { places: interestFilteredPlaces, interestFilterApplied, minimumInterestMatches } = filterByInterests(
       broaderInterestSource,
       tripInterests,
       requiredAttractionCount,
     );
 
     const interestPool = dedupePlaces(interestFilteredPlaces);
-    const candidatePool = interestFilterApplied
-      ? blendCandidatePools(baseCandidatePool, interestPool, Math.max(baseCandidatePool.length, requiredAttractionCount * 2), 0.6)
+    const candidatePool = hasAttractionInterests && interestPool.length > 0
+      ? blendCandidatePools(
+          baseCandidatePool,
+          interestPool,
+          Math.max(baseCandidatePool.length, requiredAttractionCount * 3),
+          interestFilterApplied ? 0.58 : 0.68,
+        )
       : baseCandidatePool;
     const interestPoolContribution = candidatePool.filter((place) =>
       interestPool.some((interestPlace) => interestPlace.place_id === place.place_id),
@@ -636,6 +705,13 @@ class RecommendationService {
       type_filter_preview: previewPlaceNames(afterTypeFilter),
       after_quality_filter: afterQualityFilter.length,
       quality_filter_preview: previewPlaceNames(afterQualityFilter),
+      relaxed_exploration_source_count: relaxedExplorationSource.length,
+      relaxed_exploration_thresholds: {
+        min_rating: explorationMinRating,
+        min_reviews: explorationMinReviews,
+        pool_multiplier: recommendationConfig.explorationPoolMultiplier,
+      },
+      has_attraction_interests: hasAttractionInterests,
       after_popularity_filter: afterPopularityFilter.length,
       popularity_gate_used: popularityGateUsed,
       popularity_filter_preview: previewPlaceNames(afterPopularityFilter),
@@ -643,6 +719,7 @@ class RecommendationService {
       exploration_pool_size: explorationPool.length,
       base_candidate_pool_size: baseCandidatePool.length,
       interest_pool_size: interestPool.length,
+      minimum_interest_matches: minimumInterestMatches,
       candidate_pool_size: candidatePool.length,
       interest_pool_contribution_count: interestPoolContribution,
       interest_pool_contribution_ratio: roundTo(
@@ -833,9 +910,19 @@ class RecommendationService {
     }
 
     const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap, trip.interests);
-    const variedTopAttractions = shuffleTopBand(rankedAttractions, totalAttractions);
+    const replacementPoolTargetSize = Math.min(
+      rankedAttractions.length,
+      Math.max(60, totalAttractions * 4),
+    );
+    const replacementAttractionPool = selectDiverseAttractions(rankedAttractions, replacementPoolTargetSize, trip.interests);
+    const masterPoolTargetSize = buildMasterPoolSize(trip.days, rankedAttractions.length, totalAttractions);
+    const masterAttractionPool = selectDiverseAttractions(rankedAttractions, masterPoolTargetSize, trip.interests);
+    const variedTopAttractions = shuffleTopBand(masterAttractionPool, totalAttractions);
     const selectedAttractions = selectDiverseAttractions(variedTopAttractions, totalAttractions, trip.interests);
     logger.info('Recommendation ranking complete', {
+      replacement_attraction_pool_count: replacementAttractionPool.length,
+      master_attraction_pool_count: masterAttractionPool.length,
+      master_attraction_pool_preview: previewPlaceNames(masterAttractionPool),
       final_attraction_count: selectedAttractions.length,
       final_attraction_preview: previewPlaceNames(selectedAttractions),
     });
@@ -844,6 +931,8 @@ class RecommendationService {
     const restaurants = this.buildRestaurants(restaurantPool, trip.interests);
 
     return {
+      replacementAttractionPool,
+      masterAttractionPool,
       attractions: selectedAttractions,
       restaurants,
       metadata: {
@@ -853,6 +942,7 @@ class RecommendationService {
         attraction_interest_count: getAttractionRelevantInterests(trip.interests).length,
         side_channel_interest_count: getRestaurantRelevantInterests(trip.interests).length,
         deduplicated_candidates: dedupedCount,
+        master_pool_count: masterAttractionPool.length,
         ranking_strategy: 'dynamic multi-stage tourism ranking',
         ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>
           Number(mlScoreMap.get(place.place_id)) === recommendationConfig.mlFallbackScore),

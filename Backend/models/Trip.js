@@ -87,6 +87,14 @@ const recommendationSnapshotSchema = new mongoose.Schema(
       type: [savedPlaceSchema],
       default: [],
     },
+    masterAttractionPool: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
+    replacementAttractionPool: {
+      type: [savedPlaceSchema],
+      default: [],
+    },
     restaurants: {
       type: [savedPlaceSchema],
       default: [],
