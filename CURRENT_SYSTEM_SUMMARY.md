@@ -227,7 +227,7 @@ The backend still remains the primary controller of relevance.
 Restaurants are handled separately from attractions.
 
 The system:
-
+ 
 - builds a restaurant pool
 - scores restaurants separately
 - rotates results across refreshes
