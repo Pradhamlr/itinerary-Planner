@@ -26,6 +26,18 @@ SKIP_FLAG_PATH = Path("models/interest_skipped.flag")
 
 MIN_LABELED_ROWS = 100
 MIN_CLASS_SAMPLES = 12
+DEFAULT_CLASS_THRESHOLDS = {
+    "shopping": 0.70,
+    "beaches": 0.70,
+    "nightlife": 0.75,
+    "sports": 0.80,
+    "adventure": 0.75,
+    "food": 0.60,
+    "art": 0.65,
+    "nature": 0.70,
+    "culture": 0.55,
+    "history": 0.55,
+}
 
 
 def normalize_text(value):
@@ -164,6 +176,12 @@ def main():
     metadata = {
         "classes": active_classes,
         "threshold": 0.35,
+        "class_thresholds": {
+            label: float(DEFAULT_CLASS_THRESHOLDS.get(label, 0.60))
+            for label in active_classes
+        },
+        "max_return_tags": 2,
+        "secondary_gap": 0.18,
         "labeled_rows": int(len(labeled_df)),
         "class_counts": {key: int(class_counts[key]) for key in active_classes},
         "micro_f1": float(micro_f1),

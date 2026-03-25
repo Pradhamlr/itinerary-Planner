@@ -17,10 +17,12 @@ function PlaceCard({ place }) {
   const visual = getPlaceVisual(place)
   const reviewSnippet = place.reviewSnippet || place.description || 'A promising stop for your itinerary.'
   const rating = Number(place.rating || 0)
-  const explanationTags = Array.isArray(place.explanation_tags) ? place.explanation_tags.slice(0, 3) : []
+  const explanationTags = Array.isArray(place.why_recommended) && place.why_recommended.length > 0
+    ? place.why_recommended.slice(0, 3)
+    : Array.isArray(place.explanation_tags) ? place.explanation_tags.slice(0, 3) : []
 
   return (
-    <article className="group overflow-hidden rounded-[26px] bg-brand-surfaceLow shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-ambient">
+    <article className="group overflow-hidden rounded-2xl bg-brand-surfaceLow shadow-sm transition duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-md">
       <div className={`relative h-44 bg-gradient-to-br ${visual.gradient}`}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.3),transparent_38%),linear-gradient(180deg,rgba(29,28,13,0.08),rgba(29,28,13,0.5))]" />
         <div className="relative flex h-full flex-col justify-between p-5 text-white">
@@ -54,19 +56,8 @@ function PlaceCard({ place }) {
               {place.user_ratings_total} ratings
             </span>
           ) : null}
-          <ScoreBadge
-            label="Smart"
-            value={place.final_score ? Number(place.final_score).toFixed(2) : null}
-            tone="bg-[#eadcba] text-[#5f3b12]"
-          />
-          <ScoreBadge
-            label="ML"
-            value={place.ml_score ? Number(place.ml_score).toFixed(2) : null}
-            tone="bg-[#e6e0cd] text-[#5f5638]"
-          />
-          {place.interest_match_score ? (
-            <ScoreBadge label="Match" value="Yes" tone="bg-[#dce9d8] text-[#1e4f36]" />
-          ) : null}
+          <ScoreBadge label="Smart" value={place.final_score ? Number(place.final_score).toFixed(2) : null} tone="bg-[#eadcba] text-[#5f3b12]" />
+          {place.interest_match_score ? <ScoreBadge label="Match" value={Number(place.interest_match_score).toFixed(2)} tone="bg-[#dce9d8] text-[#1e4f36]" /> : null}
         </div>
 
         {explanationTags.length > 0 ? (
@@ -74,7 +65,7 @@ function PlaceCard({ place }) {
             {explanationTags.map((tag) => (
               <span
                 key={`${place.place_id || place.name}-${tag}`}
-                className="rounded-full bg-[#e7e3ca] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6d6a51]"
+                className="rounded-full bg-[#e7e3ca] px-3 py-1 text-[11px] font-semibold text-[#6d6a51]"
               >
                 {tag}
               </span>

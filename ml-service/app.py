@@ -42,6 +42,9 @@ recommendation_metadata = {
 interest_metadata = {
     "classes": [],
     "threshold": 0.35,
+    "class_thresholds": {},
+    "max_return_tags": 2,
+    "secondary_gap": 0.18,
 }
 
 
@@ -81,9 +84,8 @@ class RecommendRequest(BaseModel):
     top_k: Optional[int] = None
 
 
-class InterestPredictResponse(BaseModel):
-    interest_tags: List[str]
-    interest_scores: dict
+class InterestBatchRequest(BaseModel):
+    places: List[PlacePayload]
 
 
 def load_models():
@@ -173,12 +175,31 @@ def predict_interest_scores(place: PlacePayload) -> dict:
 
 
 def extract_interest_tags(interest_scores: dict) -> list[str]:
-    threshold = float(interest_metadata.get("threshold", 0.35))
+    default_threshold = float(interest_metadata.get("threshold", 0.35))
+    class_thresholds = interest_metadata.get("class_thresholds", {})
+    max_return_tags = int(interest_metadata.get("max_return_tags", 2))
+    secondary_gap = float(interest_metadata.get("secondary_gap", 0.18))
     ranked = sorted(interest_scores.items(), key=lambda item: item[1], reverse=True)
-    tags = [label for label, score in ranked if score >= threshold]
-    if tags:
-        return tags
-    return [label for label, _ in ranked[:2]]
+    accepted = []
+
+    for index, (label, score) in enumerate(ranked):
+        label_threshold = float(class_thresholds.get(label, default_threshold))
+        if score < label_threshold:
+            continue
+
+        if index > 0 and accepted:
+            top_score = ranked[0][1]
+            if (top_score - score) > secondary_gap:
+                continue
+
+        accepted.append(label)
+        if len(accepted) >= max_return_tags:
+            break
+
+    if accepted:
+        return accepted
+
+    return [label for label, _ in ranked[:1]]
 
 
 def predict_recommendation_score(feature_row: dict) -> float:
@@ -277,6 +298,28 @@ def predict_interests(payload: PlacePayload):
             "interest_tags": extract_interest_tags(interest_scores),
             "interest_scores": interest_scores,
         },
+    }
+
+
+@app.post("/predict/interests/batch")
+def predict_interests_batch(payload: InterestBatchRequest):
+    if interest_model is None:
+        raise HTTPException(status_code=503, detail="Interest model unavailable. Run train_interest_model.py first.")
+
+    results = []
+    for place in payload.places:
+        interest_scores = predict_interest_scores(place)
+        results.append({
+            "place_id": place.place_id,
+            "name": place.name,
+            "interest_tags": extract_interest_tags(interest_scores),
+            "interest_scores": interest_scores,
+        })
+
+    return {
+        "success": True,
+        "results": results,
+        "total": len(results),
     }
 
 

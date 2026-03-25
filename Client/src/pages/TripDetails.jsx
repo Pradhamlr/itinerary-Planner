@@ -463,7 +463,7 @@ function TripDetails() {
   const gradient = getCityGradient(trip.city)
 
   return (
-    <section className="space-y-8">
+    <section className="mx-auto max-w-7xl space-y-8 px-4">
       <button
         onClick={() => navigate('/dashboard')}
         className="btn-ghost px-4 py-2"
@@ -478,7 +478,7 @@ function TripDetails() {
               <p className="field-label text-[#f7d9b8]">Trip profile</p>
               <h1 className="editorial-title mt-4 text-5xl font-semibold sm:text-6xl">{trip.city}</h1>
               <p className="mt-4 max-w-xl text-sm leading-7 text-[#f5e9d7] sm:text-base">
-                A {trip.days}-day trip ready for tourism-aware ranking, attraction selection, and route ordering.
+                A {trip.days}-day trip ready for smart recommendations, route-aware planning, and low-friction editing.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">

@@ -216,12 +216,12 @@ export function RecommendationsPanel({
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
 
   return (
-    <div className="surface-card p-6 sm:p-8">
+    <div className="surface-card mx-auto max-w-7xl p-6 sm:p-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="editorial-title text-4xl font-semibold text-brand-palm">Recommended Attractions</h2>
           <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-            Attractions are filtered by your interests, re-ranked with popularity-aware scoring, and trimmed into an itinerary-ready pool.
+            Smart recommendations based on ratings, popularity, and a balanced read of your interests.
           </p>
         </div>
 
@@ -284,6 +284,11 @@ export function RecommendationsPanel({
             </div>
           </div>
 
+          <div className="rounded-2xl bg-[#f4ecd4] p-4 text-sm text-[#5d5a43]">
+            <p className="font-semibold text-brand-palm">Why these feel smarter</p>
+            <p className="mt-2">Balanced mix of your interests, elite ratings, and popularity signals with enough variation to avoid a frozen list.</p>
+          </div>
+
           <div>
             <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Recommended Attractions</h3>
             <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
@@ -307,9 +312,9 @@ export function RecommendationsPanel({
           </div>
 
           <div>
-            <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Nearby Food Options</h3>
+            <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Food spots along your journey</h3>
             <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-              High-confidence restaurant suggestions are kept separate so they can be slotted into lunch and dinner stops later.
+              High-confidence restaurant suggestions that are easy to slot into lunch and dinner windows later.
             </p>
 
             {restaurants.length === 0 ? (
@@ -362,12 +367,12 @@ export function ItineraryPanel({
   const getStopKey = (dayPlan, place, index) => `${dayPlan.day}-${place.place_id || place.name}-${index}`
 
   return (
-    <div className="surface-card p-6 sm:p-8">
+    <div className="surface-card mx-auto max-w-7xl p-6 sm:p-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="editorial-title text-4xl font-semibold text-brand-palm">Day-wise Itinerary</h2>
           <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-            Clustered attraction groups are ordered with a nearest-neighbor route to preview daily travel flow.
+            Optimized for minimal travel time with a balanced mix of your interests and pacing.
           </p>
         </div>
 
@@ -412,7 +417,7 @@ export function ItineraryPanel({
           </p>
         </div>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
             <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">
               {hydratedFromSnapshot ? 'Loaded saved itinerary' : 'Freshly generated itinerary'}
@@ -427,19 +432,24 @@ export function ItineraryPanel({
             ) : null}
           </div>
 
-            <div>
-              <h3 className="text-2xl font-semibold text-slate-950">Smart Itinerary Map</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                Routes are drawn directly on the map with a different color for each day, using the optimized order returned by the backend.
-              </p>
-              <div className="mt-5">
-                <ItineraryMap
-                  itinerary={itineraryDays}
-                  selectedStopKey={selectedStopKey}
-                  onSelectStop={setSelectedStopKey}
-                />
-              </div>
+          <div>
+            <h3 className="text-2xl font-semibold text-slate-950">Smart Itinerary Map</h3>
+            <p className="mt-2 text-sm leading-7 text-slate-600">
+              Routes are drawn directly on the map using the optimized order returned by the backend.
+            </p>
+            <div className="mt-5">
+              <ItineraryMap
+                itinerary={itineraryDays}
+                selectedStopKey={selectedStopKey}
+                onSelectStop={setSelectedStopKey}
+              />
             </div>
+          </div>
+
+          <div className="rounded-2xl bg-[#f4ecd4] p-4 text-sm text-[#5d5a43]">
+            <p className="font-semibold text-brand-palm">Why this plan feels smarter</p>
+            <p className="mt-2">Optimized for minimal travel time, then balanced for pacing, meals, and attraction variety.</p>
+          </div>
 
           {itineraryDays.map((dayPlan) => {
             const route = dayPlan.route || []
@@ -448,150 +458,141 @@ export function ItineraryPanel({
             return (
               <article
                 key={dayPlan.day}
-                className="rounded-[28px] border border-slate-100 bg-slate-50/60 p-5 shadow-sm"
+                className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 shadow-md"
               >
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <div>
-                    <h3 className="text-2xl font-semibold text-slate-950">Day {dayPlan.day}</h3>
-                    <p className="mt-1 text-sm text-slate-500">{route.length} planned stops</p>
-                    {formattedDayDate ? (
-                      <p className="mt-1 text-sm text-slate-500">{formattedDayDate}</p>
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div>
+                        <h3 className="text-2xl font-semibold text-slate-950">{dayPlan.day_title || `Day ${dayPlan.day}`}</h3>
+                        <p className="mt-1 text-sm text-slate-500">{route.length} planned stops</p>
+                        {formattedDayDate ? (
+                          <p className="mt-1 text-sm text-slate-500">{formattedDayDate}</p>
+                        ) : null}
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => onRegenerateDay?.(dayPlan.day)}
+                          className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                        >
+                          {actionDay === dayPlan.day ? 'Regenerating...' : 'Regenerate day'}
+                        </button>
+                        <div
+                          className="h-3 w-3 rounded-full"
+                          style={{ backgroundColor: DAY_COLORS[(dayPlan.day - 1) % DAY_COLORS.length] }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mb-4 rounded-2xl bg-white p-4 shadow-sm">
+                      <p className="text-sm text-slate-600">Travel info</p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        {dayPlan.route_stats?.total_travel_minutes ? `~${formatMinutes(Math.round(dayPlan.route_stats.total_travel_minutes / Math.max(route.length, 1)))} between stops on average` : 'Travel timings will appear here'}
+                      </p>
+                      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                        Total day travel: {formatMinutes(dayPlan.route_stats?.total_travel_minutes || 0)}
+                      </p>
+                    </div>
+
+                    {dayPlan.customized_order ? (
+                      <div className="mb-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+                        Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
+                      </div>
                     ) : null}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => onRegenerateDay?.(dayPlan.day)}
-                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
-                    >
-                      {actionDay === dayPlan.day ? 'Regenerating...' : 'Regenerate day'}
-                    </button>
-                    <div
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: DAY_COLORS[(dayPlan.day - 1) % DAY_COLORS.length] }}
-                    />
-                    <div className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 shadow-sm">
-                      Clustered route
-                    </div>
-                  </div>
-                </div>
 
-                {dayPlan.center ? (
-                  <p className="mb-2 text-sm text-slate-500">
-                    Cluster center: {dayPlan.center.lat.toFixed(4)}, {dayPlan.center.lng.toFixed(4)}
-                  </p>
-                ) : null}
-
-                {dayPlan.start_location ? (
-                  <p className="mb-2 text-sm text-slate-500">
-                    Start from: {dayPlan.start_location.lat.toFixed(4)}, {dayPlan.start_location.lng.toFixed(4)}
-                  </p>
-                ) : null}
-
-                {dayPlan.routing_mode ? (
-                  <p className="mb-2 text-sm text-slate-500">Routing mode: {dayPlan.routing_mode}</p>
-                ) : null}
-
-                {dayPlan.customized_order ? (
-                  <div className="mb-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
-                    Stop order was customized manually. Travel timings and day totals were recalculated for this arrangement.
-                  </div>
-                ) : null}
-
-                {dayPlan.route_stats ? (
-                  <div className="mb-4 grid gap-3 md:grid-cols-4">
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Travel</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_travel_minutes)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Visits</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_visit_minutes)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Meals</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.meal_break_minutes)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Day total</p>
-                      <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_day_minutes)}</p>
-                    </div>
-                  </div>
-                ) : null}
-
-                {typeof dayPlan.opening_hours_applied === 'boolean' ? (
-                  <p className="mb-4 text-sm text-slate-500">
-                    Opening hours: {dayPlan.opening_hours_applied ? 'Applied where available' : 'Not available yet'}
-                  </p>
-                ) : null}
-
-                <div className="space-y-3">
-                  {route.map((place, index) => (
-                    <DayPlaceRow
-                      key={place.place_id || `${dayPlan.day}-${index}`}
-                      place={place}
-                      order={index + 1}
-                      selected={selectedStopKey === getStopKey(dayPlan, place, index)}
-                      onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
-                      onToggleLock={() => onToggleLock?.(dayPlan.day, place.place_id)}
-                      onRequestSwap={() => onRequestSwap?.(dayPlan.day, place)}
-                      draggable
-                      onDragStart={() => {
-                        setDraggedStop({ day: dayPlan.day, index })
-                        setDragTarget({ day: dayPlan.day, index })
-                      }}
-                      onDragEnd={() => {
-                        setDraggedStop(null)
-                        setDragTarget(null)
-                      }}
-                      onDragOver={(event) => {
-                        event.preventDefault()
-                        setDragTarget({ day: dayPlan.day, index })
-                      }}
-                      onDrop={(event) => {
-                        event.preventDefault()
-                        if (draggedStop && draggedStop.day === dayPlan.day && draggedStop.index !== index) {
-                          onReorderDay?.(dayPlan.day, draggedStop.index, index)
-                        }
-                        setDraggedStop(null)
-                        setDragTarget(null)
-                      }}
-                      isDragTarget={dragTarget?.day === dayPlan.day && dragTarget?.index === index}
-                    />
-                  ))}
-                </div>
-
-                {dayPlan.meal_suggestions?.length ? (
-                  <div className="mt-5 rounded-2xl border border-slate-100 bg-white p-4">
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Suggested meals</p>
-                    <div className="mt-3 space-y-2">
-                      {dayPlan.meal_suggestions.map((meal) => (
-                        <div key={`${dayPlan.day}-${meal.type}-${meal.restaurant?.place_id || meal.restaurant?.name}`} className="flex items-center justify-between gap-3 text-sm">
-                          <span className="font-semibold text-slate-700">{meal.type}</span>
-                          <span className="text-slate-600">{meal.restaurant?.name}</span>
+                    {dayPlan.route_stats ? (
+                      <div className="mb-4 grid gap-3 md:grid-cols-4">
+                        <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Travel</p>
+                          <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_travel_minutes)}</p>
                         </div>
+                        <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Visits</p>
+                          <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_visit_minutes)}</p>
+                        </div>
+                        <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Meals</p>
+                          <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.meal_break_minutes)}</p>
+                        </div>
+                        <div className="rounded-2xl bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Day total</p>
+                          <p className="mt-1 font-semibold text-slate-900">{formatMinutes(dayPlan.route_stats.total_day_minutes)}</p>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    <div className="space-y-3">
+                      {route.map((place, index) => (
+                        <DayPlaceRow
+                          key={place.place_id || `${dayPlan.day}-${index}`}
+                          place={place}
+                          order={index + 1}
+                          selected={selectedStopKey === getStopKey(dayPlan, place, index)}
+                          onSelect={() => setSelectedStopKey(getStopKey(dayPlan, place, index))}
+                          onToggleLock={() => onToggleLock?.(dayPlan.day, place.place_id)}
+                          onRequestSwap={() => onRequestSwap?.(dayPlan.day, place)}
+                          draggable
+                          onDragStart={() => {
+                            setDraggedStop({ day: dayPlan.day, index })
+                            setDragTarget({ day: dayPlan.day, index })
+                          }}
+                          onDragEnd={() => {
+                            setDraggedStop(null)
+                            setDragTarget(null)
+                          }}
+                          onDragOver={(event) => {
+                            event.preventDefault()
+                            setDragTarget({ day: dayPlan.day, index })
+                          }}
+                          onDrop={(event) => {
+                            event.preventDefault()
+                            if (draggedStop && draggedStop.day === dayPlan.day && draggedStop.index !== index) {
+                              onReorderDay?.(dayPlan.day, draggedStop.index, index)
+                            }
+                            setDraggedStop(null)
+                            setDragTarget(null)
+                          }}
+                          isDragTarget={dragTarget?.day === dayPlan.day && dragTarget?.index === index}
+                        />
                       ))}
                     </div>
-                  </div>
-                ) : null}
 
-                {dayPlan.route_stats?.over_travel_limit || dayPlan.route_stats?.over_total_limit ? (
-                  <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-                    This day is close to your pacing limit. Lock the must-see places and regenerate this day if you want a lighter route.
-                  </div>
-                ) : null}
-              </article>
-            )
-          })}
+                    {dayPlan.meal_suggestions?.length ? (
+                      <div className="mt-5 rounded-2xl border border-slate-100 bg-white p-4">
+                        <p className="text-sm font-semibold text-slate-700">Food spots along your journey</p>
+                        <div className="mt-3 space-y-2">
+                          {dayPlan.meal_suggestions.map((meal) => (
+                            <div key={`${dayPlan.day}-${meal.type}-${meal.restaurant?.place_id || meal.restaurant?.name}`} className="rounded-xl bg-slate-50 p-3 text-sm">
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="font-semibold text-slate-700">{meal.type}</span>
+                                <span className="text-slate-600">{meal.restaurant?.name}</span>
+                              </div>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                {meal.highlight_label ? <span className="rounded-full bg-[#f5d9c2] px-3 py-1 text-xs font-semibold text-[#7a3d11]">{meal.highlight_label}</span> : null}
+                                {meal.near_stop_label ? <span className="rounded-full bg-[#e7e3ca] px-3 py-1 text-xs font-semibold text-[#6d6a51]">{meal.near_stop_label}</span> : null}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {dayPlan.route_stats?.over_travel_limit || dayPlan.route_stats?.over_total_limit ? (
+                      <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+                        This day is close to your pacing limit. Lock the must-see places and regenerate this day if you want a lighter route.
+                      </div>
+                    ) : null}
+                  </article>
+                )
+              })}
 
           {swapState?.open ? (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
               <div className="w-full max-w-2xl rounded-[28px] bg-[#f8f1db] p-6 shadow-[0_24px_80px_rgba(15,23,42,0.22)]">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Swap Place</h3>
+                    <h3 className="editorial-title text-3xl font-semibold text-brand-palm">Similar places you might like</h3>
                     <p className="mt-2 text-sm leading-7 text-[#6d6a51]">
-                      Replace <span className="font-semibold text-brand-palm">{swapState.place?.name}</span> with a nearby alternative from the trip's master attraction pool.
+                      Replace <span className="font-semibold text-brand-palm">{swapState.place?.name}</span> with a similar stop from the trip's replacement pool.
                     </p>
                   </div>
                   <button
@@ -617,8 +618,15 @@ export function ItineraryPanel({
                         <div>
                           <h4 className="font-semibold text-brand-palm">{suggestion.name}</h4>
                           <p className="mt-1 text-sm text-[#6d6a51]">{formatCategory(suggestion.category || suggestion.types?.[0] || 'place')}</p>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {(suggestion.inferred_interest_tags || []).slice(0, 3).map((tag) => (
+                              <span key={`${suggestion.place_id}-${tag}`} className="rounded-full bg-[#e7e3ca] px-3 py-1 text-xs font-semibold text-[#6d6a51]">
+                                {formatCategory(tag)}
+                              </span>
+                            ))}
+                          </div>
                           {suggestion.swap_match_reason ? (
-                            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                            <p className="mt-2 text-xs font-semibold text-sky-700">
                               {suggestion.swap_match_reason}
                             </p>
                           ) : null}
