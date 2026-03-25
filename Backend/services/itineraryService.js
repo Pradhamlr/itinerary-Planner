@@ -52,6 +52,16 @@ function formatDuration(seconds) {
   return minutes > 0 ? `${hours} hr ${minutes} mins` : `${hours} hr`;
 }
 
+function formatDistanceKm(distanceKm) {
+  if (!Number.isFinite(distanceKm) || distanceKm <= 0) {
+    return null;
+  }
+
+  return distanceKm < 10
+    ? `${distanceKm.toFixed(1)} km`
+    : `${Math.round(distanceKm)} km`;
+}
+
 function parseDurationToMinutes(durationText) {
   if (!durationText || typeof durationText !== 'string') {
     return 0;
@@ -449,6 +459,128 @@ async function buildOrderedRouteWithTimings(route, startPoint) {
           : null,
       };
     })),
+  };
+}
+
+async function buildOptimizedCustomRoute(places, startPoint, optimizationMode = 'time') {
+  const normalizedPlaces = dedupeByPlaceId((places || []).map(normalizeSavedPlace).filter(isValidPlaceEntry));
+  if (normalizedPlaces.length === 0) {
+    return {
+      route: [],
+      summary: {
+        optimization_mode: optimizationMode,
+        routing_mode: 'none',
+        total_stops: 0,
+        total_travel_minutes: 0,
+        total_distance_km: 0,
+      },
+    };
+  }
+
+  const mode = optimizationMode === 'distance' ? 'distance' : 'time';
+  const defaultStart = getDefaultStartPoint(normalizedPlaces, startPoint);
+  const allNodes = isValidPoint(startPoint) ? [defaultStart, ...normalizedPlaces] : [...normalizedPlaces];
+  const { matrix, mode: routingMode } = await buildTravelTimeMatrix(allNodes);
+  const nodeIndexMap = new Map(allNodes.map((node, index) => [node.place_id || `${node.lat},${node.lng}`, index]));
+
+  const visited = new Set();
+  const orderedStops = [];
+  let current = defaultStart;
+
+  if (!isValidPoint(startPoint) && current?.place_id) {
+    visited.add(current.place_id);
+    orderedStops.push(current);
+  }
+
+  while (orderedStops.length < normalizedPlaces.length) {
+    let nextPoint = null;
+    let bestScore = Infinity;
+    const currentIndex = nodeIndexMap.get(current.place_id || `${current.lat},${current.lng}`);
+
+    for (const point of normalizedPlaces) {
+      if (visited.has(point.place_id)) {
+        continue;
+      }
+
+      const pointIndex = nodeIndexMap.get(point.place_id || `${point.lat},${point.lng}`);
+      const durationSeconds = matrix?.[currentIndex]?.[pointIndex]?.durationSeconds;
+      const distanceKm = haversineDistance(current, point);
+      const score = mode === 'distance'
+        ? distanceKm
+        : (Number.isFinite(durationSeconds) ? durationSeconds : estimateTravelSeconds(current, point));
+
+      if (score < bestScore) {
+        bestScore = score;
+        nextPoint = point;
+      }
+    }
+
+    if (!nextPoint) {
+      break;
+    }
+
+    visited.add(nextPoint.place_id);
+    orderedStops.push(nextPoint);
+    current = nextPoint;
+  }
+
+  const startIndex = isValidPoint(startPoint)
+    ? nodeIndexMap.get(defaultStart.place_id || `${defaultStart.lat},${defaultStart.lng}`)
+    : null;
+
+  let totalTravelMinutes = 0;
+  let totalDistanceKm = 0;
+
+  const route = orderedStops.map((place, index) => {
+    const currentIndex = nodeIndexMap.get(place.place_id || `${place.lat},${place.lng}`);
+    const previousPoint = index === 0 ? (isValidPoint(startPoint) ? defaultStart : null) : orderedStops[index - 1];
+    const previousIndex = previousPoint
+      ? nodeIndexMap.get(previousPoint.place_id || `${previousPoint.lat},${previousPoint.lng}`)
+      : null;
+    const nextPlace = orderedStops[index + 1];
+    const nextIndex = nextPlace
+      ? nodeIndexMap.get(nextPlace.place_id || `${nextPlace.lat},${nextPlace.lng}`)
+      : null;
+
+    const legFromPreviousSeconds = Number.isFinite(previousIndex)
+      ? matrix?.[previousIndex]?.[currentIndex]?.durationSeconds
+      : 0;
+    const legFromPreviousMinutes = Math.round((legFromPreviousSeconds || 0) / 60);
+    const legFromPreviousDistanceKm = previousPoint ? haversineDistance(previousPoint, place) : 0;
+
+    totalTravelMinutes += legFromPreviousMinutes;
+    totalDistanceKm += legFromPreviousDistanceKm;
+
+    return {
+      ...place,
+      sequence: index + 1,
+      travel_time_from_start: index === 0 && isValidPoint(startPoint)
+        ? (matrix?.[startIndex]?.[currentIndex]?.durationText || formatDuration(matrix?.[startIndex]?.[currentIndex]?.durationSeconds))
+        : null,
+      travel_time_from_previous: previousPoint
+        ? (matrix?.[previousIndex]?.[currentIndex]?.durationText || formatDuration(legFromPreviousSeconds))
+        : null,
+      travel_distance_from_previous_km: roundTo(legFromPreviousDistanceKm),
+      travel_distance_from_previous_text: formatDistanceKm(legFromPreviousDistanceKm),
+      travel_time_to_next: nextPlace
+        ? (matrix?.[currentIndex]?.[nextIndex]?.durationText || formatDuration(matrix?.[currentIndex]?.[nextIndex]?.durationSeconds))
+        : null,
+      travel_distance_to_next_km: nextPlace ? roundTo(haversineDistance(place, nextPlace)) : 0,
+      travel_distance_to_next_text: nextPlace ? formatDistanceKm(haversineDistance(place, nextPlace)) : null,
+      visit_duration_minutes: Number(place.visit_duration_minutes || estimateVisitDurationMinutes(place)),
+    };
+  });
+
+  return {
+    route,
+    summary: {
+      optimization_mode: mode,
+      routing_mode: routingMode,
+      total_stops: route.length,
+      total_travel_minutes: totalTravelMinutes,
+      total_distance_km: roundTo(totalDistanceKm),
+      start_location_enabled: Boolean(isValidPoint(startPoint)),
+    },
   };
 }
 
@@ -1498,6 +1630,10 @@ class ItineraryService {
         reordered_day: parsedDayNumber,
       },
     };
+  }
+
+  static async optimizeCustomRoute({ places, startLocation, optimizationMode }) {
+    return buildOptimizedCustomRoute(places, startLocation, optimizationMode);
   }
 }
 

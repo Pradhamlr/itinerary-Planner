@@ -118,6 +118,11 @@ export const formatCategory = (category) =>
     .replace(/_/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
+export const formatCityName = (city) =>
+  String(city || '')
+    .trim()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
 export const getPrimaryPlaceType = (place) => {
   if (place.category) {
     return String(place.category).replace(/\s+/g, '_').toLowerCase();

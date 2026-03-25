@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LocationAutocomplete from '../components/LocationAutocomplete'
 import api from '../services/api'
-import { HERO_EDITORIAL_IMAGES, INTEREST_OPTIONS, formatCurrency, getInterestMeta } from '../utils/travel'
+import { HERO_EDITORIAL_IMAGES, INTEREST_OPTIONS, formatCityName, formatCurrency, getInterestMeta } from '../utils/travel'
 
 function InterestIcon({ type, selected }) {
   const className = `h-5 w-5 ${selected ? 'text-white' : 'text-brand-onSurfaceVariant'}`
@@ -388,7 +388,7 @@ function CreateTrip() {
               <div className="mt-5 flex flex-col gap-3 rounded-[22px] bg-white px-4 py-4 shadow-sm">
                 <div className="flex items-center gap-3 text-sm text-brand-palm">
                   <DetailIcon type="destination" />
-                  <span>{formData.city || 'Your destination'}</span>
+                  <span>{formatCityName(formData.city) || 'Your destination'}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-brand-onSurfaceVariant">
                   <DetailIcon type="dates" />
@@ -468,7 +468,7 @@ function CreateTrip() {
                 <div className="mt-4 rounded-2xl bg-white px-4 py-4 shadow-sm">
                   <p className="text-sm text-brand-onSurfaceVariant">Trip preview</p>
                   <p className="mt-2 text-xl font-semibold text-brand-palm">
-                    {formData.city || 'Your destination'}
+                    {formatCityName(formData.city) || 'Your destination'}
                   </p>
                   <p className="mt-1 text-sm text-brand-onSurfaceVariant">
                     {formData.days || 0} day journey • {formData.startDate || 'Flexible dates'}

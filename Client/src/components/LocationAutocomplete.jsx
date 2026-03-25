@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api'
 import { GOOGLE_MAPS_LIBRARIES, GOOGLE_MAPS_LOADER_ID } from '../utils/googleMaps'
+import { formatCityName } from '../utils/travel'
 
 function LocationAutocomplete({ value, onSelect, onClear, city }) {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
@@ -68,7 +69,7 @@ function LocationAutocomplete({ value, onSelect, onClear, city }) {
       >
         <input
           type="text"
-          placeholder={city ? `Search a hotel or start point in ${city}` : 'Search hotel or start point'}
+          placeholder={city ? `Search a hotel or start point in ${formatCityName(city)}` : 'Search hotel or start point'}
           defaultValue={value?.name || ''}
           className="input-minimal"
         />

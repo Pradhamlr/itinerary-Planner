@@ -6,6 +6,7 @@ const {
   getPlacesByRating,
   getAllCities,
   getCityStats,
+  getRandomPlaces,
 } = require('../controllers/placesController');
 
 // GET /api/places/cities - Get all available cities
@@ -13,6 +14,9 @@ router.get('/cities', getAllCities);
 
 // GET /api/places/stats/:city - Get city statistics
 router.get('/stats/:city', getCityStats);
+
+// GET /api/places/random - Get random places across all cities
+router.get('/random', getRandomPlaces);
 
 // GET /api/places/rating/:city - Get highly rated places
 router.get('/rating/:city', getPlacesByRating);

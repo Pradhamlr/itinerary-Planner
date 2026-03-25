@@ -122,6 +122,28 @@ exports.getAllCities = async (req, res) => {
   }
 };
 
+// @route   GET /api/places/random
+// @desc    Get random places across all cities
+// @access  Public
+exports.getRandomPlaces = async (req, res) => {
+  try {
+    const limit = req.query.limit ? Number(req.query.limit) : 60;
+    const places = await PlacesService.getRandomPlaces(limit);
+
+    res.status(200).json({
+      success: true,
+      message: `Found ${places.length} random places`,
+      data: places,
+      count: places.length,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Failed to fetch random places',
+    });
+  }
+};
+
 // @route   GET /api/places/stats/:city
 // @desc    Get statistics for a city
 // @access  Public

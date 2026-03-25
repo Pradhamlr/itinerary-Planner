@@ -4,7 +4,9 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { useAuth } from './context/useAuth'
 import CreateTrip from './pages/CreateTrip'
 import Dashboard from './pages/Dashboard'
+import DocumentsVault from './pages/DocumentsVault'
 import Login from './pages/Login'
+import RouteOptimizer from './pages/RouteOptimizer'
 import Signup from './pages/Signup'
 import TripDetails from './pages/TripDetails'
 import ForgotPassword from './pages/ForgotPassword'
@@ -44,6 +46,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <TripDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/documents"
+            element={
+              <ProtectedRoute>
+                <DocumentsVault />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/route-optimizer"
+            element={
+              <ProtectedRoute>
+                <RouteOptimizer />
               </ProtectedRoute>
             }
           />

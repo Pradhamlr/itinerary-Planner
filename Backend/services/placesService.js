@@ -61,6 +61,19 @@ class PlacesService {
     }
   }
 
+  static async getRandomPlaces(limit = 80) {
+    try {
+      const parsedLimit = Math.max(10, Math.min(Number(limit) || 40, 120));
+      const places = await Place.aggregate([
+        { $match: { rating: { $gt: 0 } } },
+        { $sample: { size: parsedLimit } },
+      ]);
+      return places;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
    * Get statistics for a city
    */

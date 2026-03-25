@@ -7,6 +7,8 @@ const tripRoutes = require('./routes/tripRoutes');
 const placesRoutes = require('./routes/placesRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const itineraryRoutes = require('./routes/itineraryRoutes');
+const documentRoutes = require('./routes/documentRoutes');
+const routeOptimizerRoutes = require('./routes/routeOptimizerRoutes');
 const initializePlacesDataset = require('./startup/seedPlaces');
 const validateEnv = require('./config/validateEnv');
 const logger = require('./utils/logger');
@@ -78,6 +80,8 @@ const startServer = async () => {
     app.use('/api/places', placesRoutes);
     app.use('/api/recommendations', recommendationRoutes);
     app.use('/api/itinerary', itineraryRoutes);
+    app.use('/api/documents', documentRoutes);
+    app.use('/api/route-optimizer', routeOptimizerRoutes);
 
     // 404 handler
     app.use((req, res) => {

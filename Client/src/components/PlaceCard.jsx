@@ -1,4 +1,11 @@
-import { formatCategory, getPlaceTypeTheme, getPlaceVisual, getPrimaryPlaceType, renderStars } from '../utils/travel'
+import {
+  formatCategory,
+  formatCityName,
+  getPlaceTypeTheme,
+  getPlaceVisual,
+  getPrimaryPlaceType,
+  renderStars,
+} from '../utils/travel'
 
 function PlaceCard({ place }) {
   const primaryType = getPrimaryPlaceType(place)
@@ -63,7 +70,7 @@ function PlaceCard({ place }) {
 
         <div className="flex items-center justify-between border-t border-brand-surfaceHigh pt-3">
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-brand-palm">{place.city}</p>
+            <p className="truncate text-sm font-semibold text-brand-palm">{formatCityName(place.city)}</p>
             <p className="truncate text-xs text-brand-onSurfaceVariant">
               {place.lat?.toFixed?.(4)}, {place.lng?.toFixed?.(4)}
             </p>

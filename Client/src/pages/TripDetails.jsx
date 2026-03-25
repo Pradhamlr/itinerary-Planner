@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ItineraryPanel, RecommendationsPanel } from '../components/TripDetailsPanels'
 import api from '../services/api'
-import { formatCurrency, getInterestMeta } from '../utils/travel'
+import { formatCityName, formatCurrency, getInterestMeta } from '../utils/travel'
 
 function formatTripDate(value) {
   if (!value) {
@@ -460,7 +460,7 @@ function TripDetails() {
       <div className="space-y-8">
         <header className="flex flex-col gap-5 rounded-[30px] bg-white px-6 py-5 shadow-[0_12px_32px_-8px_rgba(15,23,42,0.22)] lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-[1.7rem] font-semibold text-brand-palm">{trip.city}</p>
+            <p className="text-[1.7rem] font-semibold text-brand-palm">{formatCityName(trip.city)}</p>
             <p className="mt-1 text-brand-onSurfaceVariant">Curated trip workspace</p>
           </div>
 
@@ -507,7 +507,7 @@ function TripDetails() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[24px] bg-brand-surfaceLow p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Destination</p>
-                <p className="mt-3 text-xl font-semibold text-brand-palm">{trip.city}</p>
+                <p className="mt-3 text-xl font-semibold text-brand-palm">{formatCityName(trip.city)}</p>
               </div>
               <div className="rounded-[24px] bg-brand-surfaceLow p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Dates</p>

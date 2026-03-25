@@ -35,8 +35,35 @@ const userSchema = new mongoose.Schema(
    verificationCodeExpires: Date,
    resetPasswordToken: String,
    resetPasswordExpires: Date,
-   resetPasswordCode: String,
-   resetPasswordCodeExpires: Date,
+    resetPasswordCode: String,
+    resetPasswordCodeExpires: Date,
+    travelDocuments: {
+      type: [new mongoose.Schema(
+        {
+          documentType: {
+            type: String,
+            enum: ['passport', 'aadhar', 'visa', 'insurance', 'ticket', 'other'],
+            required: true,
+          },
+          label: {
+            type: String,
+            required: true,
+          },
+          fileName: String,
+          mimeType: String,
+          cloudinaryResourceType: String,
+          fileSize: Number,
+          cloudinaryPublicId: String,
+          secureUrl: String,
+          uploadedAt: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+        { _id: true }
+      )],
+      default: [],
+    },
     createdAt: {
       type: Date,
       default: Date.now,
