@@ -10,6 +10,8 @@ const savedPlaceSchema = new mongoose.Schema(
     rating: Number,
     reviewSnippet: String,
     types: [String],
+    photo_reference: String,
+    photo_url: String,
     category: String,
     user_ratings_total: Number,
     ml_score: Number,
@@ -147,6 +149,36 @@ const itinerarySnapshotSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const tripFeedbackSchema = new mongoose.Schema(
+  {
+    follow_score: {
+      type: Number,
+      min: 1,
+      max: 5,
+    },
+    satisfaction_score: {
+      type: Number,
+      min: 1,
+      max: 5,
+    },
+    hotel_score: {
+      type: Number,
+      min: 1,
+      max: 5,
+    },
+    feedback_text: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    created_at: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false }
+);
+
 const tripSchema = new mongoose.Schema(
   {
     userId: {
@@ -164,11 +196,6 @@ const tripSchema = new mongoose.Schema(
       required: [true, 'Please provide number of days'],
       min: [1, 'Trip must be at least 1 day'],
       max: [365, 'Trip cannot exceed 365 days'],
-    },
-    budget: {
-      type: Number,
-      required: [true, 'Please provide a budget'],
-      min: [0, 'Budget cannot be negative'],
     },
     startDate: {
       type: Date,
@@ -227,6 +254,14 @@ const tripSchema = new mongoose.Schema(
     },
     finalizedItinerarySnapshot: {
       type: itinerarySnapshotSchema,
+      default: null,
+    },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
+    completionFeedback: {
+      type: tripFeedbackSchema,
       default: null,
     },
     createdAt: {
