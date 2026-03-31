@@ -189,6 +189,11 @@ const tripSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    stayPlanningMode: {
+      type: String,
+      enum: ['static', 'dynamic'],
+      default: 'static',
+    },
     hotelLocation: {
       place_id: String,
       name: String,
