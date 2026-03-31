@@ -30,6 +30,8 @@ const INTEREST_KEYWORD_MAP = {
   nightlife: ['bar', 'club', 'nightlife', 'late night', 'pub'],
 };
 
+const STRICT_INTEREST_ERROR_PREFIX = 'INSUFFICIENT_STRICT_INTEREST_MATCHES:';
+
 const getPrimaryCategory = (place) => {
   const types = getNormalizedTypes(place);
   const category = types.find((type) => allowedAttractionTypes.has(type))
@@ -262,6 +264,13 @@ const getRestaurantRelevantInterests = (tripInterests) =>
     .map(normalizeInterest)
     .filter((interest) => restaurantDrivenInterests.has(interest));
 
+const getInterestTrackRatio = (tripInterests) => {
+  const hasAttractionInterests = getAttractionRelevantInterests(tripInterests).length > 0;
+  return hasAttractionInterests
+    ? { popularRatio: 0, interestRatio: 1 }
+    : { popularRatio: 1, interestRatio: 0 };
+};
+
 const getAllowedTypesForInterests = (tripInterests, interestResolver = getAttractionRelevantInterests) =>
   new Set(
     interestResolver(tripInterests)
@@ -269,8 +278,12 @@ const getAllowedTypesForInterests = (tripInterests, interestResolver = getAttrac
   );
 
 function placeMatchesInterest(place, allowedTypes, tripInterests) {
-  return getInterestSignals(place, tripInterests).interestScore >= 0.12
-    || getNormalizedTypes(place).some((type) => allowedTypes.has(type));
+  const normalizedInterests = getAttractionRelevantInterests(tripInterests);
+  if (normalizedInterests.length === 0) {
+    return getNormalizedTypes(place).some((type) => allowedTypes.has(type));
+  }
+
+  return getInterestSignals(place, tripInterests).isEligibleStrictMatch;
 }
 
 function getPlaceKeywordText(place) {
@@ -299,28 +312,65 @@ function getManualTypeMatchScore(place, normalizedInterests) {
   return matchedInterests.length / normalizedInterests.length;
 }
 
+function getInferredInterestScores(place) {
+  return place.inferred_interest_scores && typeof place.inferred_interest_scores === 'object'
+    ? place.inferred_interest_scores
+    : {};
+}
+
+function getActiveInterestThreshold(place) {
+  const threshold = Number(place?._activeInterestThreshold);
+  return Number.isFinite(threshold) ? threshold : recommendationConfig.strictInterestScoreThreshold;
+}
+
+function getActiveWeightedRatingCutoff(place) {
+  const cutoff = Number(place?._activeWeightedRatingCutoff);
+  return Number.isFinite(cutoff) ? cutoff : recommendationConfig.trackBWeightedRatingCutoff;
+}
+
+function getSelectedInterestScoreBreakdown(place, normalizedInterests) {
+  const inferredScores = getInferredInterestScores(place);
+  const activeThreshold = getActiveInterestThreshold(place);
+  const selectedScores = normalizedInterests
+    .map((interest) => ({
+      interest,
+      score: Number(inferredScores[interest] || 0),
+    }))
+    .filter(({ score }) => Number.isFinite(score) && score > 0)
+    .sort((first, second) => second.score - first.score);
+
+  const maxSelectedScore = selectedScores[0]?.score || 0;
+  const averageSelectedScore = selectedScores.length > 0
+    ? selectedScores.reduce((sum, entry) => sum + entry.score, 0) / selectedScores.length
+    : 0;
+  const strongMatchedInterests = selectedScores
+    .filter(({ score }) => score >= activeThreshold)
+    .map(({ interest }) => interest);
+  const mediumConfidenceInterests = selectedScores
+    .filter(({ score }) => score >= recommendationConfig.strictInterestMediumThreshold)
+    .map(({ interest }) => interest);
+  const highConfidenceInterests = selectedScores
+    .filter(({ score }) => score >= recommendationConfig.strictInterestHighThreshold)
+    .map(({ interest }) => interest);
+
+  return {
+    selectedScores,
+    maxSelectedScore,
+    averageSelectedScore,
+    strongMatchedInterests,
+    mediumConfidenceInterests,
+    highConfidenceInterests,
+    activeThreshold,
+  };
+}
+
 function getMlInterestMatchScore(place, normalizedInterests) {
   if (normalizedInterests.length === 0) {
     return 0;
   }
 
-  const inferredTags = Array.isArray(place.inferred_interest_tags)
-    ? place.inferred_interest_tags.map(normalizeInterest)
-    : [];
-  const inferredScores = place.inferred_interest_scores && typeof place.inferred_interest_scores === 'object'
-    ? place.inferred_interest_scores
-    : {};
-
-  const matchedScores = normalizedInterests
-    .filter((interest) => inferredTags.includes(interest) || Number(inferredScores[interest]) > 0)
-    .map((interest) => Number(inferredScores[interest] || (inferredTags.includes(interest) ? 0.65 : 0)));
-
-  if (matchedScores.length === 0) {
-    return 0;
-  }
-
-  const total = matchedScores.reduce((sum, value) => sum + value, 0);
-  return Math.min(1, total / normalizedInterests.length);
+  const { averageSelectedScore } = getSelectedInterestScoreBreakdown(place, normalizedInterests);
+  return Math.min(1, averageSelectedScore);
 }
 
 function getKeywordMatchScore(place, normalizedInterests) {
@@ -345,29 +395,49 @@ function getInterestSignals(place, tripInterests) {
       keywordMatch: 0,
       interestScore: 0,
       matchedInterests: [],
+      maxSelectedScore: 0,
+      averageSelectedScore: 0,
+      confidenceBoost: 0,
+      isEligibleStrictMatch: false,
+      strongMatchedInterests: [],
+      mediumConfidenceInterests: [],
+      highConfidenceInterests: [],
     };
   }
 
   const manualTypeMatch = getManualTypeMatchScore(place, normalizedInterests);
-  const mlInterestMatch = getMlInterestMatchScore(place, normalizedInterests);
   const keywordMatch = getKeywordMatchScore(place, normalizedInterests);
-  const keywordText = getPlaceKeywordText(place);
-  const normalizedTypes = getNormalizedTypes(place);
-  const inferredTags = Array.isArray(place.inferred_interest_tags)
-    ? place.inferred_interest_tags.map(normalizeInterest)
-    : [];
-  const matchedInterests = normalizedInterests.filter((interest) =>
-    inferredTags.includes(interest)
-    || (interestTypeMap[interest] || []).some((type) => normalizedTypes.includes(type))
-    || (INTEREST_KEYWORD_MAP[interest] || []).some((keyword) => keywordText.includes(keyword)),
-  );
+  const {
+    maxSelectedScore,
+    averageSelectedScore,
+    strongMatchedInterests,
+    mediumConfidenceInterests,
+    highConfidenceInterests,
+    activeThreshold,
+  } = getSelectedInterestScoreBreakdown(place, normalizedInterests);
+  const confidenceBoost = maxSelectedScore >= recommendationConfig.strictInterestHighThreshold
+    ? recommendationConfig.strictInterestHighBoost
+    : maxSelectedScore >= recommendationConfig.strictInterestMediumThreshold
+      ? recommendationConfig.strictInterestMediumBoost
+      : 0;
+  const mlInterestMatch = roundTo(Math.min(1, maxSelectedScore + confidenceBoost), 4);
+  const matchedInterests = strongMatchedInterests;
+  const isEligibleStrictMatch = maxSelectedScore >= activeThreshold;
 
   return {
     manualTypeMatch,
     mlInterestMatch,
     keywordMatch,
-    interestScore: roundTo((manualTypeMatch * 0.6) + (mlInterestMatch * 0.3) + (keywordMatch * 0.1), 4),
+    interestScore: roundTo(Math.min(1, mlInterestMatch), 4),
     matchedInterests,
+    maxSelectedScore: roundTo(maxSelectedScore, 4),
+    averageSelectedScore: roundTo(averageSelectedScore, 4),
+    confidenceBoost: roundTo(confidenceBoost, 4),
+    isEligibleStrictMatch,
+    strongMatchedInterests,
+    mediumConfidenceInterests,
+    highConfidenceInterests,
+    activeThreshold,
   };
 }
 
@@ -378,28 +448,76 @@ const filterByInterests = (places, tripInterests, requiredAttractionCount) => {
       places: [],
       interestFilterApplied: false,
       minimumInterestMatches: 0,
+      strongMatchCount: 0,
+      mediumConfidenceCount: 0,
+      highConfidenceCount: 0,
     };
   }
+  const ratingValues = places
+    .map((place) => Number(place.rating || 0))
+    .filter((rating) => Number.isFinite(rating) && rating > 0);
+  const averageRating = ratingValues.length > 0
+    ? ratingValues.reduce((sum, rating) => sum + rating, 0) / ratingValues.length
+    : 0;
+  const buildFilteredPlacesForThreshold = (threshold, weightedRatingCutoff) => places.filter((place) => {
+    const rating = Number(place.rating || 0);
+    const reviewCount = Number(place.user_ratings_total || 0);
+    const weightedRating = ((reviewCount / (reviewCount + recommendationConfig.weightedRatingThreshold)) * rating)
+      + ((recommendationConfig.weightedRatingThreshold / (reviewCount + recommendationConfig.weightedRatingThreshold)) * averageRating);
+    const interestSignals = getInterestSignals({ ...place, _activeInterestThreshold: threshold }, tripInterests);
 
-  const allowedTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
-  const filteredPlaces = places.filter((place) =>
-    placeMatchesInterest(place, allowedTypes, tripInterests),
-  );
+    return weightedRating >= weightedRatingCutoff
+      && interestSignals.isEligibleStrictMatch
+      && !getNormalizedTypes(place).some((type) => blockedAttractionTypes.has(type))
+      && !isBlockedRestaurant(place)
+      && !isRestaurantLike(place);
+  });
+  const primaryThreshold = recommendationConfig.strictInterestScoreThreshold;
+  const primaryWeightedRatingCutoff = recommendationConfig.trackBWeightedRatingCutoff;
+  const fallbackWeightedRatingCutoff = recommendationConfig.trackBFallbackWeightedRatingCutoff;
+  const primaryMatches = buildFilteredPlacesForThreshold(primaryThreshold, primaryWeightedRatingCutoff);
+  const shouldUseFallback = primaryMatches.length < requiredAttractionCount
+    && fallbackWeightedRatingCutoff < primaryWeightedRatingCutoff;
+  const activeThreshold = primaryThreshold;
+  const activeWeightedRatingCutoff = shouldUseFallback ? fallbackWeightedRatingCutoff : primaryWeightedRatingCutoff;
+  const filteredPlaces = (shouldUseFallback
+    ? buildFilteredPlacesForThreshold(primaryThreshold, fallbackWeightedRatingCutoff)
+    : primaryMatches)
+    .map((place) => ({
+      ...place,
+      _activeInterestThreshold: activeThreshold,
+      _activeWeightedRatingCutoff: activeWeightedRatingCutoff,
+    }));
   const minimumInterestMatches = Math.min(
     filteredPlaces.length,
-    Math.max(1, Math.ceil(requiredAttractionCount * 0.2)),
+    requiredAttractionCount,
   );
+  const strongMatchCount = filteredPlaces.length;
+  const mediumConfidenceCount = filteredPlaces.filter((place) =>
+    getInterestSignals(place, tripInterests).maxSelectedScore >= recommendationConfig.strictInterestMediumThreshold,
+  ).length;
+  const highConfidenceCount = filteredPlaces.filter((place) =>
+    getInterestSignals(place, tripInterests).maxSelectedScore >= recommendationConfig.strictInterestHighThreshold,
+  ).length;
 
   return {
     places: filteredPlaces,
     interestFilterApplied: filteredPlaces.length > 0 && minimumInterestMatches > 0,
     minimumInterestMatches,
+    strongMatchCount,
+    mediumConfidenceCount,
+    highConfidenceCount,
+    thresholdUsed: activeThreshold,
+    fallbackApplied: shouldUseFallback,
+    weightedRatingCutoffUsed: activeWeightedRatingCutoff,
   };
 };
 
 const getInterestMatchScore = (place, tripInterests) => {
   return getInterestSignals(place, tripInterests).interestScore;
 };
+
+const hasStrictInterestMatch = (place, tripInterests) => getInterestSignals(place, tripInterests).isEligibleStrictMatch;
 
 const getRestaurantInterestBoost = (place, tripInterests) => {
   const normalizedInterests = getRestaurantRelevantInterests(tripInterests);
@@ -515,8 +633,8 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
   const attractionInterests = getAttractionRelevantInterests(tripInterests);
   const minimumInterestMatches = attractionInterests.length > 0
     ? Math.min(
-        rankedAttractions.filter((place) => getInterestMatchScore(place, tripInterests) > 0).length,
-        Math.max(2, Math.ceil(totalAttractions * 0.35)),
+        rankedAttractions.filter((place) => hasStrictInterestMatch(place, tripInterests)).length,
+        Math.max(2, Math.ceil(totalAttractions * 0.55)),
       )
     : 0;
   const religiousCap = attractionInterests.some((interest) => ['culture', 'history'].includes(interest))
@@ -531,7 +649,7 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
       const theme = getThemeBucket(place);
       const cap = theme === 'religious' ? religiousCap : defaultThemeCap;
       const withinThemeCap = (themeCounts.get(theme) || 0) < cap;
-      const isInterestMatch = getInterestMatchScore(place, tripInterests) > 0;
+      const isInterestMatch = hasStrictInterestMatch(place, tripInterests);
 
       if (prioritizeInterestMatch) {
         return withinThemeCap && isInterestMatch;
@@ -542,7 +660,7 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
 
     if (nextIndex === -1) {
       if (selectedInterestMatches < minimumInterestMatches) {
-        const fallbackInterestIndex = remaining.findIndex((place) => getInterestMatchScore(place, tripInterests) > 0);
+        const fallbackInterestIndex = remaining.findIndex((place) => hasStrictInterestMatch(place, tripInterests));
         if (fallbackInterestIndex >= 0) {
           const [chosen] = remaining.splice(fallbackInterestIndex, 1);
           selected.push(chosen);
@@ -560,7 +678,7 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
     selected.push(chosen);
     const chosenTheme = getThemeBucket(chosen);
     themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
-    if (getInterestMatchScore(chosen, tripInterests) > 0) {
+    if (hasStrictInterestMatch(chosen, tripInterests)) {
       selectedInterestMatches += 1;
     }
   }
@@ -680,6 +798,10 @@ const buildAttractionResponse = (place, scores) => {
     final_score: Number(scores.finalScore.toFixed(4)),
     explanation_tags: scores.explanationTags || [],
     why_recommended: scores.whyRecommended || [],
+    selected_interest_score: Number((scores.interestSignals?.maxSelectedScore || 0).toFixed(4)),
+    selected_interest_threshold: Number((scores.interestSignals?.activeThreshold || recommendationConfig.strictInterestScoreThreshold).toFixed(2)),
+    selected_weighted_rating_cutoff: Number(getActiveWeightedRatingCutoff(place).toFixed(2)),
+    selected_interest_label: scores.interestSignals?.matchedInterests?.[0] || null,
     interest_match_details: {
       manual_type_match: scores.interestSignals?.manualTypeMatch || 0,
       ml_interest_match: scores.interestSignals?.mlInterestMatch || 0,
@@ -799,23 +921,11 @@ class RecommendationService {
   static buildAttractionCandidatePool(places, tripInterests, requiredAttractionCount) {
     const attractionInterests = getAttractionRelevantInterests(tripInterests);
     const hasAttractionInterests = attractionInterests.length > 0;
+    const { popularRatio, interestRatio } = getInterestTrackRatio(tripInterests);
     const strictTypeFilter = dedupePlaces(
       places.filter((place) => isAllowedAttraction(place) || isInterestOnlyAttraction(place, tripInterests)),
     );
     let afterTypeFilter = strictTypeFilter;
-
-    if (hasAttractionInterests && afterTypeFilter.length < Math.max(8, requiredAttractionCount)) {
-      const softInterestMatches = dedupePlaces(
-        places.filter((place) =>
-          getInterestSignals(place, tripInterests).interestScore >= 0.08
-          && !getNormalizedTypes(place).some((type) => blockedAttractionTypes.has(type))
-          && !isBlockedRestaurant(place)
-          && !isRestaurantLike(place),
-        ),
-      );
-
-      afterTypeFilter = dedupePlaces([...afterTypeFilter, ...softInterestMatches]);
-    }
 
     if (hasAttractionInterests && afterTypeFilter.length === 0) {
       afterTypeFilter = dedupePlaces(
@@ -887,7 +997,7 @@ class RecommendationService {
             relaxedExplorationSource.length,
             recommendationConfig.candidatePoolLimit + Math.max(45, requiredAttractionCount * 3),
           ),
-          0.55,
+          popularRatio,
         )
       : (
         dedupedPopularPool.length >= noInterestCandidateFloor
@@ -911,7 +1021,17 @@ class RecommendationService {
       })
       .slice(0, Math.min(recommendationConfig.candidateFetchLimit, recommendationConfig.candidatePoolLimit * 4));
 
-    const { places: interestFilteredPlaces, interestFilterApplied, minimumInterestMatches } = filterByInterests(
+    const {
+      places: interestFilteredPlaces,
+      interestFilterApplied,
+      minimumInterestMatches,
+      strongMatchCount,
+      mediumConfidenceCount,
+      highConfidenceCount,
+      thresholdUsed,
+      fallbackApplied,
+      weightedRatingCutoffUsed,
+    } = filterByInterests(
       broaderInterestSource,
       tripInterests,
       requiredAttractionCount,
@@ -922,13 +1042,8 @@ class RecommendationService {
       ? Math.max(requiredAttractionCount * 3, 36)
       : Math.max(requiredAttractionCount * 2, 30);
 
-    const preFloorCandidatePool = hasAttractionInterests && interestPool.length > 0
-      ? blendCandidatePools(
-          baseCandidatePool,
-          interestPool,
-          Math.max(baseCandidatePool.length, requiredAttractionCount * 3),
-          interestFilterApplied ? 0.58 : 0.68,
-        )
+    const preFloorCandidatePool = hasAttractionInterests
+      ? interestPool
       : baseCandidatePool;
     const interestAwareFallbackPool = dedupePlaces([
       ...interestPool,
@@ -937,11 +1052,13 @@ class RecommendationService {
       ...afterQualityFilter,
       ...afterTypeFilter,
     ]);
-    const candidatePool = fillCandidateFloor(
-      preFloorCandidatePool,
-      interestAwareFallbackPool,
-      Math.min(interestAwareFallbackPool.length, baseMinimumCandidateFloor),
-    );
+    const candidatePool = hasAttractionInterests
+      ? preFloorCandidatePool
+      : fillCandidateFloor(
+          preFloorCandidatePool,
+          interestAwareFallbackPool,
+          Math.min(interestAwareFallbackPool.length, baseMinimumCandidateFloor),
+        );
     const interestPoolContribution = candidatePool.filter((place) =>
       interestPool.some((interestPlace) => interestPlace.place_id === place.place_id),
     ).length;
@@ -961,6 +1078,7 @@ class RecommendationService {
       has_attraction_interests: hasAttractionInterests,
       after_popularity_filter: afterPopularityFilter.length,
       popularity_gate_used: popularityGateUsed,
+      track_b_split: hasAttractionInterests ? { popularRatio, interestRatio } : null,
       popularity_filter_preview: previewPlaceNames(afterPopularityFilter),
       popular_pool_size: dedupedPopularPool.length,
       exploration_pool_size: explorationPool.length,
@@ -969,6 +1087,17 @@ class RecommendationService {
       candidate_floor_target: baseMinimumCandidateFloor,
       interest_pool_size: interestPool.length,
       minimum_interest_matches: minimumInterestMatches,
+      strict_interest_threshold_used: thresholdUsed,
+      strict_interest_fallback_applied: fallbackApplied,
+      strict_interest_score_threshold: recommendationConfig.strictInterestScoreThreshold,
+      track_b_weighted_rating_cutoff: recommendationConfig.trackBWeightedRatingCutoff,
+      track_b_fallback_weighted_rating_cutoff: recommendationConfig.trackBFallbackWeightedRatingCutoff,
+      track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
+      strict_interest_medium_threshold: recommendationConfig.strictInterestMediumThreshold,
+      strict_interest_high_threshold: recommendationConfig.strictInterestHighThreshold,
+      strict_interest_strong_matches: strongMatchCount,
+      strict_interest_medium_confidence_matches: mediumConfidenceCount,
+      strict_interest_high_confidence_matches: highConfidenceCount,
       candidate_pool_size: candidatePool.length,
       interest_pool_contribution_count: interestPoolContribution,
       interest_pool_contribution_ratio: roundTo(
@@ -983,6 +1112,8 @@ class RecommendationService {
       candidatePool,
       interestFilterApplied,
       dedupedCount: popularPool.length - dedupedPopularPool.length,
+      strictInterestThresholdUsed: thresholdUsed,
+      weightedRatingCutoffUsed,
     };
   }
 
@@ -1009,6 +1140,7 @@ class RecommendationService {
   }
 
   static rankAttractions(attractions, mlScoreMap, tripInterests) {
+    const hasAttractionInterests = getAttractionRelevantInterests(tripInterests).length > 0;
     const ratingValues = attractions
       .map((place) => Number(place.rating || 0))
       .filter((rating) => Number.isFinite(rating) && rating > 0);
@@ -1031,11 +1163,16 @@ class RecommendationService {
         const interestMatchScore = interestSignals.interestScore;
         const mustSeeBoost = getMustSeeBoost(place);
         const mlScore = Number(mlScoreMap.get(place.place_id) || 0);
-        const finalScore = (mlScore * 0.35)
-          + (weightedRating * 0.30)
-          + (normalizedPopularitySignal * 0.25)
-          + (sentimentScore * 0.10)
-          + (interestMatchScore * 0.18)
+        const mlWeight = hasAttractionInterests ? 0.08 : 0.35;
+        const ratingWeight = hasAttractionInterests ? 0.20 : 0.30;
+        const popularityWeight = hasAttractionInterests ? 0.07 : 0.25;
+        const sentimentWeight = 0.10;
+        const interestWeight = hasAttractionInterests ? 0.55 : 0.18;
+        const finalScore = (mlScore * mlWeight)
+          + (weightedRating * ratingWeight)
+          + (normalizedPopularitySignal * popularityWeight)
+          + (sentimentScore * sentimentWeight)
+          + (interestMatchScore * interestWeight)
           + mustSeeBoost
           + (Math.random() * 0.02);
         const explanationTags = buildExplanationTags({
@@ -1048,7 +1185,8 @@ class RecommendationService {
         const whyRecommended = [
           Number(place.rating || 0) > 4.5 ? 'Highly rated' : null,
           Number(place.user_ratings_total || 0) >= 1500 ? 'Popular with travelers' : null,
-          interestSignals.matchedInterests[0] ? `Matches your interest: ${interestSignals.matchedInterests[0]}` : null,
+          interestSignals.matchedInterests[0] ? `Strong ${interestSignals.matchedInterests[0]} match` : null,
+          interestSignals.maxSelectedScore >= recommendationConfig.strictInterestHighThreshold ? 'Exceptional interest confidence' : null,
           mustSeeBoost > 0 ? 'Strong landmark signal' : null,
         ].filter(Boolean).slice(0, 2);
 
@@ -1114,7 +1252,13 @@ class RecommendationService {
     const requiredAttractionCount = totalAttractions;
     const rawCandidatePlaces = await this.fetchCandidatePlaces(trip.city);
     const candidatePlaces = await this.attachInterestPredictions(rawCandidatePlaces, trip.interests);
-    const { candidatePool, interestFilterApplied, dedupedCount } = this.buildAttractionCandidatePool(
+    const {
+      candidatePool,
+      interestFilterApplied,
+      dedupedCount,
+      strictInterestThresholdUsed,
+      weightedRatingCutoffUsed,
+    } = this.buildAttractionCandidatePool(
       candidatePlaces,
       trip.interests,
       requiredAttractionCount,
@@ -1123,6 +1267,7 @@ class RecommendationService {
     const dynamicSampleSize = Math.max(recommendationConfig.candidateSampleSize, requiredAttractionCount * 4);
     const normalizedInterests = getAttractionRelevantInterests(trip.interests);
     const interestTypes = new Set(normalizedInterests.flatMap((interest) => interestTypeMap[interest] || []));
+    const { popularRatio, interestRatio } = getInterestTrackRatio(trip.interests);
 
     const broaderSamplingFallbackPool = dedupePlaces([
       ...candidatePool,
@@ -1135,34 +1280,40 @@ class RecommendationService {
 
     if (interestTypes.size > 0) {
       const interestMatches = candidatePool.filter((place) =>
-        placeMatchesInterest(place, interestTypes, trip.interests),
+        hasStrictInterestMatch(place, trip.interests),
       );
-      const otherPlaces = candidatePool.filter((place) => !interestMatches.includes(place));
 
       if (interestMatches.length > 0) {
-        const interestSample = sampleCandidatesWithExploration(interestMatches, Math.floor(dynamicSampleSize * 0.45));
-        const otherSample = sampleCandidatesWithExploration(otherPlaces, dynamicSampleSize - interestSample.length);
-        sampledCandidates = [...interestSample, ...otherSample];
+        const interestSample = sampleCandidatesWithExploration(
+          interestMatches,
+          Math.min(interestMatches.length, dynamicSampleSize),
+        );
+        sampledCandidates = [...interestSample];
       } else {
-        sampledCandidates = sampleCandidatesWithExploration(candidatePool, dynamicSampleSize);
+        sampledCandidates = [];
       }
     } else {
       sampledCandidates = sampleCandidatesWithExploration(candidatePool, dynamicSampleSize);
     }
 
-    sampledCandidates = fillCandidateFloor(
-      dedupePlaces(sampledCandidates),
-      broaderSamplingFallbackPool,
-      Math.min(
-        broaderSamplingFallbackPool.length,
-        Math.max(requiredAttractionCount * 2, Math.min(dynamicSampleSize, 32)),
-      ),
-    );
+    sampledCandidates = interestTypes.size > 0
+      ? dedupePlaces(sampledCandidates)
+      : fillCandidateFloor(
+          dedupePlaces(sampledCandidates),
+          broaderSamplingFallbackPool,
+          Math.min(
+            broaderSamplingFallbackPool.length,
+            Math.max(requiredAttractionCount * 2, Math.min(dynamicSampleSize, 32)),
+          ),
+        );
 
     logger.info('Recommendation sampling complete', {
       sampled_candidates: sampledCandidates.length,
       dynamic_sample_size: dynamicSampleSize,
-      sampled_interest_matches: sampledCandidates.filter((place) => getInterestMatchScore(place, trip.interests) > 0).length,
+      track_b_split: interestTypes.size > 0 ? { popularRatio, interestRatio } : null,
+      sampled_interest_matches: sampledCandidates.filter((place) => hasStrictInterestMatch(place, trip.interests)).length,
+      strict_interest_threshold_used: strictInterestThresholdUsed,
+      track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
     });
 
     let mlScoreMap = new Map();
@@ -1217,6 +1368,8 @@ class RecommendationService {
         attraction_interest_count: getAttractionRelevantInterests(trip.interests).length,
         side_channel_interest_count: getRestaurantRelevantInterests(trip.interests).length,
         deduplicated_candidates: dedupedCount,
+        strict_interest_threshold_used: strictInterestThresholdUsed,
+        track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
         master_pool_count: masterAttractionPool.length,
         ranking_strategy: 'dynamic multi-stage tourism ranking',
         ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>

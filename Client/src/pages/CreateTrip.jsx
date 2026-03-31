@@ -308,18 +308,6 @@ function CreateTrip() {
           <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {INTEREST_OPTIONS.map((interest) => {
               const selected = formData.interests.includes(interest.value)
-              const accentLabel = {
-                beaches: 'Coast',
-                shopping: 'Shop',
-                culture: 'Muse',
-                history: 'Past',
-                nature: 'Wild',
-                food: 'Food',
-                nightlife: 'Night',
-                art: 'Art',
-                adventure: 'Trail',
-                sports: 'Play',
-              }[interest.value] || 'Vibe'
 
               return (
                 <button
@@ -335,7 +323,9 @@ function CreateTrip() {
                   <span className="inline-flex items-center justify-center">
                     <InterestIcon type={interest.value} selected={selected} />
                   </span>
-                  <span className="text-sm font-semibold uppercase tracking-[0.24em]">{accentLabel}</span>
+                  <span className="text-sm font-semibold tracking-[0.01em]">
+                    {interest.label}
+                  </span>
                 </button>
               )
             })}

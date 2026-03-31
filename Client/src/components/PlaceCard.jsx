@@ -12,6 +12,7 @@ function PlaceCard({ place }) {
   const visual = getPlaceVisual(place)
   const reviewSnippet = place.reviewSnippet || place.description || 'A promising stop for your itinerary.'
   const rating = Number(place.rating || 0)
+  const selectedInterestScore = Number(place.selected_interest_score || 0)
   const explanationTags = Array.isArray(place.why_recommended) && place.why_recommended.length > 0
     ? place.why_recommended.slice(0, 3)
     : Array.isArray(place.explanation_tags) ? place.explanation_tags.slice(0, 3) : []
@@ -21,7 +22,9 @@ function PlaceCard({ place }) {
       <div className={`relative h-48 bg-gradient-to-br ${visual.gradient}`}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.25),transparent_30%),linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,5,20,0.28))]" />
         <div className="absolute right-4 top-4 rounded-full bg-[#081120]/78 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
-          {(place.match_score || place.final_score || rating).toFixed(1)} {place.match_score ? 'Match' : 'Score'}
+          {selectedInterestScore > 0
+            ? `${selectedInterestScore.toFixed(2)} Interest`
+            : `${(place.match_score || place.final_score || rating).toFixed(1)} ${place.match_score ? 'Match' : 'Score'}`}
         </div>
         <div className="relative flex h-full items-end p-4 text-white">
           <div>
@@ -48,6 +51,11 @@ function PlaceCard({ place }) {
         <div className="flex items-center gap-2 text-sm">
           <span className="font-semibold text-[#e49e00]">{renderStars(rating)}</span>
           <span className="font-semibold text-brand-palm">{rating ? rating.toFixed(1) : 'Unrated'}</span>
+          {selectedInterestScore > 0 ? (
+            <span className="rounded-full bg-[#edf9f8] px-3 py-1 text-xs font-semibold text-brand-secondary">
+              {place.selected_interest_label ? `${place.selected_interest_label}: ` : ''}{selectedInterestScore.toFixed(2)}
+            </span>
+          ) : null}
           {place.price_level ? (
             <span className="ml-auto text-brand-onSurfaceVariant">{'$'.repeat(Number(place.price_level))}</span>
           ) : null}

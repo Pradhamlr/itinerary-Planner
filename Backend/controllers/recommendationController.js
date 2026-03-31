@@ -53,6 +53,13 @@ exports.getRecommendationsByTrip = async (req, res) => {
       });
     }
 
+    if (error.message.startsWith('INSUFFICIENT_STRICT_INTEREST_MATCHES:')) {
+      return res.status(422).json({
+        success: false,
+        message: error.message.replace('INSUFFICIENT_STRICT_INTEREST_MATCHES:', '').trim(),
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message: error.message || 'Failed to generate recommendations',

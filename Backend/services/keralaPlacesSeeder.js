@@ -21,6 +21,7 @@ const PLACE_TYPES = [
   'beach',
   'church',
   'temple',
+  'shopping_mall',
   'restaurant',
   'art_gallery',
   'zoo',
