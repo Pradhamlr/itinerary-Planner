@@ -19,7 +19,7 @@ function HomeIcon() {
 }
 
 function Navbar() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, logout } = useAuth()
 
   const navLinkClass = ({ isActive }) =>
     `border-b-2 pb-2 text-sm font-medium transition ${
@@ -45,14 +45,24 @@ function Navbar() {
 
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
-            <Link
-              to="/dashboard"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-surfaceHigh text-brand-palm transition hover:bg-[#dfe4e8]"
-              aria-label="Home"
-              title="Home"
-            >
-              <HomeIcon />
-            </Link>
+            <>
+              <Link
+                to="/dashboard"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-surfaceHigh text-brand-palm transition hover:bg-[#dfe4e8]"
+                aria-label="Home"
+                title="Home"
+              >
+                <HomeIcon />
+              </Link>
+              <button
+                type="button"
+                onClick={logout}
+                className="rounded-full border border-brand-surfaceHigh bg-white px-4 py-2 text-sm font-semibold text-brand-palm transition hover:bg-brand-surfaceLow"
+                title="Sign out"
+              >
+                Sign Out
+              </button>
+            </>
           ) : (
             <>
               <NavLink to="/login" className="rounded-full px-4 py-2 text-sm font-medium text-brand-onSurfaceVariant transition hover:bg-brand-surfaceLow">
