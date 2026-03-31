@@ -28,6 +28,8 @@ exports.getRecommendationsByTrip = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Recommendations generated successfully',
+      replacementAttractionPool: recommendations.replacementAttractionPool || [],
+      masterAttractionPool: recommendations.masterAttractionPool || [],
       attractions: recommendations.attractions,
       restaurants: recommendations.restaurants,
       metadata: responseMetadata,

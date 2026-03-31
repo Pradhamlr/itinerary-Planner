@@ -351,6 +351,8 @@ const DAY_COLORS = ['#00696b', '#4f46e5', '#f97316', '#0ea5e9', '#a855f7']
 
 export function RecommendationsPanel({
   attractions,
+  masterAttractionPool = [],
+  replacementAttractionPool = [],
   restaurants,
   metadata,
   pairingSuggestions = [],
@@ -367,6 +369,18 @@ export function RecommendationsPanel({
   itineraryLoading,
 }) {
   const formattedGeneratedAt = formatGeneratedAt(generatedAt)
+  const universePlaces = [
+    ...attractions,
+    ...replacementAttractionPool,
+    ...masterAttractionPool,
+  ].reduce((accumulator, place) => {
+    const placeKey = place?.place_id || place?._id || place?.name
+    if (!placeKey || accumulator.some((entry) => (entry.place_id || entry._id || entry.name) === placeKey)) {
+      return accumulator
+    }
+    return [...accumulator, place]
+  }, [])
+  const extendedPool = universePlaces.filter((place) => !attractions.some((selected) => (selected.place_id || selected._id || selected.name) === (place.place_id || place._id || place.name)))
 
   return (
     <section className="space-y-8 rounded-[30px] bg-white p-6 shadow-[0_18px_46px_-30px_rgba(15,23,42,0.35)]">
@@ -525,6 +539,25 @@ export function RecommendationsPanel({
               </div>
             )}
           </section>
+
+          {extendedPool.length > 0 ? (
+            <section className="space-y-5">
+              <div className="flex items-center gap-3">
+                <h3 className="text-[1.35rem] font-semibold text-brand-palm">Extended Itinerary Pool</h3>
+                <span className="rounded-full bg-[#edf6f7] px-3 py-1 text-sm font-medium text-brand-secondary">
+                  {extendedPool.length} additional picks
+                </span>
+              </div>
+              <p className="max-w-3xl text-sm leading-7 text-brand-onSurfaceVariant">
+                These are extra recommendation candidates from the broader master and replacement pools. Itinerary generation may draw from this set, so any place you see later in the route still comes from your recommendation universe.
+              </p>
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+                {extendedPool.slice(0, 12).map((place) => (
+                  <PlaceCard key={place.place_id || place._id} place={place} />
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="space-y-5">
             <div className="flex items-center gap-3">

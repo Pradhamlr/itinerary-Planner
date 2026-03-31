@@ -98,17 +98,23 @@ export function deriveDynamicAnchoredItinerary({
 
   return itineraryDays.map((day) => {
     const dayEntry = dynamicDayMap[day.day]
-    const continuingPreviousStay = Boolean(continuedStayDays?.[day.day] && day.day > 1 && previousDaySelectedHotel)
+    const savedSelectedHotel = day?.selected_hotel || null
+    const savedContinuePrevious = Boolean(day?.continued_previous_stay)
+    const continuingPreviousStay = Boolean(
+      ((continuedStayDays?.[day.day] ?? savedContinuePrevious) && day.day > 1 && previousDaySelectedHotel),
+    )
     const selectedHotel = getSelectedHotelForDay(dayEntry, hotelSelections, continuedStayDays, previousDaySelectedHotel)
+      || savedSelectedHotel
     const selectedHotelAnchor = normalizeAnchorLocation(selectedHotel)
     const originalStart = getOriginalDayStartLocation(day, day.day === 1 ? initialHotelLocation : null)
     const originalEnd = getOriginalDayEndLocation(day)
+    const savedEnd = normalizeAnchorLocation(day?.end_location, 'Selected hotel')
 
     const startLocation = day.day === 1
       ? (selectedHotelAnchor || originalStart)
       : (normalizeAnchorLocation(previousDaySelectedHotel) || originalStart)
 
-    const endLocation = selectedHotelAnchor || originalEnd || originalStart
+    const endLocation = selectedHotelAnchor || savedEnd || originalEnd || originalStart
 
     previousDaySelectedHotel = selectedHotel || null
 
