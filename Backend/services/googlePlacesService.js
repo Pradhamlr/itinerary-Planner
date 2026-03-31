@@ -5,6 +5,14 @@ const GEOCODING_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
 const PLACES_URL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 const PLACE_DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json';
 
+const buildPlacePhotoUrl = (photoReference, maxWidth = 800) => {
+  if (!GOOGLE_API_KEY || !photoReference) {
+    return null;
+  }
+
+  return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photo_reference=${encodeURIComponent(photoReference)}&key=${encodeURIComponent(GOOGLE_API_KEY)}`;
+};
+
 // Delay utility
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -123,7 +131,7 @@ const getPlaceDetails = async (placeId) => {
     const response = await axios.get(PLACE_DETAILS_URL, {
       params: {
         place_id: placeId,
-        fields: 'reviews,editorial_summary,current_opening_hours',
+        fields: 'reviews,editorial_summary,current_opening_hours,photos',
         key: GOOGLE_API_KEY,
       },
     });
@@ -153,6 +161,16 @@ const normalizePlaceData = (place, cityName) => {
     user_ratings_total: place.user_ratings_total || 0,
     types: place.types || [],
     description: place.vicinity || '',
+    photos: Array.isArray(place.photos)
+      ? place.photos
+        .map((photo) => ({
+          photo_reference: photo.photo_reference,
+          height: photo.height,
+          width: photo.width,
+          html_attributions: Array.isArray(photo.html_attributions) ? photo.html_attributions : [],
+        }))
+        .filter((photo) => photo.photo_reference)
+      : [],
     reviews: [],
     opening_hours: {
       open_now: place.opening_hours?.open_now ?? undefined,
@@ -210,4 +228,5 @@ module.exports = {
   getPlaceDetails,
   fetchPlacesForCity,
   normalizePlaceData,
+  buildPlacePhotoUrl,
 };

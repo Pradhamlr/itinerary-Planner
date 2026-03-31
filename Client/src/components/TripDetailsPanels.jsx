@@ -223,6 +223,14 @@ function DayPlaceRow({
   onDrop,
   isDragTarget,
 }) {
+  const [imageVisible, setImageVisible] = useState(true)
+  const clientMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  const fallbackPhotoUrl = place.photo_reference && clientMapsApiKey
+    ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference=${encodeURIComponent(place.photo_reference)}&key=${encodeURIComponent(clientMapsApiKey)}`
+    : null
+  const photoUrl = place.photo_url || fallbackPhotoUrl
+  const showPhoto = Boolean(photoUrl) && imageVisible
+
   return (
     <div className="relative pl-10">
       <div className="absolute left-[11px] top-[18px] bottom-[-28px] w-px bg-brand-surfaceHigh last:hidden" />
@@ -259,7 +267,19 @@ function DayPlaceRow({
             : 'border-brand-surfaceHigh bg-white shadow-[0_14px_32px_-26px_rgba(15,23,42,0.22)] hover:-translate-y-0.5'
         }`}
       >
-        <div className="h-24 w-24 shrink-0 rounded-[18px] bg-[linear-gradient(160deg,#d2edf0,#73c7d3,#0f4c81)]" />
+        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[18px] bg-[linear-gradient(160deg,#d2edf0,#73c7d3,#0f4c81)]">
+          {showPhoto ? (
+            <img
+              src={photoUrl}
+              alt={place.name}
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="lazy"
+              onError={() => setImageVisible(false)}
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : null}
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04),rgba(0,0,0,0.2))]" />
+        </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
