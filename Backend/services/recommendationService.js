@@ -32,6 +32,38 @@ const INTEREST_KEYWORD_MAP = {
 };
 
 const STRICT_INTEREST_ERROR_PREFIX = 'INSUFFICIENT_STRICT_INTEREST_MATCHES:';
+const INTEREST_PAIRING_SUGGESTIONS = {
+  beaches: [
+    { interest: 'nature', reason: 'Nature widens the pool with islands, waterfront parks, viewpoints, and calmer coastal stops.' },
+  ],
+  culture: [
+    { interest: 'history', reason: 'History usually unlocks heritage landmarks, monuments, and story-rich cultural sites nearby.' },
+    { interest: 'art', reason: 'Art helps surface galleries, design-focused spaces, and craft-led cultural experiences.' },
+  ],
+  art: [
+    { interest: 'history', reason: 'History pairs well with art by bringing in museums, palaces, and heritage spaces with stronger curation.' },
+    { interest: 'culture', reason: 'Culture expands art trips with living traditions, performances, and community-led creative spots.' },
+  ],
+  history: [
+    { interest: 'culture', reason: 'Culture helps history trips surface temples, churches, museums, and ceremonial landmarks that fit the same vibe.' },
+    { interest: 'art', reason: 'Art adds galleries and museum-like spaces that still feel aligned with a history-led day.' },
+  ],
+  nature: [
+    { interest: 'beaches', reason: 'Beaches helps nature trips pick up waterfront promenades, island edges, and scenic coastlines.' },
+  ],
+  shopping: [
+    { interest: 'culture', reason: 'Culture helps shopping discover heritage markets, craft lanes, and souvenir-heavy local districts.' },
+    { interest: 'history', reason: 'History can unlock old trading streets, bazaars, and landmark market areas that suit shopping trips.' },
+  ],
+  food: [
+    { interest: 'culture', reason: 'Culture broadens food trips with classic neighborhoods, heritage cafes, and iconic local dining pockets.' },
+  ],
+};
+
+const toInterestLabel = (interest) => {
+  const normalized = normalizeInterest(interest);
+  return normalized ? normalized.charAt(0).toUpperCase() + normalized.slice(1) : '';
+};
 
 const getPrimaryCategory = (place) => {
   const types = getNormalizedTypes(place);
@@ -287,6 +319,21 @@ const getRestaurantRelevantInterests = (tripInterests) =>
   (tripInterests || [])
     .map(normalizeInterest)
     .filter((interest) => restaurantDrivenInterests.has(interest));
+
+const getInterestPairingSuggestions = (tripInterests) => {
+  const normalizedInterests = getAttractionRelevantInterests(tripInterests);
+  if (normalizedInterests.length !== 1) {
+    return [];
+  }
+
+  const [primaryInterest] = normalizedInterests;
+  return (INTEREST_PAIRING_SUGGESTIONS[primaryInterest] || []).map((entry) => ({
+    ...entry,
+    primary_interest: primaryInterest,
+    primary_interest_label: toInterestLabel(primaryInterest),
+    suggested_interest_label: toInterestLabel(entry.interest),
+  }));
+};
 
 const getInterestTrackRatio = (tripInterests) => {
   const hasAttractionInterests = getAttractionRelevantInterests(tripInterests).length > 0;
@@ -1530,6 +1577,7 @@ class RecommendationService {
       recommendationConfig.placesPerDay,
       Number(trip.days || 1) * recommendationConfig.placesPerDay,
     );
+    const pairingSuggestions = getInterestPairingSuggestions(trip.interests);
     const requiredAttractionCount = totalAttractions;
     const rawCandidatePlaces = await this.fetchCandidatePlaces(trip.city);
     this.seedPhotoCache(rawCandidatePlaces, photoCache);
@@ -1683,11 +1731,14 @@ class RecommendationService {
         track_b_weighted_rating_cutoff_used: weightedRatingCutoffUsed,
         master_pool_count: masterAttractionPool.length,
         ranking_strategy: 'dynamic multi-stage tourism ranking',
+        pairing_suggestions: hydratedSelectedAttractions.length < totalAttractions ? pairingSuggestions : [],
         ml_service_fallback: sampledCandidates.length > 0 && sampledCandidates.every((place) =>
           Number(mlScoreMap.get(place.place_id)) === recommendationConfig.mlFallbackScore),
       },
     };
   }
 }
+
+RecommendationService.getInterestPairingSuggestions = getInterestPairingSuggestions;
 
 module.exports = RecommendationService;

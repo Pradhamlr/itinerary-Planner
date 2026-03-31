@@ -353,11 +353,14 @@ export function RecommendationsPanel({
   attractions,
   restaurants,
   metadata,
+  pairingSuggestions = [],
+  pairingInterestLoading = '',
   tripDays,
   loading,
   generated,
   error,
   onRefresh,
+  onApplyPairing,
   generatedAt,
   hydratedFromSnapshot,
   onGenerateItinerary,
@@ -386,6 +389,40 @@ export function RecommendationsPanel({
         <div className="rounded-[24px] bg-[#f5ddd8] p-5 text-[#8a3022]">
           <p className="font-semibold">Unable to generate recommendations</p>
           <p className="mt-2 text-sm">{error}</p>
+          {pairingSuggestions.length > 0 ? (
+            <div className="mt-4 rounded-[18px] bg-white/55 p-4 text-sm text-[#713127]">
+              <p className="font-semibold">Pair this vibe with a close match:</p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {pairingSuggestions.map((suggestion) => {
+                  const isLoading = pairingInterestLoading === suggestion.interest
+                  return (
+                    <button
+                      key={`${suggestion.primary_interest}-${suggestion.interest}`}
+                      type="button"
+                      onClick={() => onApplyPairing?.(suggestion.interest)}
+                      disabled={Boolean(pairingInterestLoading)}
+                      className="inline-flex items-center gap-2 rounded-full bg-[#0c3f46] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(12,63,70,0.9)] transition hover:bg-[#125963] disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/16 text-xs">
+                        +
+                      </span>
+                      {isLoading ? `Pairing ${suggestion.suggested_interest_label}...` : `Pair with ${suggestion.suggested_interest_label}`}
+                    </button>
+                  )
+                })}
+              </div>
+              <div className="mt-4 space-y-2">
+                {pairingSuggestions.map((suggestion) => (
+                  <p
+                    key={`${suggestion.primary_interest}-${suggestion.interest}-reason`}
+                    className="text-xs leading-6 text-[#8a3022]"
+                  >
+                    <span className="font-semibold">{suggestion.suggested_interest_label}:</span> {suggestion.reason}
+                  </p>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : loading ? (
         <div className="space-y-8">
@@ -411,6 +448,38 @@ export function RecommendationsPanel({
             </span>
           </div>
 
+          {pairingSuggestions.length > 0 ? (
+            <div className="rounded-[24px] border border-[#f1dfbf] bg-[#fff9ef] p-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#9a5b03]">Smart Pairing</p>
+                  <p className="mt-2 text-sm leading-7 text-[#6f5313]">
+                    Pair {pairingSuggestions[0]?.primary_interest_label} with {pairingSuggestions.map((suggestion) => suggestion.suggested_interest_label).join(' or ')} to widen the pool and regenerate both recommendations and itinerary with one click.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {pairingSuggestions.map((suggestion) => {
+                    const isLoading = pairingInterestLoading === suggestion.interest
+                    return (
+                      <button
+                        key={`${suggestion.primary_interest}-${suggestion.interest}-banner`}
+                        type="button"
+                        onClick={() => onApplyPairing?.(suggestion.interest)}
+                        disabled={Boolean(pairingInterestLoading)}
+                        className="inline-flex items-center gap-2 rounded-full bg-[#0c3f46] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(12,63,70,0.9)] transition hover:bg-[#125963] disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/16 text-xs">
+                          +
+                        </span>
+                        {isLoading ? `Pairing ${suggestion.suggested_interest_label}...` : `Pair with ${suggestion.suggested_interest_label}`}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           <section className="space-y-5">
             <div className="flex items-center gap-3">
               <h3 className="text-[1.35rem] font-semibold text-brand-palm">Top Attractions</h3>
@@ -421,6 +490,32 @@ export function RecommendationsPanel({
             {attractions.length === 0 ? (
               <div className="rounded-[28px] bg-brand-surfaceLow p-10 text-center">
                 <p className="text-lg font-semibold text-brand-palm">No attractions matched this trip yet.</p>
+                {pairingSuggestions.length > 0 ? (
+                  <div className="mx-auto mt-4 max-w-xl space-y-4">
+                    <p className="text-sm leading-7 text-brand-onSurfaceVariant">
+                      Pair {pairingSuggestions[0]?.primary_interest_label} with {pairingSuggestions.map((suggestion) => suggestion.suggested_interest_label).join(' or ')} to widen the pool without drifting too far from the same vibe.
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                      {pairingSuggestions.map((suggestion) => {
+                        const isLoading = pairingInterestLoading === suggestion.interest
+                        return (
+                          <button
+                            key={`${suggestion.primary_interest}-${suggestion.interest}-empty`}
+                            type="button"
+                            onClick={() => onApplyPairing?.(suggestion.interest)}
+                            disabled={Boolean(pairingInterestLoading)}
+                            className="inline-flex items-center gap-2 rounded-full bg-brand-secondary px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(0,94,104,0.85)] transition hover:bg-[#0b747f] disabled:cursor-not-allowed disabled:opacity-70"
+                          >
+                            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-xs">
+                              +
+                            </span>
+                            {isLoading ? `Pairing ${suggestion.suggested_interest_label}...` : `Pair with ${suggestion.suggested_interest_label}`}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">

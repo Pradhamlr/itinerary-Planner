@@ -1548,16 +1548,66 @@ class ItineraryService {
     ));
 
     const recalculated = await this.recalculateDayOrder(trip, parsedDayNumber, reorderedRoute);
+    const recalculatedDay = (recalculated.itinerary || []).find((day) => day.day === parsedDayNumber);
+    const expectedRouteCount = (targetDay.route || []).length;
+    let finalizedRecalculated = recalculated;
+
+    if ((recalculatedDay?.route || []).length < expectedRouteCount) {
+      const startLocation = getStartLocation(trip);
+      const baseDate = getTripBaseDate(trip);
+      const dayDate = targetDay.date ? new Date(targetDay.date) : getDateForDay(baseDate, parsedDayNumber - 1);
+      const normalizedFallbackRoute = dedupeByPlaceId(
+        reorderedRoute.map(normalizeSavedPlace).filter(isValidPlaceEntry),
+      );
+      const lockedPlaceIds = new Set(
+        normalizedFallbackRoute.filter((place) => place.locked).map((place) => place.place_id),
+      );
+      const preservedRoute = applyLockedFlags(
+        assignTimeSlotsPreservingOrder(normalizedFallbackRoute, dayDate),
+        lockedPlaceIds,
+      );
+      const preservedMealSuggestions = buildMealSuggestions(
+        preservedRoute,
+        recalculated.restaurants || existingSnapshot.restaurants || [],
+      );
+      const preservedStats = buildDayStats(preservedRoute, preservedMealSuggestions);
+      const preservedDay = {
+        ...targetDay,
+        ...(recalculatedDay || {}),
+        day: parsedDayNumber,
+        day_title: buildDayTitle(parsedDayNumber, preservedStats),
+        date: dayDate.toISOString(),
+        route: preservedRoute,
+        center: getClusterCenter(preservedRoute),
+        start_location: startLocation,
+        customized_order: true,
+        meal_suggestions: preservedMealSuggestions,
+        route_stats: preservedStats,
+      };
+
+      finalizedRecalculated = {
+        ...recalculated,
+        itinerary: (recalculated.itinerary || existingSnapshot.itinerary || []).map((day) => (
+          day.day === parsedDayNumber ? preservedDay : day
+        )),
+        metadata: {
+          ...(recalculated.metadata || {}),
+          swap_route_preserved_count: preservedRoute.length,
+          swap_route_fallback_applied: true,
+        },
+      };
+    }
+
     const updatedExcludedPlaceIds = new Set([
       ...excludedPlaceIds,
       placeId,
     ]);
 
     return {
-      ...recalculated,
+      ...finalizedRecalculated,
       metadata: {
-        ...(recalculated.metadata || {}),
-        ...withExcludedPlaceIdsByDay(recalculated.metadata, parsedDayNumber, [...updatedExcludedPlaceIds]),
+        ...(finalizedRecalculated.metadata || {}),
+        ...withExcludedPlaceIdsByDay(finalizedRecalculated.metadata, parsedDayNumber, [...updatedExcludedPlaceIds]),
         swapped_day: parsedDayNumber,
         swapped_out_place_id: placeId,
         swapped_in_place_id: replacementPlaceId,
@@ -1582,9 +1632,18 @@ class ItineraryService {
     const startLocation = getStartLocation(trip);
     const baseDate = getTripBaseDate(trip);
     const dayDate = targetDay.date ? new Date(targetDay.date) : getDateForDay(baseDate, parsedDayNumber - 1);
-    const lockedPlaceIds = new Set((reorderedRoute || []).filter((place) => place.locked).map((place) => place.place_id));
-    const { route, routingMode } = await buildOrderedRouteWithTimings(reorderedRoute || [], startLocation);
-    const orderedRoute = applyLockedFlags(assignTimeSlotsPreservingOrder(route, dayDate), lockedPlaceIds);
+    const normalizedRequestedRoute = dedupeByPlaceId((reorderedRoute || []).map(normalizeSavedPlace).filter(isValidPlaceEntry));
+    const lockedPlaceIds = new Set(normalizedRequestedRoute.filter((place) => place.locked).map((place) => place.place_id));
+    const { route, routingMode } = await buildOrderedRouteWithTimings(normalizedRequestedRoute, startLocation);
+    const effectiveRoute = route.length >= normalizedRequestedRoute.length
+      ? route
+      : normalizedRequestedRoute.map((place, index) => ({
+        ...place,
+        travel_time_from_start: index === 0 ? place.travel_time_from_start || null : null,
+        travel_time_to_next: place.travel_time_to_next || null,
+        return_travel_time_to_start: index === normalizedRequestedRoute.length - 1 ? place.return_travel_time_to_start || null : null,
+      }));
+    const orderedRoute = applyLockedFlags(assignTimeSlotsPreservingOrder(effectiveRoute, dayDate), lockedPlaceIds);
     const reservedMealRestaurantIds = getUsedMealRestaurantIds(existingSnapshot.itinerary || [], parsedDayNumber);
     const availableRestaurants = (existingSnapshot.restaurants || []).filter(
       (restaurant) => !reservedMealRestaurantIds.has(restaurant.place_id),
@@ -1628,6 +1687,8 @@ class ItineraryService {
         supports_day_regeneration: true,
         supports_locked_places: true,
         reordered_day: parsedDayNumber,
+        reorder_route_preserved_count: normalizedRequestedRoute.length,
+        reorder_route_result_count: orderedRoute.length,
       },
     };
   }
