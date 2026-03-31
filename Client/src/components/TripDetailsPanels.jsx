@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import ItineraryMap from './ItineraryMap'
 import PlaceCard from './PlaceCard'
-import { formatCategory, renderStars } from '../utils/travel'
+import StarRating from './StarRating'
+import { formatCategory } from '../utils/travel'
 
 function ActionIcon({ type }) {
   const commonProps = {
@@ -323,7 +324,10 @@ function DayPlaceRow({
             <span className="rounded-full bg-[#dcf7f7] px-3 py-1 text-xs font-semibold text-brand-secondary">
               {formatCategory(place.category || place.types?.[0] || 'place')}
             </span>
-            <span className="text-sm font-semibold text-brand-palm">{renderStars(place.rating)} {Number(place.rating || 0).toFixed(1)}</span>
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-palm">
+              <StarRating rating={place.rating} />
+              {Number(place.rating || 0).toFixed(1)}
+            </span>
             {place.locked ? (
               <span className="rounded-full bg-[#edf7ed] px-3 py-1 text-xs font-semibold text-[#2c6a3d]">Locked</span>
             ) : null}
@@ -729,7 +733,10 @@ export function ItineraryPanel({
                           {suggestion.swap_match_reason ? (
                             <p className="mt-2 text-xs font-semibold text-brand-secondary">{suggestion.swap_match_reason}</p>
                           ) : null}
-                          <p className="mt-2 text-sm font-medium text-brand-palm">{renderStars(suggestion.rating)} {Number(suggestion.rating || 0).toFixed(1)}</p>
+                          <p className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-brand-palm">
+                            <StarRating rating={suggestion.rating} />
+                            {Number(suggestion.rating || 0).toFixed(1)}
+                          </p>
                         </div>
                         <button
                           type="button"

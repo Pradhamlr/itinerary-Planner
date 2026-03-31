@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import StarRating from './StarRating'
 import {
   formatCategory,
   formatCityName,
   getPlaceTypeTheme,
   getPlaceVisual,
   getPrimaryPlaceType,
-  renderStars,
 } from '../utils/travel'
 
 function PlaceCard({ place }) {
@@ -64,7 +64,7 @@ function PlaceCard({ place }) {
         </div>
 
         <div className="flex items-center gap-2 text-sm">
-          <span className="font-semibold text-[#e49e00]">{renderStars(rating)}</span>
+          <StarRating rating={rating} className="text-base" />
           <span className="font-semibold text-brand-palm">{rating ? rating.toFixed(1) : 'Unrated'}</span>
           {place.price_level ? (
             <span className="ml-auto text-brand-onSurfaceVariant">{'$'.repeat(Number(place.price_level))}</span>
