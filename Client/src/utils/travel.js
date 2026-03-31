@@ -4,11 +4,8 @@ export const INTEREST_OPTIONS = [
   { value: 'culture', label: 'Culture', accent: 'bg-[#e7ebf1] text-[#405f91]' },
   { value: 'food', label: 'Food', accent: 'bg-[#def7f7] text-[#00696b]' },
   { value: 'shopping', label: 'Shopping', accent: 'bg-[#edf0f2] text-[#43474e]' },
-  { value: 'adventure', label: 'Adventure', accent: 'bg-[#d6f4f5] text-[#005f61]' },
   { value: 'art', label: 'Art', accent: 'bg-[#e9eefb] text-[#264778]' },
   { value: 'beaches', label: 'Beaches', accent: 'bg-[#dcf7f7] text-[#00696b]' },
-  { value: 'nightlife', label: 'Nightlife', accent: 'bg-[#e7e8e9] text-[#43474e]' },
-  { value: 'sports', label: 'Sports', accent: 'bg-[#dff1ef] text-[#00504c]' },
 ];
 
 export const getInterestMeta = (interest) =>
@@ -186,10 +183,13 @@ export const getPlaceVisual = (place) => {
   return visuals[type] || { icon: 'Explore', gradient: 'from-[#001e43] to-[#191c1d]' };
 };
 
-export const renderStars = (rating) => {
-  const numericRating = Number(rating || 0);
-  const filled = Math.round(numericRating);
-  return Array.from({ length: 5 }, (_, index) => (index < filled ? '*' : '-')).join('');
+export const getStarFillLevels = (rating) => {
+  const numericRating = Math.max(0, Math.min(5, Number(rating || 0)));
+
+  return Array.from({ length: 5 }, (_, index) => {
+    const fill = Math.max(0, Math.min(1, numericRating - index));
+    return Number((fill * 100).toFixed(1));
+  });
 };
 
 export const getWhyThisPlaceText = (place) => {

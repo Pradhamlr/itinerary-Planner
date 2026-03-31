@@ -2,11 +2,12 @@ const TripService = require('../services/tripService');
 const RecommendationService = require('../services/recommendationService');
 
 exports.getRecommendationsByTrip = async (req, res) => {
+  let trip;
   try {
     const { tripId } = req.params;
     const userId = req.user.userId;
 
-    const trip = await TripService.getTripById(tripId, userId);
+    trip = await TripService.getTripById(tripId, userId);
     const recommendations = await RecommendationService.getRecommendationsForTrip(trip);
     const responseMetadata = {
       ...recommendations.metadata,
@@ -27,6 +28,8 @@ exports.getRecommendationsByTrip = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Recommendations generated successfully',
+      replacementAttractionPool: recommendations.replacementAttractionPool || [],
+      masterAttractionPool: recommendations.masterAttractionPool || [],
       attractions: recommendations.attractions,
       restaurants: recommendations.restaurants,
       metadata: responseMetadata,
@@ -50,6 +53,14 @@ exports.getRecommendationsByTrip = async (req, res) => {
       return res.status(502).json({
         success: false,
         message: error.message,
+      });
+    }
+
+    if (error.message.startsWith('INSUFFICIENT_STRICT_INTEREST_MATCHES:')) {
+      return res.status(422).json({
+        success: false,
+        message: error.message.replace('INSUFFICIENT_STRICT_INTEREST_MATCHES:', '').trim(),
+        pairingSuggestions: RecommendationService.getInterestPairingSuggestions(trip?.interests || []),
       });
     }
 

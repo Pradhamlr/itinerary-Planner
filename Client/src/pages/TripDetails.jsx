@@ -82,6 +82,8 @@ function TripDetails() {
 
   const [trip, setTrip] = useState(null)
   const [attractions, setAttractions] = useState([])
+  const [masterAttractionPool, setMasterAttractionPool] = useState([])
+  const [replacementAttractionPool, setReplacementAttractionPool] = useState([])
   const [restaurants, setRestaurants] = useState([])
   const [metadata, setMetadata] = useState(null)
   const [itineraryDays, setItineraryDays] = useState([])
@@ -97,6 +99,8 @@ function TripDetails() {
   const [recommendationsGenerated, setRecommendationsGenerated] = useState(false)
   const [itineraryGenerated, setItineraryGenerated] = useState(false)
   const [recommendationsError, setRecommendationsError] = useState('')
+  const [recommendationPairingSuggestions, setRecommendationPairingSuggestions] = useState([])
+  const [pairingInterestLoading, setPairingInterestLoading] = useState('')
   const [itineraryError, setItineraryError] = useState('')
   const [tripError, setTripError] = useState('')
   const [recommendationsFromSnapshot, setRecommendationsFromSnapshot] = useState(false)
@@ -133,15 +137,21 @@ function TripDetails() {
 
     if (recommendationSnapshot) {
       setAttractions(recommendationSnapshot.attractions || [])
+      setMasterAttractionPool(recommendationSnapshot.masterAttractionPool || [])
+      setReplacementAttractionPool(recommendationSnapshot.replacementAttractionPool || [])
       setRestaurants(recommendationSnapshot.restaurants || [])
       setMetadata(recommendationSnapshot.metadata || null)
+      setRecommendationPairingSuggestions(recommendationSnapshot.metadata?.pairing_suggestions || [])
       setRecommendationsGenerated(Boolean((recommendationSnapshot.attractions || []).length || (recommendationSnapshot.restaurants || []).length))
       setRecommendationsGeneratedAt(recommendationSnapshot.generatedAt || '')
       setRecommendationsFromSnapshot(true)
     } else {
       setAttractions([])
+      setMasterAttractionPool([])
+      setReplacementAttractionPool([])
       setRestaurants([])
       setMetadata(null)
+      setRecommendationPairingSuggestions([])
       setRecommendationsGenerated(false)
       setRecommendationsGeneratedAt('')
       setRecommendationsFromSnapshot(false)
@@ -151,6 +161,20 @@ function TripDetails() {
       setItineraryDays(normalizeItineraryDays(itinerarySnapshot.itinerary || []))
       setItineraryRestaurants(itinerarySnapshot.restaurants || [])
       setItineraryMetadata(itinerarySnapshot.metadata || null)
+      setHotelSelections(
+        Object.fromEntries(
+          (itinerarySnapshot.itinerary || [])
+            .filter((day) => day?.selected_hotel)
+            .map((day) => [day.day, getHotelSelectionKey(day.selected_hotel)]),
+        ),
+      )
+      setContinuedStayDays(
+        Object.fromEntries(
+          (itinerarySnapshot.itinerary || [])
+            .filter((day) => day?.continued_previous_stay)
+            .map((day) => [day.day, true]),
+        ),
+      )
       setItineraryGenerated(Boolean((itinerarySnapshot.itinerary || []).length))
       setItineraryGeneratedAt(itinerarySnapshot.generatedAt || '')
       setItineraryFromSnapshot(true)
@@ -158,6 +182,8 @@ function TripDetails() {
       setItineraryDays([])
       setItineraryRestaurants([])
       setItineraryMetadata(null)
+      setHotelSelections({})
+      setContinuedStayDays({})
       setItineraryGenerated(false)
       setItineraryGeneratedAt('')
       setItineraryFromSnapshot(false)
@@ -189,14 +215,19 @@ function TripDetails() {
       const recommendationData = response.data || {}
 
       setAttractions(recommendationData.attractions || [])
+      setMasterAttractionPool(recommendationData.masterAttractionPool || [])
+      setReplacementAttractionPool(recommendationData.replacementAttractionPool || [])
       setRestaurants(recommendationData.restaurants || [])
       setMetadata(recommendationData.metadata || null)
+      setRecommendationPairingSuggestions(recommendationData.metadata?.pairing_suggestions || [])
       setRecommendationsGenerated(true)
       setRecommendationsGeneratedAt(new Date().toISOString())
       setRecommendationsFromSnapshot(false)
     } catch (err) {
+      setMasterAttractionPool([])
+      setReplacementAttractionPool([])
+      setRecommendationPairingSuggestions(err.response?.data?.pairingSuggestions || [])
       setRecommendationsError(err.response?.data?.message || 'Failed to generate recommendations.')
-      setRecommendationsGenerated(true)
     } finally {
       setLoadingRecommendations(false)
     }
@@ -217,23 +248,135 @@ function TripDetails() {
       setItineraryFromSnapshot(false)
     } catch (err) {
       setItineraryError(err.response?.data?.message || 'Failed to generate itinerary.')
-      setItineraryGenerated(true)
     } finally {
       setLoadingItinerary(false)
     }
   }
 
-  const persistItinerarySnapshot = async (nextItineraryDays) => {
-    const snapshotPayload = {
-      generatedAt: itineraryGeneratedAt || new Date().toISOString(),
-      itinerary: normalizeItineraryDays(nextItineraryDays),
-      restaurants: itineraryRestaurants || [],
-      metadata: itineraryMetadata || {},
+  const applyInterestPairing = async (suggestedInterest) => {
+    if (!trip || !suggestedInterest) {
+      return
     }
+
+    const normalizedCurrentInterests = (trip.interests || []).map((interest) => String(interest || '').trim().toLowerCase())
+    const normalizedSuggestedInterest = String(suggestedInterest).trim().toLowerCase()
+    if (!normalizedSuggestedInterest || normalizedCurrentInterests.includes(normalizedSuggestedInterest)) {
+      return
+    }
+
+    const nextInterests = [...(trip.interests || []), normalizedSuggestedInterest]
+
+    try {
+      setPairingInterestLoading(normalizedSuggestedInterest)
+      setRecommendationsError('')
+      setItineraryError('')
+      setItineraryGenerated(false)
+      setItineraryFromSnapshot(false)
+      setItineraryGeneratedAt('')
+      setItineraryDays([])
+      setDerivedItineraryDays([])
+      setItineraryRestaurants([])
+      setItineraryMetadata(null)
+
+      const updateResponse = await api.put(`/trips/${id}`, {
+        interests: nextInterests,
+        recommendationSnapshot: null,
+        itinerarySnapshot: null,
+      })
+      const updatedTrip = updateResponse.data?.data
+      if (updatedTrip) {
+        setTrip(updatedTrip)
+      } else {
+        setTrip((currentTrip) => (
+          currentTrip
+            ? {
+                ...currentTrip,
+                interests: nextInterests,
+                recommendationSnapshot: null,
+                itinerarySnapshot: null,
+              }
+            : currentTrip
+        ))
+      }
+
+      setRecommendationsGenerated(false)
+      setRecommendationsGeneratedAt('')
+      setRecommendationsFromSnapshot(false)
+      setMasterAttractionPool([])
+      setReplacementAttractionPool([])
+
+      try {
+        setLoadingRecommendations(true)
+        const recommendationResponse = await api.get(`/recommendations/${id}`)
+        const recommendationData = recommendationResponse.data || {}
+        setAttractions(recommendationData.attractions || [])
+        setMasterAttractionPool(recommendationData.masterAttractionPool || [])
+        setReplacementAttractionPool(recommendationData.replacementAttractionPool || [])
+        setRestaurants(recommendationData.restaurants || [])
+        setMetadata(recommendationData.metadata || null)
+        setRecommendationPairingSuggestions(recommendationData.metadata?.pairing_suggestions || [])
+        setRecommendationsGenerated(true)
+        setRecommendationsGeneratedAt(new Date().toISOString())
+        setRecommendationsFromSnapshot(false)
+      } finally {
+        setLoadingRecommendations(false)
+      }
+
+      try {
+        setLoadingItinerary(true)
+        const itineraryResponse = await api.get(`/itinerary/${id}`)
+        const itineraryData = itineraryResponse.data || {}
+        setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
+        setItineraryRestaurants(itineraryData.restaurants || [])
+        setItineraryMetadata(itineraryData.metadata || null)
+        setItineraryGenerated(true)
+        setItineraryGeneratedAt(new Date().toISOString())
+        setItineraryFromSnapshot(false)
+      } finally {
+        setLoadingItinerary(false)
+      }
+    } catch (err) {
+      setRecommendationsError(err.response?.data?.message || 'Failed to pair interests and regenerate the trip.')
+    } finally {
+      setPairingInterestLoading('')
+    }
+  }
+
+  const buildItinerarySnapshotPayload = (nextItineraryDays, mode = stayPlanningMode) => ({
+    generatedAt: itineraryGeneratedAt || new Date().toISOString(),
+    itinerary: normalizeItineraryDays(nextItineraryDays),
+    restaurants: itineraryRestaurants || [],
+    metadata: {
+      ...(itineraryMetadata || {}),
+      stay_planning_mode: mode,
+    },
+  })
+
+  const persistItinerarySnapshot = async (nextItineraryDays, options = {}) => {
+    const mode = options.mode || stayPlanningMode
+    const snapshotPayload = buildItinerarySnapshotPayload(nextItineraryDays, mode)
 
     await api.put(`/trips/${id}`, {
       itinerarySnapshot: snapshotPayload,
+      ...(options.persistMode ? { stayPlanningMode: mode } : {}),
     })
+  }
+
+  const persistStayPlanningMode = async (mode, snapshotDays = null) => {
+    const updatePayload = { stayPlanningMode: mode }
+    if (snapshotDays && snapshotDays.length > 0) {
+      updatePayload.itinerarySnapshot = buildItinerarySnapshotPayload(snapshotDays, mode)
+    }
+
+    const response = await api.put(`/trips/${id}`, updatePayload)
+    const updatedTrip = response.data?.data
+    if (updatedTrip) {
+      setTrip(updatedTrip)
+    } else {
+      setTrip((currentTrip) => (
+        currentTrip ? { ...currentTrip, stayPlanningMode: mode } : currentTrip
+      ))
+    }
   }
 
   const toggleLockedPlace = async (dayNumber, placeId) => {
@@ -328,12 +471,10 @@ function TripDetails() {
       setSavingFinalizedItinerary(true)
       setItineraryError('')
 
-      const snapshotPayload = {
-        generatedAt: itineraryGeneratedAt || new Date().toISOString(),
-        itinerary: normalizeItineraryDays(itineraryDays),
-        restaurants: itineraryRestaurants || [],
-        metadata: itineraryMetadata || {},
-      }
+      const snapshotPayload = buildItinerarySnapshotPayload(
+        stayPlanningMode === 'dynamic' ? derivedItineraryDays : itineraryDays,
+        stayPlanningMode,
+      )
 
       const response = await api.post(`/itinerary/${id}/finalize`, {
         itinerarySnapshot: snapshotPayload,
@@ -419,8 +560,38 @@ function TripDetails() {
         replacementPlaceId,
       })
       const itineraryData = response.data || {}
+      const normalizedResponseDays = normalizeItineraryDays(itineraryData.itinerary || [])
+      const preservedSwapDays = normalizedResponseDays.map((day) => {
+        if (day.day !== swapState.dayNumber) {
+          return day
+        }
 
-      setItineraryDays(normalizeItineraryDays(itineraryData.itinerary || []))
+        const previousDay = itineraryDays.find((entry) => entry.day === swapState.dayNumber)
+        const previousRoute = previousDay?.route || []
+        const nextRoute = day.route || []
+        if (!previousRoute.length || nextRoute.length >= previousRoute.length) {
+          return day
+        }
+
+        const replacementPlace = nextRoute.find((place) => place.place_id === replacementPlaceId)
+          || swapState.suggestions.find((place) => place.place_id === replacementPlaceId)
+          || null
+
+        if (!replacementPlace) {
+          return day
+        }
+
+        return {
+          ...day,
+          route: previousRoute.map((place) => (
+            place.place_id === swapState.place.place_id
+              ? { ...place, ...replacementPlace, locked: false }
+              : place
+          )),
+        }
+      })
+
+      setItineraryDays(normalizeItineraryDays(preservedSwapDays))
       setItineraryRestaurants(itineraryData.restaurants || [])
       setItineraryMetadata(itineraryData.metadata || null)
       setItineraryGenerated(true)
@@ -485,24 +656,74 @@ function TripDetails() {
     }
   }
 
-  const selectDynamicHotel = (dayNumber, hotel) => {
-    setHotelSelections((prev) => ({
-      ...prev,
+  const selectDynamicHotel = async (dayNumber, hotel) => {
+    const nextHotelSelections = {
+      ...hotelSelections,
       [dayNumber]: getHotelSelectionKey(hotel),
-    }))
-    setContinuedStayDays((prev) => ({
-      ...prev,
+    }
+    const nextContinuedStayDays = {
+      ...continuedStayDays,
       [dayNumber]: false,
-    }))
+    }
+    const nextDerivedDays = deriveDynamicAnchoredItinerary({
+      itineraryDays,
+      dynamicHotelDays: dynamicHotels,
+      hotelSelections: nextHotelSelections,
+      continuedStayDays: nextContinuedStayDays,
+      initialHotelLocation: trip?.hotelLocation,
+      dynamicEnabled: true,
+    })
+
+    setHotelSelections(nextHotelSelections)
+    setContinuedStayDays(nextContinuedStayDays)
     setHotelSelectionMessage('Hotel selected. Route updated.')
+
+    try {
+      await persistItinerarySnapshot(nextDerivedDays, { mode: 'dynamic', persistMode: true })
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to save dynamic hotel selection.')
+    }
   }
 
-  const toggleContinueStay = (dayNumber) => {
-    setContinuedStayDays((prev) => ({
-      ...prev,
-      [dayNumber]: !prev[dayNumber],
-    }))
+  const toggleContinueStay = async (dayNumber) => {
+    const nextContinuedStayDays = {
+      ...continuedStayDays,
+      [dayNumber]: !continuedStayDays[dayNumber],
+    }
+    const nextDerivedDays = deriveDynamicAnchoredItinerary({
+      itineraryDays,
+      dynamicHotelDays: dynamicHotels,
+      hotelSelections,
+      continuedStayDays: nextContinuedStayDays,
+      initialHotelLocation: trip?.hotelLocation,
+      dynamicEnabled: true,
+    })
+
+    setContinuedStayDays(nextContinuedStayDays)
     setHotelSelectionMessage('Hotel selected. Route updated.')
+
+    try {
+      await persistItinerarySnapshot(nextDerivedDays, { mode: 'dynamic', persistMode: true })
+    } catch (err) {
+      setItineraryError(err.response?.data?.message || 'Failed to save continued stay preference.')
+    }
+  }
+
+  const handleStayPlanningModeChange = async (mode) => {
+    if (mode === stayPlanningMode) {
+      return
+    }
+
+    const snapshotDays = mode === 'dynamic' ? derivedItineraryDays : itineraryDays
+    const previousMode = stayPlanningMode
+    setStayPlanningMode(mode)
+
+    try {
+      await persistStayPlanningMode(mode, itineraryGenerated ? snapshotDays : null)
+    } catch (err) {
+      setStayPlanningMode(previousMode)
+      setItineraryError(err.response?.data?.message || 'Failed to save stay planning mode.')
+    }
   }
 
   useEffect(() => {
@@ -700,7 +921,7 @@ function TripDetails() {
             <div className="flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => setStayPlanningMode('static')}
+                onClick={() => handleStayPlanningModeChange('static')}
                 className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
                   stayPlanningMode === 'static'
                     ? 'bg-brand-palm text-white'
@@ -711,7 +932,7 @@ function TripDetails() {
               </button>
               <button
                 type="button"
-                onClick={() => setStayPlanningMode('dynamic')}
+                onClick={() => handleStayPlanningModeChange('dynamic')}
                 className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
                   stayPlanningMode === 'dynamic'
                     ? 'bg-brand-secondary text-white'
@@ -956,13 +1177,18 @@ function TripDetails() {
 
         <RecommendationsPanel
           attractions={attractions}
+          masterAttractionPool={masterAttractionPool}
+          replacementAttractionPool={replacementAttractionPool}
           restaurants={restaurants}
           metadata={metadata}
+          pairingSuggestions={recommendationPairingSuggestions}
+          pairingInterestLoading={pairingInterestLoading}
           tripDays={trip.days}
           loading={loadingRecommendations}
           generated={recommendationsGenerated}
           error={recommendationsError}
           onRefresh={fetchRecommendations}
+          onApplyPairing={applyInterestPairing}
           generatedAt={recommendationsGeneratedAt}
           hydratedFromSnapshot={recommendationsFromSnapshot}
           onGenerateItinerary={fetchItinerary}

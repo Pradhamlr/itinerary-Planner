@@ -18,6 +18,7 @@ RECOMMENDATION_METADATA_PATH = MODELS_DIR / "recommendation_metadata.json"
 INTEREST_MODEL_PATH = MODELS_DIR / "interest_model.pkl"
 INTEREST_METADATA_PATH = MODELS_DIR / "interest_metadata.json"
 INTEREST_SKIP_FLAG = MODELS_DIR / "interest_skipped.flag"
+HF_LABELS_CLEAN_PATH = Path("dataset/place_interest_labels_hf_clean.csv")
 HF_LABELS_PATH = Path("dataset/place_interest_labels_hf.csv")
 
 DEFAULT_FEATURE_COLUMNS = [
@@ -50,6 +51,7 @@ interest_metadata = {
 }
 hf_interest_lookup = {}
 hf_interest_lookup_fuzzy = {}
+hf_interest_source = None
 
 
 class SentimentPayload(BaseModel):
@@ -95,7 +97,7 @@ class InterestBatchRequest(BaseModel):
 
 
 def load_models():
-    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata, interest_model, interest_metadata, hf_interest_lookup, hf_interest_lookup_fuzzy
+    global sentiment_model, vectorizer, recommendation_model, recommendation_metadata, interest_model, interest_metadata, hf_interest_lookup, hf_interest_lookup_fuzzy, hf_interest_source
 
     if RECOMMENDATION_MODEL_PATH.exists():
         recommendation_model = joblib.load(RECOMMENDATION_MODEL_PATH)
@@ -115,8 +117,11 @@ def load_models():
 
     hf_interest_lookup = {}
     hf_interest_lookup_fuzzy = {}
-    if HF_LABELS_PATH.exists():
-        hf_df = pd.read_csv(HF_LABELS_PATH)
+    hf_interest_source = None
+    active_hf_labels_path = HF_LABELS_CLEAN_PATH if HF_LABELS_CLEAN_PATH.exists() else HF_LABELS_PATH
+    if active_hf_labels_path.exists():
+        hf_df = pd.read_csv(active_hf_labels_path)
+        hf_interest_source = str(active_hf_labels_path)
         for _, row in hf_df.iterrows():
             exact_key = build_hf_lookup_key(
                 row.get("name"),
@@ -129,10 +134,19 @@ def load_models():
                 row.get("city"),
             )
             entry = {
-                "interest_tags": parse_pipe_tags(row.get("interest_tags")),
-                "intent_tags": parse_pipe_tags(row.get("intent_tags")),
-                "interest_scores": parse_json_object(row.get("interest_scores_json")),
-                "intent_scores": parse_json_object(row.get("intent_scores_json")),
+                "interest_tags": parse_pipe_tags(
+                    row.get("clean_interest_tags") if pd.notna(row.get("clean_interest_tags")) else row.get("interest_tags")
+                ),
+                "intent_tags": parse_pipe_tags(
+                    row.get("clean_intent_tags") if pd.notna(row.get("clean_intent_tags")) else row.get("intent_tags")
+                ),
+                "interest_scores": parse_json_object(
+                    row.get("interest_scores_json")
+                ),
+                "intent_scores": parse_json_object(
+                    row.get("intent_scores_json")
+                ),
+                "source_file": str(active_hf_labels_path),
             }
             if exact_key:
                 hf_interest_lookup[exact_key] = entry
@@ -318,6 +332,7 @@ def health():
         "recommendation_model_loaded": recommendation_model is not None,
         "interest_model_loaded": interest_model is not None,
         "hf_interest_labels_loaded": has_hf_interest_data(),
+        "hf_interest_source": hf_interest_source,
     }
 
 
