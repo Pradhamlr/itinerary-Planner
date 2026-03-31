@@ -43,6 +43,18 @@ const placeSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    photos: {
+      type: [{
+        photo_reference: String,
+        height: Number,
+        width: Number,
+        html_attributions: {
+          type: [String],
+          default: [],
+        },
+      }],
+      default: [],
+    },
     reviews: {
       type: [{
         author_name: String,

@@ -10,6 +10,8 @@ const savedPlaceSchema = new mongoose.Schema(
     rating: Number,
     reviewSnippet: String,
     types: [String],
+    photo_reference: String,
+    photo_url: String,
     category: String,
     user_ratings_total: Number,
     ml_score: Number,

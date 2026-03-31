@@ -1,6 +1,7 @@
 const axios = require('axios');
 const Place = require('../models/Place');
 const logger = require('../utils/logger');
+const { getPlaceDetails, buildPlacePhotoUrl } = require('./googlePlacesService');
 const {
   recommendationConfig,
   interestTypeMap,
@@ -149,6 +150,9 @@ const previewPlaceNames = (places, limit = 10) =>
     .join(' | ');
 
 const hasAnyType = (place, typeSet) => getNormalizedTypes(place).some((type) => typeSet.has(type));
+const getPlacePhotos = (place) => Array.isArray(place.photos) ? place.photos : [];
+const getPrimaryPhotoReference = (place) => getPlacePhotos(place).find((photo) => photo?.photo_reference)?.photo_reference || null;
+const getPhotoUrl = (place, maxWidth = 800) => buildPlacePhotoUrl(getPrimaryPhotoReference(place), maxWidth);
 const attractionDrivenInterests = new Set(['beaches', 'culture', 'nature', 'history', 'art', 'adventure', 'sports', 'shopping']);
 const restaurantDrivenInterests = new Set(['food', 'nightlife']);
 const interestOnlyAttractionTypes = new Set(['shopping_mall', 'store']);
@@ -776,6 +780,7 @@ const buildRestaurantWeight = (place, tripInterests) => {
 const buildAttractionResponse = (place, scores) => {
   const reviewTexts = getReviewTexts(place);
   const reviewSnippet = reviewTexts[0] || place.description || 'No review snippet available yet.';
+  const photoReference = getPrimaryPhotoReference(place);
 
   return {
     _id: place._id,
@@ -787,6 +792,8 @@ const buildAttractionResponse = (place, scores) => {
     rating: place.rating,
     reviewSnippet: reviewSnippet.slice(0, 220),
     types: place.types || [],
+    photo_reference: photoReference,
+    photo_url: getPhotoUrl(place, 1000),
     category: getPrimaryCategory(place),
     user_ratings_total: place.user_ratings_total || 0,
     ml_score: Number(scores.mlScore.toFixed(4)),
@@ -816,6 +823,7 @@ const buildAttractionResponse = (place, scores) => {
 const buildRestaurantResponse = (place) => {
   const reviewTexts = getReviewTexts(place);
   const reviewSnippet = reviewTexts[0] || place.description || 'Popular place for a meal break.';
+  const photoReference = getPrimaryPhotoReference(place);
 
   return {
     _id: place._id,
@@ -827,6 +835,8 @@ const buildRestaurantResponse = (place) => {
     rating: place.rating,
     reviewSnippet: reviewSnippet.slice(0, 180),
     types: place.types || [],
+    photo_reference: photoReference,
+    photo_url: getPhotoUrl(place, 800),
     category: getPrimaryCategory(place),
     user_ratings_total: place.user_ratings_total || 0,
     explanation_tags: [
@@ -844,6 +854,112 @@ const buildMasterPoolSize = (tripDays, rankedCount, visibleCount) => {
 };
 
 class RecommendationService {
+  static async hydratePlacePhoto(place) {
+    if (!place?.place_id || getPrimaryPhotoReference(place)) {
+      return place;
+    }
+
+    try {
+      const placeDetails = await getPlaceDetails(place.place_id);
+      const photos = Array.isArray(placeDetails?.photos)
+        ? placeDetails.photos
+          .map((photo) => ({
+            photo_reference: photo.photo_reference,
+            height: photo.height,
+            width: photo.width,
+            html_attributions: Array.isArray(photo.html_attributions) ? photo.html_attributions : [],
+          }))
+          .filter((photo) => photo.photo_reference)
+        : [];
+
+      if (photos.length === 0) {
+        return place;
+      }
+
+      await Place.updateOne(
+        { place_id: place.place_id },
+        { $set: { photos } },
+      );
+
+      return {
+        ...place,
+        photos,
+      };
+    } catch (error) {
+      logger.warn('Photo enrichment fallback active', {
+        place_id: place.place_id,
+        details: error.response?.data?.error_message || error.message,
+      });
+      return place;
+    }
+  }
+
+  static async hydratePlacePhotos(places, limit = places.length) {
+    if (!process.env.GOOGLE_MAPS_API_KEY || !Array.isArray(places) || places.length === 0) {
+      return places;
+    }
+
+    const cappedLimit = Math.max(0, Math.min(Number(limit) || places.length, places.length));
+    const hydrated = [...places];
+
+    for (let index = 0; index < cappedLimit; index += 1) {
+      hydrated[index] = await this.hydratePlacePhoto(hydrated[index]);
+    }
+
+    return hydrated;
+  }
+
+  static async attachPhotoMetadataToResponses(places, limit = places.length) {
+    if (!Array.isArray(places) || places.length === 0) {
+      return places;
+    }
+
+    const cappedLimit = Math.max(0, Math.min(Number(limit) || places.length, places.length));
+    const targetIds = [...new Set(
+      places
+        .slice(0, cappedLimit)
+        .map((place) => place?.place_id)
+        .filter(Boolean),
+    )];
+
+    if (targetIds.length === 0) {
+      return places;
+    }
+
+    let dbPlaces = await Place.find({ place_id: { $in: targetIds } })
+      .lean()
+      .select({ place_id: 1, photos: 1 });
+
+    dbPlaces = await this.hydratePlacePhotos(dbPlaces, dbPlaces.length);
+
+    const photoMap = new Map(
+      dbPlaces.map((place) => [
+        place.place_id,
+        {
+          photo_reference: getPrimaryPhotoReference(place),
+          photo_url: getPhotoUrl(place, 1000),
+        },
+      ]),
+    );
+
+    return places.map((place, index) => {
+      if (index >= cappedLimit) {
+        return place;
+      }
+
+      const photoData = photoMap.get(place.place_id);
+      if (!photoData?.photo_reference && !photoData?.photo_url) {
+        return place;
+      }
+
+      return {
+        ...place,
+        photo_reference: photoData.photo_reference || place.photo_reference || null,
+        photo_url: photoData.photo_url || place.photo_url || null,
+      };
+    });
+  }
+
   static async fetchCandidatePlaces(city) {
     return Place.find({ city: String(city).toLowerCase() })
       .lean()
@@ -1335,7 +1451,8 @@ class RecommendationService {
       }
     }
 
-    const rankedAttractions = this.rankAttractions(sampledCandidates, mlScoreMap, trip.interests);
+    const sampledCandidatesWithPhotos = await this.hydratePlacePhotos(sampledCandidates, Math.min(sampledCandidates.length, 24));
+    const rankedAttractions = this.rankAttractions(sampledCandidatesWithPhotos, mlScoreMap, trip.interests);
     const replacementPoolTargetSize = Math.min(
       rankedAttractions.length,
       Math.max(60, totalAttractions * 4),
@@ -1353,13 +1470,32 @@ class RecommendationService {
       final_attraction_preview: previewPlaceNames(selectedAttractions),
     });
 
-    const restaurantPool = this.buildRestaurantPool(candidatePlaces, trip.interests);
-    const restaurants = this.buildRestaurants(restaurantPool, trip.interests);
+    const restaurantPool = await this.hydratePlacePhotos(
+      this.buildRestaurantPool(candidatePlaces, trip.interests),
+      Math.min(recommendationConfig.restaurantReturnCount * 3, 18),
+    );
+    const restaurants = await this.attachPhotoMetadataToResponses(
+      this.buildRestaurants(restaurantPool, trip.interests),
+      recommendationConfig.restaurantReturnCount,
+    );
+
+    const hydratedReplacementAttractionPool = await this.attachPhotoMetadataToResponses(
+      replacementAttractionPool,
+      Math.min(replacementAttractionPool.length, 36),
+    );
+    const hydratedMasterAttractionPool = await this.attachPhotoMetadataToResponses(
+      masterAttractionPool,
+      Math.min(masterAttractionPool.length, 24),
+    );
+    const hydratedSelectedAttractions = await this.attachPhotoMetadataToResponses(
+      selectedAttractions,
+      selectedAttractions.length,
+    );
 
     return {
-      replacementAttractionPool,
-      masterAttractionPool,
-      attractions: selectedAttractions,
+      replacementAttractionPool: hydratedReplacementAttractionPool,
+      masterAttractionPool: hydratedMasterAttractionPool,
+      attractions: hydratedSelectedAttractions,
       restaurants,
       metadata: {
         ranking_mode: (trip.interests || []).length > 0 ? 'hybrid' : 'popularity',
