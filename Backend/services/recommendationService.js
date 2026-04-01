@@ -2,6 +2,7 @@ const axios = require('axios');
 const Place = require('../models/Place');
 const logger = require('../utils/logger');
 const { getPlaceDetails, buildPlacePhotoUrl } = require('./googlePlacesService');
+const { CITY_LOOKUP } = require('../config/cityExpansionPlan');
 const {
   recommendationConfig,
   interestTypeMap,
@@ -14,6 +15,7 @@ const {
 
 const normalizeInterest = (interest) => String(interest || '').trim().toLowerCase();
 const normalizeType = (type) => String(type || '').trim().toLowerCase();
+const getCitySupportTier = (city) => (CITY_LOOKUP.has(normalizeInterest(city)) ? 'expansion' : 'curated');
 
 const getNormalizedTypes = (place) => (place.types || []).map(normalizeType);
 const normalizeText = (value) => String(value || '').toLowerCase();
@@ -479,6 +481,23 @@ function getInferredInterestTags(place) {
 function getInterestThresholdForLabel(interest, options = {}) {
   const normalizedInterest = normalizeInterest(interest);
   const allowSoftMatches = Boolean(options.allowSoftMatches);
+  const supportTier = options.supportTier === 'expansion' ? 'expansion' : 'curated';
+
+  if (supportTier === 'expansion') {
+    if (normalizedInterest === 'beaches') {
+      return allowSoftMatches
+        ? recommendationConfig.expansionSoftBeachesInterestScoreThreshold
+        : recommendationConfig.expansionBeachesInterestScoreThreshold;
+    }
+    if (normalizedInterest === 'shopping') {
+      return recommendationConfig.expansionShoppingInterestScoreThreshold;
+    }
+
+    return allowSoftMatches
+      ? recommendationConfig.expansionSoftInterestScoreThreshold
+      : recommendationConfig.expansionStrictInterestScoreThreshold;
+  }
+
   if (normalizedInterest === 'beaches') {
     return allowSoftMatches
       ? recommendationConfig.softBeachesInterestScoreThreshold
@@ -502,6 +521,7 @@ function getActiveInterestThreshold(place) {
   const activeInterest = normalizeInterest(place?._activeInterestLabel);
   return getInterestThresholdForLabel(activeInterest || '', {
     allowSoftMatches: Boolean(place?._allowSoftMatches),
+    supportTier: place?._citySupportTier,
   });
 }
 
@@ -517,7 +537,10 @@ function getSelectedInterestScoreBreakdown(place, normalizedInterests) {
     .map((interest) => ({
       interest,
       score: Number(inferredScores[interest] || 0),
-      threshold: getInterestThresholdForLabel(interest, { allowSoftMatches }),
+      threshold: getInterestThresholdForLabel(interest, {
+        allowSoftMatches,
+        supportTier: place?._citySupportTier,
+      }),
     }))
     .filter(({ score }) => Number.isFinite(score) && score > 0)
     .sort((first, second) => second.score - first.score);
@@ -685,15 +708,25 @@ function getEligibleInterests(place, normalizedInterests) {
           return false;
         }
 
+        const directShoppingThreshold = place?._citySupportTier === 'expansion'
+          ? recommendationConfig.expansionShoppingInterestScoreThreshold
+          : recommendationConfig.shoppingInterestScoreThreshold;
+        const semanticShoppingThreshold = place?._citySupportTier === 'expansion'
+          ? recommendationConfig.expansionShoppingSemanticInterestScoreThreshold
+          : recommendationConfig.shoppingSemanticInterestScoreThreshold;
+
         if (isDirectShoppingPlace(place)) {
-          return score >= recommendationConfig.shoppingInterestScoreThreshold;
+          return score >= directShoppingThreshold;
         }
 
-        return score >= recommendationConfig.shoppingSemanticInterestScoreThreshold
+        return score >= semanticShoppingThreshold
           && (hasShoppingKeywordMatch(place) || shoppingIntentBoost >= 0.1);
       }
 
-      return score >= getInterestThresholdForLabel(interest, { allowSoftMatches });
+      return score >= getInterestThresholdForLabel(interest, {
+        allowSoftMatches,
+        supportTier: place?._citySupportTier,
+      });
     });
 }
 
@@ -966,11 +999,142 @@ const getThemeBucket = (place) => {
   return 'other';
 };
 
-const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInterests) => {
+const getReligiousSubtype = (place) => {
+  const types = getNormalizedTypes(place);
+
+  if (types.some((type) => ['temple', 'hindu_temple'].includes(type))) {
+    return 'temple';
+  }
+  if (types.includes('church')) {
+    return 'church';
+  }
+  if (types.includes('mosque')) {
+    return 'mosque';
+  }
+  if (types.includes('synagogue')) {
+    return 'synagogue';
+  }
+
+  return '';
+};
+
+const getExpansionGeneralSubtype = (place) => {
+  const religiousSubtype = getReligiousSubtype(place);
+  if (religiousSubtype) {
+    return `religious:${religiousSubtype}`;
+  }
+
+  const types = getNormalizedTypes(place);
+  if (types.includes('park')) {
+    return 'nature:park';
+  }
+
+  return '';
+};
+
+const getExpansionGeneralPriorityRank = (place) => {
+  const types = getNormalizedTypes(place);
+
+  if (types.some((type) => ['tourist_attraction', 'historical_landmark', 'landmark', 'monument'].includes(type))) {
+    return 4;
+  }
+  if (types.some((type) => ['museum', 'art_gallery', 'beach', 'shopping_mall', 'market'].includes(type))) {
+    return 3;
+  }
+  if (types.some((type) => ['park', 'zoo', 'aquarium', 'natural_feature', 'amusement_park'].includes(type))) {
+    return 2;
+  }
+  if (types.some((type) => ['church', 'temple', 'hindu_temple', 'mosque', 'synagogue'].includes(type))) {
+    return 1;
+  }
+
+  return 0;
+};
+
+const curateExpansionGeneralCandidates = (places, targetSize = places.length) => {
+  if (!Array.isArray(places) || places.length === 0) {
+    return [];
+  }
+
+  const eligiblePlaces = [...places]
+    .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.expansionGeneralMinAttractionReviews);
+  const topParkPlaceIds = new Set(
+    eligiblePlaces
+      .filter((place) => getExpansionGeneralSubtype(place) === 'nature:park')
+      .sort((first, second) => Number(second.user_ratings_total || 0) - Number(first.user_ratings_total || 0))
+      .slice(0, 4)
+      .map((place) => place.place_id),
+  );
+  const sortedPlaces = eligiblePlaces
+    .sort((first, second) => {
+      const rankDelta = getExpansionGeneralPriorityRank(second) - getExpansionGeneralPriorityRank(first);
+      if (rankDelta !== 0) {
+        return rankDelta;
+    }
+
+    const ratingDelta = Number(second.rating || 0) - Number(first.rating || 0);
+    if (ratingDelta !== 0) {
+      return ratingDelta;
+    }
+
+      return Number(second.user_ratings_total || 0) - Number(first.user_ratings_total || 0);
+    });
+
+  const curated = [];
+  const religiousSubtypeCounts = new Map();
+  const expansionSubtypeCounts = new Map();
+  let religiousTotal = 0;
+
+  for (const place of sortedPlaces) {
+    if (curated.length >= targetSize) {
+      break;
+    }
+
+    const religiousSubtype = getReligiousSubtype(place);
+    if (religiousSubtype) {
+      if (religiousTotal >= 3) {
+        continue;
+      }
+
+      if ((religiousSubtypeCounts.get(religiousSubtype) || 0) >= 1) {
+        continue;
+      }
+
+      religiousSubtypeCounts.set(religiousSubtype, (religiousSubtypeCounts.get(religiousSubtype) || 0) + 1);
+      religiousTotal += 1;
+      curated.push(place);
+      continue;
+    }
+
+    const expansionSubtype = getExpansionGeneralSubtype(place);
+    if (expansionSubtype === 'nature:park') {
+      if (!topParkPlaceIds.has(place.place_id)) {
+        continue;
+      }
+
+      if ((expansionSubtypeCounts.get(expansionSubtype) || 0) >= 4) {
+        continue;
+      }
+    }
+
+    if (expansionSubtype) {
+      expansionSubtypeCounts.set(expansionSubtype, (expansionSubtypeCounts.get(expansionSubtype) || 0) + 1);
+    }
+
+    curated.push(place);
+  }
+
+  return curated;
+};
+
+const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInterests, options = {}) => {
   const selected = [];
   const remaining = [...rankedAttractions];
   const themeCounts = new Map();
+  const religiousSubtypeCounts = new Map();
+  const expansionGeneralSubtypeCounts = new Map();
   const attractionInterests = getAttractionRelevantInterests(tripInterests);
+  const citySupportTier = options.citySupportTier === 'expansion' ? 'expansion' : 'curated';
   const minimumInterestMatches = attractionInterests.length > 0
     ? Math.min(
         rankedAttractions.filter((place) => hasStrictInterestMatch(place, tripInterests)).length,
@@ -981,6 +1145,10 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
     ? Math.max(3, Math.ceil(totalAttractions / 4))
     : Math.max(2, Math.ceil(totalAttractions / 6));
   const defaultThemeCap = Math.max(2, Math.ceil(totalAttractions / 3));
+  const applyExpansionGeneralReligiousSubtypeCap = citySupportTier === 'expansion' && attractionInterests.length === 0;
+  const religiousSubtypeCap = applyExpansionGeneralReligiousSubtypeCap ? 1 : Number.POSITIVE_INFINITY;
+  const expansionGeneralSubtypeCap = citySupportTier === 'expansion' && attractionInterests.length === 0 ? 4 : Number.POSITIVE_INFINITY;
+  const expansionGeneralReligiousThemeCap = citySupportTier === 'expansion' && attractionInterests.length === 0 ? 3 : religiousCap;
   let selectedInterestMatches = 0;
 
   if (attractionInterests.includes('shopping')) {
@@ -996,6 +1164,14 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
       selected.push(chosen);
       const chosenTheme = getThemeBucket(chosen);
       themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+      const chosenReligiousSubtype = getReligiousSubtype(chosen);
+      if (chosenReligiousSubtype) {
+        religiousSubtypeCounts.set(chosenReligiousSubtype, (religiousSubtypeCounts.get(chosenReligiousSubtype) || 0) + 1);
+      }
+      const chosenExpansionSubtype = getExpansionGeneralSubtype(chosen);
+      if (chosenExpansionSubtype) {
+        expansionGeneralSubtypeCounts.set(chosenExpansionSubtype, (expansionGeneralSubtypeCounts.get(chosenExpansionSubtype) || 0) + 1);
+      }
       if (hasStrictInterestMatch(chosen, tripInterests)) {
         selectedInterestMatches += 1;
       }
@@ -1004,18 +1180,40 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
     const prioritizeInterestMatch = selectedInterestMatches < minimumInterestMatches;
-    const nextIndex = remaining.findIndex((place) => {
+    const matchingIndexes = remaining
+      .map((place, index) => ({ place, index }))
+      .filter(({ place }) => {
       const theme = getThemeBucket(place);
-      const cap = theme === 'religious' ? religiousCap : defaultThemeCap;
+      const cap = theme === 'religious' ? expansionGeneralReligiousThemeCap : defaultThemeCap;
       const withinThemeCap = (themeCounts.get(theme) || 0) < cap;
+      const religiousSubtype = getReligiousSubtype(place);
+      const withinReligiousSubtypeCap = !religiousSubtype
+        || (religiousSubtypeCounts.get(religiousSubtype) || 0) < religiousSubtypeCap;
+      const expansionGeneralSubtype = getExpansionGeneralSubtype(place);
+      const withinExpansionGeneralSubtypeCap = !expansionGeneralSubtype
+        || (expansionGeneralSubtypeCounts.get(expansionGeneralSubtype) || 0) < expansionGeneralSubtypeCap;
       const isInterestMatch = hasStrictInterestMatch(place, tripInterests);
 
       if (prioritizeInterestMatch) {
-        return withinThemeCap && isInterestMatch;
+        return withinThemeCap && withinReligiousSubtypeCap && withinExpansionGeneralSubtypeCap && isInterestMatch;
       }
 
-      return withinThemeCap;
+      return withinThemeCap && withinReligiousSubtypeCap && withinExpansionGeneralSubtypeCap;
     });
+
+    const nextIndex = matchingIndexes.length > 0
+      ? (
+          citySupportTier === 'expansion' && attractionInterests.length === 0
+            ? matchingIndexes.sort((first, second) => {
+                const rankDelta = getExpansionGeneralPriorityRank(second.place) - getExpansionGeneralPriorityRank(first.place);
+                if (rankDelta !== 0) {
+                  return rankDelta;
+                }
+                return first.index - second.index;
+              })[0].index
+            : matchingIndexes[0].index
+        )
+      : -1;
 
     if (nextIndex === -1) {
       if (selectedInterestMatches < minimumInterestMatches) {
@@ -1025,6 +1223,14 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
           selected.push(chosen);
           const chosenTheme = getThemeBucket(chosen);
           themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+          const chosenReligiousSubtype = getReligiousSubtype(chosen);
+          if (chosenReligiousSubtype) {
+            religiousSubtypeCounts.set(chosenReligiousSubtype, (religiousSubtypeCounts.get(chosenReligiousSubtype) || 0) + 1);
+          }
+          const chosenExpansionSubtype = getExpansionGeneralSubtype(chosen);
+          if (chosenExpansionSubtype) {
+            expansionGeneralSubtypeCounts.set(chosenExpansionSubtype, (expansionGeneralSubtypeCounts.get(chosenExpansionSubtype) || 0) + 1);
+          }
           selectedInterestMatches += 1;
           continue;
         }
@@ -1037,13 +1243,67 @@ const selectDiverseAttractions = (rankedAttractions, totalAttractions, tripInter
     selected.push(chosen);
     const chosenTheme = getThemeBucket(chosen);
     themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+    const chosenReligiousSubtype = getReligiousSubtype(chosen);
+    if (chosenReligiousSubtype) {
+      religiousSubtypeCounts.set(chosenReligiousSubtype, (religiousSubtypeCounts.get(chosenReligiousSubtype) || 0) + 1);
+    }
+    const chosenExpansionSubtype = getExpansionGeneralSubtype(chosen);
+    if (chosenExpansionSubtype) {
+      expansionGeneralSubtypeCounts.set(chosenExpansionSubtype, (expansionGeneralSubtypeCounts.get(chosenExpansionSubtype) || 0) + 1);
+    }
     if (hasStrictInterestMatch(chosen, tripInterests)) {
       selectedInterestMatches += 1;
     }
   }
 
   while (remaining.length > 0 && selected.length < totalAttractions) {
-    selected.push(remaining.shift());
+    const fallbackCandidates = remaining
+      .map((place, index) => ({ place, index }))
+      .filter(({ place }) => {
+      const theme = getThemeBucket(place);
+      const cap = theme === 'religious' ? expansionGeneralReligiousThemeCap : defaultThemeCap;
+      const withinThemeCap = (themeCounts.get(theme) || 0) < cap;
+      const religiousSubtype = getReligiousSubtype(place);
+      const withinReligiousSubtypeCap = !religiousSubtype
+        || (religiousSubtypeCounts.get(religiousSubtype) || 0) < religiousSubtypeCap;
+      const expansionGeneralSubtype = getExpansionGeneralSubtype(place);
+      const withinExpansionGeneralSubtypeCap = !expansionGeneralSubtype
+        || (expansionGeneralSubtypeCounts.get(expansionGeneralSubtype) || 0) < expansionGeneralSubtypeCap;
+
+      return withinThemeCap && withinReligiousSubtypeCap && withinExpansionGeneralSubtypeCap;
+    });
+
+    const fallbackIndex = fallbackCandidates.length > 0
+      ? (
+          citySupportTier === 'expansion' && attractionInterests.length === 0
+            ? fallbackCandidates.sort((first, second) => {
+                const rankDelta = getExpansionGeneralPriorityRank(second.place) - getExpansionGeneralPriorityRank(first.place);
+                if (rankDelta !== 0) {
+                  return rankDelta;
+                }
+                return first.index - second.index;
+              })[0].index
+            : fallbackCandidates[0].index
+        )
+      : -1;
+
+    if (fallbackIndex === -1 && citySupportTier === 'expansion' && attractionInterests.length === 0) {
+      break;
+    }
+
+    const resolvedIndex = fallbackIndex >= 0 ? fallbackIndex : 0;
+    const [chosen] = remaining.splice(resolvedIndex, 1);
+    selected.push(chosen);
+    const chosenTheme = getThemeBucket(chosen);
+    themeCounts.set(chosenTheme, (themeCounts.get(chosenTheme) || 0) + 1);
+    const chosenReligiousSubtype = getReligiousSubtype(chosen);
+    if (chosenReligiousSubtype) {
+      religiousSubtypeCounts.set(chosenReligiousSubtype, (religiousSubtypeCounts.get(chosenReligiousSubtype) || 0) + 1);
+    }
+    const chosenExpansionSubtype = getExpansionGeneralSubtype(chosen);
+    if (chosenExpansionSubtype) {
+      expansionGeneralSubtypeCounts.set(chosenExpansionSubtype, (expansionGeneralSubtypeCounts.get(chosenExpansionSubtype) || 0) + 1);
+    }
   }
 
   return selected;
@@ -1385,10 +1645,29 @@ class RecommendationService {
   }
 
   static async fetchCandidatePlaces(city) {
-    return Place.find({ city: String(city).toLowerCase() })
+    const normalizedCity = String(city).toLowerCase();
+    const citySupportTier = getCitySupportTier(normalizedCity);
+    const fetchLimit = citySupportTier === 'expansion'
+      ? Math.max(recommendationConfig.candidateFetchLimit, 900)
+      : recommendationConfig.candidateFetchLimit;
+
+    const places = await Place.find({ city: normalizedCity })
       .lean()
       .sort({ user_ratings_total: -1 })
-      .limit(recommendationConfig.candidateFetchLimit);
+      .limit(fetchLimit);
+
+    if (citySupportTier !== 'expansion') {
+      return places;
+    }
+
+    return [...places].sort((first, second) => {
+      const qualityDelta = getPlaceQualityScore(second) - getPlaceQualityScore(first);
+      if (qualityDelta !== 0) {
+        return qualityDelta;
+      }
+
+      return Number(second.user_ratings_total || 0) - Number(first.user_ratings_total || 0);
+    });
   }
 
   static async fetchMlRecommendations(places) {
@@ -1460,8 +1739,10 @@ class RecommendationService {
 
   static buildAttractionCandidatePool(places, tripInterests, requiredAttractionCount, options = {}) {
     const allowSoftMatches = Boolean(options.allowSoftMatches);
+    const citySupportTier = options.citySupportTier === 'expansion' ? 'expansion' : 'curated';
     const attractionInterests = getAttractionRelevantInterests(tripInterests);
     const hasAttractionInterests = attractionInterests.length > 0;
+    const shouldCurateExpansionGeneral = citySupportTier === 'expansion' && !hasAttractionInterests;
     const { popularRatio, interestRatio } = getInterestTrackRatio(tripInterests);
     const strictTypeFilter = dedupePlaces(
       places.filter((place) => isAllowedAttraction(place) || isInterestOnlyAttraction(place, tripInterests)),
@@ -1493,7 +1774,11 @@ class RecommendationService {
     }
     const afterQualityFilter = afterTypeFilter
       .filter((place) => Number(place.rating || 0) >= recommendationConfig.minAttractionRating)
-      .filter((place) => Number(place.user_ratings_total || 0) >= recommendationConfig.minAttractionReviews);
+      .filter((place) => Number(place.user_ratings_total || 0) >= (
+        shouldCurateExpansionGeneral
+          ? recommendationConfig.expansionGeneralMinAttractionReviews
+          : recommendationConfig.minAttractionReviews
+      ));
     const explorationMinRating = Math.min(
       recommendationConfig.minAttractionRating,
       recommendationConfig.explorationAttractionRating,
@@ -1503,7 +1788,9 @@ class RecommendationService {
           recommendationConfig.minAttractionReviews,
           recommendationConfig.explorationAttractionReviews,
         )
-      : 500;
+      : shouldCurateExpansionGeneral
+        ? recommendationConfig.expansionGeneralMinAttractionReviews
+        : 500;
     const relaxedExplorationSource = afterTypeFilter
       .filter((place) => Number(place.rating || 0) >= explorationMinRating)
       .filter((place) => Number(place.user_ratings_total || 0) >= explorationMinReviews);
@@ -1526,8 +1813,10 @@ class RecommendationService {
       })
       .slice(0, recommendationConfig.candidatePoolLimit);
 
-    const dedupedPopularPool = dedupePlaces(popularPool);
-    const explorationPool = dedupePlaces(
+    const dedupedPopularPool = shouldCurateExpansionGeneral
+      ? curateExpansionGeneralCandidates(dedupePlaces(popularPool), recommendationConfig.candidatePoolLimit)
+      : dedupePlaces(popularPool);
+    const explorationPoolBase = dedupePlaces(
       relaxedExplorationSource
         .sort((a, b) => {
           const scoreA = (getPopularitySignal(a) * 0.35) + ((a.rating || 0) * 0.65);
@@ -1543,6 +1832,15 @@ class RecommendationService {
           ),
         ),
     );
+    const explorationPool = shouldCurateExpansionGeneral
+      ? curateExpansionGeneralCandidates(
+          explorationPoolBase,
+          Math.min(
+            relaxedExplorationSource.length,
+            recommendationConfig.candidatePoolLimit * recommendationConfig.explorationPoolMultiplier,
+          ),
+        )
+      : explorationPoolBase;
     const baseCandidatePool = hasAttractionInterests
       ? blendCandidatePools(
           dedupedPopularPool,
@@ -1566,6 +1864,9 @@ class RecommendationService {
               0.78,
             )
       );
+    const curatedBaseCandidatePool = shouldCurateExpansionGeneral
+      ? curateExpansionGeneralCandidates(baseCandidatePool, baseCandidatePool.length)
+      : baseCandidatePool;
 
     const broaderInterestSource = relaxedExplorationSource
       .sort((a, b) => {
@@ -1629,7 +1930,7 @@ class RecommendationService {
     }
     const preFloorCandidatePool = hasAttractionInterests
       ? interestPool
-      : baseCandidatePool;
+      : curatedBaseCandidatePool;
     const interestAwareFallbackPool = dedupePlaces([
       ...interestPool,
       ...explorationPool,
@@ -1637,13 +1938,16 @@ class RecommendationService {
       ...afterQualityFilter,
       ...afterTypeFilter,
     ]);
-    const candidatePool = hasAttractionInterests
+    const candidatePoolBase = hasAttractionInterests
       ? preFloorCandidatePool
       : fillCandidateFloor(
           preFloorCandidatePool,
           interestAwareFallbackPool,
           Math.min(interestAwareFallbackPool.length, Math.max(requiredAttractionCount * 2, 30)),
         );
+    const candidatePool = shouldCurateExpansionGeneral
+      ? curateExpansionGeneralCandidates(candidatePoolBase, candidatePoolBase.length)
+      : candidatePoolBase;
     const interestPoolContribution = candidatePool.filter((place) =>
       interestPool.some((interestPlace) => interestPlace.place_id === place.place_id),
     ).length;
@@ -1667,7 +1971,7 @@ class RecommendationService {
       popularity_filter_preview: previewPlaceNames(afterPopularityFilter),
       popular_pool_size: dedupedPopularPool.length,
       exploration_pool_size: explorationPool.length,
-      base_candidate_pool_size: baseCandidatePool.length,
+      base_candidate_pool_size: curatedBaseCandidatePool.length,
       pre_floor_candidate_pool_size: preFloorCandidatePool.length,
       candidate_floor_target: hasAttractionInterests ? 0 : Math.max(requiredAttractionCount * 2, 30),
       interest_pool_size: interestPool.length,
@@ -1855,6 +2159,7 @@ class RecommendationService {
 
   static async getRecommendationsForTrip(trip, options = {}) {
     const allowSoftMatches = Boolean(options.allowSoftMatches);
+    const citySupportTier = getCitySupportTier(trip.city);
     const photoCache = new Map();
     const totalAttractions = Math.max(
       recommendationConfig.placesPerDay,
@@ -1864,7 +2169,11 @@ class RecommendationService {
     const requiredAttractionCount = totalAttractions;
     const rawCandidatePlaces = await this.fetchCandidatePlaces(trip.city);
     this.seedPhotoCache(rawCandidatePlaces, photoCache);
-    const candidatePlaces = await this.attachInterestPredictions(rawCandidatePlaces, trip.interests);
+    const candidatePlaces = (await this.attachInterestPredictions(rawCandidatePlaces, trip.interests))
+      .map((place) => ({
+        ...place,
+        _citySupportTier: citySupportTier,
+      }));
     const {
       candidatePool,
       interestFilterApplied,
@@ -1878,7 +2187,7 @@ class RecommendationService {
         candidatePlaces,
         trip.interests,
         requiredAttractionCount,
-        { allowSoftMatches },
+        { allowSoftMatches, citySupportTier },
       );
 
     const dynamicSampleSize = Math.max(recommendationConfig.candidateSampleSize, requiredAttractionCount * 4);
@@ -1922,6 +2231,10 @@ class RecommendationService {
           ),
         );
 
+    if (citySupportTier === 'expansion' && interestTypes.size === 0) {
+      sampledCandidates = curateExpansionGeneralCandidates(sampledCandidates, sampledCandidates.length);
+    }
+
     logger.info('Recommendation sampling complete', {
       sampled_candidates: sampledCandidates.length,
       dynamic_sample_size: dynamicSampleSize,
@@ -1960,11 +2273,26 @@ class RecommendationService {
       rankedAttractions.length,
       Math.max(60, totalAttractions * 4),
     );
-    const replacementAttractionPool = selectDiverseAttractions(rankedAttractions, replacementPoolTargetSize, trip.interests);
+    const replacementAttractionPool = selectDiverseAttractions(
+      rankedAttractions,
+      replacementPoolTargetSize,
+      trip.interests,
+      { citySupportTier },
+    );
     const masterPoolTargetSize = buildMasterPoolSize(trip.days, rankedAttractions.length, totalAttractions);
-    const masterAttractionPool = selectDiverseAttractions(rankedAttractions, masterPoolTargetSize, trip.interests);
+    const masterAttractionPool = selectDiverseAttractions(
+      rankedAttractions,
+      masterPoolTargetSize,
+      trip.interests,
+      { citySupportTier },
+    );
     const variedTopAttractions = shuffleTopBand(masterAttractionPool, totalAttractions);
-    const selectedAttractions = selectDiverseAttractions(variedTopAttractions, totalAttractions, trip.interests);
+    const selectedAttractions = selectDiverseAttractions(
+      variedTopAttractions,
+      totalAttractions,
+      trip.interests,
+      { citySupportTier },
+    );
     logger.info('Recommendation ranking complete', {
       replacement_attraction_pool_count: replacementAttractionPool.length,
       master_attraction_pool_count: masterAttractionPool.length,
@@ -2006,6 +2334,7 @@ class RecommendationService {
       attractions: hydratedSelectedAttractions,
       restaurants,
       metadata: {
+        city_support_tier: citySupportTier,
         ranking_mode: (trip.interests || []).length > 0 ? 'hybrid' : 'popularity',
         total_candidates: candidatePlaces.length,
         interest_filter_applied: interestFilterApplied,

@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LocationAutocomplete from '../components/LocationAutocomplete'
 import api from '../services/api'
-import { HERO_EDITORIAL_IMAGES, INTEREST_OPTIONS, formatCityName, formatCurrency, getInterestMeta } from '../utils/travel'
+import {
+  HERO_EDITORIAL_IMAGES,
+  filterCitiesByTripMode,
+  formatCityName,
+  formatCurrency,
+  getInterestMeta,
+  getInterestOptionsForTripMode,
+} from '../utils/travel'
 
 function InterestIcon({ type, selected }) {
   const className = `h-5 w-5 ${selected ? 'text-white' : 'text-brand-onSurfaceVariant'}`
@@ -146,6 +153,7 @@ function DetailIcon({ type }) {
 
 function CreateTrip() {
   const [formData, setFormData] = useState({
+    tripMode: '',
     city: '',
     days: '',
     startDate: '',
@@ -167,8 +175,29 @@ function CreateTrip() {
   const [hotelsError, setHotelsError] = useState('')
   const [selectedSuggestedHotelId, setSelectedSuggestedHotelId] = useState('')
   const [hotelRefreshSeed, setHotelRefreshSeed] = useState(0)
+  const [availableCities, setAvailableCities] = useState([])
+  const [citiesLoading, setCitiesLoading] = useState(true)
 
   const navigate = useNavigate()
+  const availableInterestOptions = useMemo(() => getInterestOptionsForTripMode(formData.tripMode), [formData.tripMode])
+  const filteredAvailableCities = useMemo(
+    () => filterCitiesByTripMode(availableCities, formData.tripMode),
+    [availableCities, formData.tripMode],
+  )
+  const isExpansionInterestMode = formData.tripMode === 'expansion'
+
+  const handleTripModeSelect = (tripMode) => {
+    setFormData((prev) => ({
+      ...prev,
+      tripMode,
+      city: '',
+      interests: [],
+      hotelLocation: null,
+    }))
+    setHotelSuggestions([])
+    setHotelsError('')
+    setSelectedSuggestedHotelId('')
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -220,6 +249,66 @@ function CreateTrip() {
   const refreshHotelSuggestions = () => {
     setHotelRefreshSeed((current) => current + 1)
   }
+
+  useEffect(() => {
+    let cancelled = false
+
+    const fetchCities = async () => {
+      try {
+        setCitiesLoading(true)
+        const response = await api.get('/places/cities')
+        if (!cancelled) {
+          const cities = Array.isArray(response.data?.data) ? response.data.data : []
+          const sorted = [...cities]
+            .filter(Boolean)
+            .sort((first, second) => String(first).localeCompare(String(second)))
+          setAvailableCities(sorted)
+        }
+      } catch (_error) {
+        if (!cancelled) {
+          setAvailableCities([])
+        }
+      } finally {
+        if (!cancelled) {
+          setCitiesLoading(false)
+        }
+      }
+    }
+
+    fetchCities()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    const allowedValues = new Set(availableInterestOptions.map((option) => option.value))
+    setFormData((prev) => {
+      const nextInterests = prev.interests.filter((interest) => allowedValues.has(interest))
+      return nextInterests.length === prev.interests.length
+        ? prev
+        : { ...prev, interests: nextInterests }
+    })
+  }, [availableInterestOptions])
+
+  useEffect(() => {
+    if (!formData.tripMode) {
+      return
+    }
+
+    const availableCitySet = new Set(filteredAvailableCities.map((city) => String(city)))
+    if (!formData.city || availableCitySet.has(formData.city)) {
+      return
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      city: '',
+      hotelLocation: null,
+    }))
+    setSelectedSuggestedHotelId('')
+  }, [filteredAvailableCities, formData.city, formData.tripMode])
 
   useEffect(() => {
     if (!includeHotelSuggestions) {
@@ -282,6 +371,11 @@ function CreateTrip() {
     setError('')
 
     const parsedDays = Number(formData.days)
+    if (!formData.tripMode) {
+      setError('Please choose curated or general itinerary mode first.')
+      return
+    }
+
     if (!formData.city.trim()) {
       setError('Please choose a destination city.')
       return
@@ -380,31 +474,85 @@ function CreateTrip() {
         </div>
 
         <div className="space-y-6 xl:max-h-[calc(100vh-180px)] xl:overflow-y-auto xl:pr-2">
-          <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {INTEREST_OPTIONS.map((interest) => {
-              const selected = formData.interests.includes(interest.value)
+          <section className="rounded-[28px] bg-white p-6 shadow-[0_12px_32px_-8px_rgba(15,23,42,0.25)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-onSurfaceVariant">Trip Style</p>
+            <h2 className="mt-3 text-2xl font-semibold text-brand-palm">Curated trip or general itinerary?</h2>
+            <p className="mt-2 text-sm leading-7 text-brand-onSurfaceVariant">
+              Curated trips use the full Kerala-style interest experience. General itinerary trips use the expansion-city path with safer interest support and the same stay and planning flow.
+            </p>
 
-              return (
-                <button
-                  key={interest.value}
-                  type="button"
-                  onClick={() => toggleInterest(interest.value)}
-                  className={`flex h-[140px] w-[140px] flex-col items-center justify-center gap-3 rounded-full border px-4 py-4 text-center transition duration-200 ${
-                    selected
-                      ? 'border-brand-secondary bg-brand-secondary text-white shadow-[0_12px_24px_-8px_rgba(0,105,107,0.4)]'
-                      : 'border-brand-surfaceHigh bg-white text-brand-palm shadow-[0_8px_20px_-8px_rgba(15,23,42,0.2)] hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(15,23,42,0.25)]'
-                  }`}
-                >
-                  <span className="inline-flex items-center justify-center">
-                    <InterestIcon type={interest.value} selected={selected} />
-                  </span>
-                  <span className="text-sm font-semibold tracking-[0.01em]">
-                    {interest.label}
-                  </span>
-                </button>
-              )
-            })}
+            <div className="mt-5 grid gap-4 lg:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => handleTripModeSelect('curated')}
+                className={`rounded-[24px] border p-5 text-left transition ${
+                  formData.tripMode === 'curated'
+                    ? 'border-brand-secondary bg-[#edf9f8] shadow-[0_18px_32px_-24px_rgba(0,105,107,0.35)]'
+                    : 'border-brand-surfaceHigh bg-brand-surfaceLowest hover:-translate-y-0.5'
+                }`}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-secondary">Curated</p>
+                <h3 className="mt-2 text-xl font-semibold text-brand-palm">Full interest planning</h3>
+                <p className="mt-2 text-sm leading-7 text-brand-onSurfaceVariant">
+                  Best for the deeply tuned cities with richer interest coverage, stronger shopping and beaches behavior, and the full curated recommendation experience.
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleTripModeSelect('expansion')}
+                className={`rounded-[24px] border p-5 text-left transition ${
+                  formData.tripMode === 'expansion'
+                    ? 'border-brand-secondary bg-[#edf9f8] shadow-[0_18px_32px_-24px_rgba(0,105,107,0.35)]'
+                    : 'border-brand-surfaceHigh bg-brand-surfaceLowest hover:-translate-y-0.5'
+                }`}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-secondary">General Itinerary</p>
+                <h3 className="mt-2 text-xl font-semibold text-brand-palm">Expansion city mode</h3>
+                <p className="mt-2 text-sm leading-7 text-brand-onSurfaceVariant">
+                  Built for newly added cities with strong generic itinerary planning and a safer, lighter interest set for now.
+                </p>
+              </button>
+            </div>
           </section>
+
+          {formData.tripMode ? (
+            <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {availableInterestOptions.map((interest) => {
+                const selected = formData.interests.includes(interest.value)
+
+                return (
+                  <button
+                    key={interest.value}
+                    type="button"
+                    onClick={() => toggleInterest(interest.value)}
+                    className={`flex h-[140px] w-[140px] flex-col items-center justify-center gap-3 rounded-full border px-4 py-4 text-center transition duration-200 ${
+                      selected
+                        ? 'border-brand-secondary bg-brand-secondary text-white shadow-[0_12px_24px_-8px_rgba(0,105,107,0.4)]'
+                        : 'border-brand-surfaceHigh bg-white text-brand-palm shadow-[0_8px_20px_-8px_rgba(15,23,42,0.2)] hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(15,23,42,0.25)]'
+                    }`}
+                  >
+                    <span className="inline-flex items-center justify-center">
+                      <InterestIcon type={interest.value} selected={selected} />
+                    </span>
+                    <span className="text-sm font-semibold tracking-[0.01em]">
+                      {interest.label}
+                    </span>
+                  </button>
+                )
+              })}
+            </section>
+          ) : (
+            <section className="rounded-[24px] bg-brand-surfaceLow px-5 py-4 text-sm text-brand-onSurfaceVariant">
+              Choose <span className="font-semibold text-brand-palm">Curated</span> or <span className="font-semibold text-brand-palm">General Itinerary</span> above to load the right interest screen.
+            </section>
+          )}
+
+          {isExpansionInterestMode ? (
+            <p className="rounded-[22px] bg-brand-surfaceLow px-4 py-3 text-sm text-brand-onSurfaceVariant">
+              This expansion city currently supports the safer interest set only: <span className="font-semibold text-brand-palm">Culture, History, and Nature</span>.
+            </p>
+          ) : null}
 
           <section className="grid gap-4">
             <div className="rounded-[28px] bg-brand-surfaceLow p-6 shadow-[0_12px_34px_-28px_rgba(15,23,42,0.35)]">
@@ -412,16 +560,38 @@ function CreateTrip() {
               <div className="mt-5 space-y-3">
                 <div>
                   <label htmlFor="city" className="field-label mb-2 block">Destination</label>
-                  <input
-                    id="city"
-                    name="city"
-                    type="text"
-                    placeholder="Kyoto, Japan"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                    className="input-minimal"
-                  />
+                  <div className="relative">
+                    <select
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                      disabled={!formData.tripMode}
+                      className="input-minimal appearance-none pr-12"
+                    >
+                      <option value="">
+                        {citiesLoading ? 'Loading cities...' : formData.tripMode ? 'Select a city' : 'Choose trip mode first'}
+                      </option>
+                      {filteredAvailableCities.map((city) => (
+                        <option key={city} value={city}>
+                          {formatCityName(city)}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-brand-onSurfaceVariant">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs text-brand-onSurfaceVariant">
+                    {formData.tripMode === 'curated'
+                      ? 'Showing currently available curated cities.'
+                      : formData.tripMode === 'expansion'
+                        ? 'Showing currently available expansion cities.'
+                        : 'Choose curated or general itinerary first to load the right city list.'}
+                  </p>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>

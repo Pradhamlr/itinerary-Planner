@@ -20,6 +20,7 @@ INTEREST_METADATA_PATH = MODELS_DIR / "interest_metadata.json"
 INTEREST_SKIP_FLAG = MODELS_DIR / "interest_skipped.flag"
 HF_LABELS_CLEAN_PATH = Path("dataset/place_interest_labels_hf_clean.csv")
 HF_LABELS_PATH = Path("dataset/place_interest_labels_hf.csv")
+EXPANSION_LABELS_PATH = Path("dataset_expansion/place_interest_labels_expansion.csv")
 
 DEFAULT_FEATURE_COLUMNS = [
     "rating",
@@ -118,10 +119,18 @@ def load_models():
     hf_interest_lookup = {}
     hf_interest_lookup_fuzzy = {}
     hf_interest_source = None
-    active_hf_labels_path = HF_LABELS_CLEAN_PATH if HF_LABELS_CLEAN_PATH.exists() else HF_LABELS_PATH
-    if active_hf_labels_path.exists():
-        hf_df = pd.read_csv(active_hf_labels_path)
-        hf_interest_source = str(active_hf_labels_path)
+
+    label_sources = []
+    primary_labels_path = HF_LABELS_CLEAN_PATH if HF_LABELS_CLEAN_PATH.exists() else HF_LABELS_PATH
+    if primary_labels_path.exists():
+        label_sources.append(primary_labels_path)
+    if EXPANSION_LABELS_PATH.exists():
+        label_sources.append(EXPANSION_LABELS_PATH)
+
+    loaded_sources = []
+    for labels_path in label_sources:
+        hf_df = pd.read_csv(labels_path)
+        loaded_sources.append(str(labels_path))
         for _, row in hf_df.iterrows():
             exact_key = build_hf_lookup_key(
                 row.get("name"),
@@ -146,12 +155,14 @@ def load_models():
                 "intent_scores": parse_json_object(
                     row.get("intent_scores_json")
                 ),
-                "source_file": str(active_hf_labels_path),
+                "source_file": str(labels_path),
             }
-            if exact_key:
+            if exact_key and exact_key not in hf_interest_lookup:
                 hf_interest_lookup[exact_key] = entry
             if fuzzy_key and fuzzy_key not in hf_interest_lookup_fuzzy:
                 hf_interest_lookup_fuzzy[fuzzy_key] = entry
+
+    hf_interest_source = loaded_sources
 
 
 def safe_sentiment(review_text: str) -> float:

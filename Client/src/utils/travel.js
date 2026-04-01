@@ -8,6 +8,62 @@ export const INTEREST_OPTIONS = [
   { value: 'beaches', label: 'Beaches', accent: 'bg-[#dcf7f7] text-[#00696b]' },
 ];
 
+export const EXPANSION_CITY_NAMES = new Set([
+  'bengaluru',
+  'bangalore',
+  'chennai',
+  'mysuru',
+  'mysore',
+  'puducherry',
+  'pondicherry',
+  'hyderabad',
+  'jaipur',
+  'udaipur',
+  'varanasi',
+  'goa',
+  'manali',
+  'delhi',
+  'mumbai',
+  'pune',
+]);
+
+const EXPANSION_SAFE_INTEREST_VALUES = new Set(['culture', 'history', 'nature']);
+
+export const isExpansionCityName = (city) => EXPANSION_CITY_NAMES.has(String(city || '').trim().toLowerCase());
+
+export const getAllowedInterestOptionsForCity = (city) => {
+  const normalized = String(city || '').trim().toLowerCase();
+  if (!EXPANSION_CITY_NAMES.has(normalized)) {
+    return INTEREST_OPTIONS;
+  }
+
+  return INTEREST_OPTIONS.filter((option) => EXPANSION_SAFE_INTEREST_VALUES.has(option.value));
+};
+
+export const getInterestOptionsForTripMode = (tripMode) => {
+  if (tripMode === 'expansion') {
+    return INTEREST_OPTIONS.filter((option) => EXPANSION_SAFE_INTEREST_VALUES.has(option.value));
+  }
+
+  return INTEREST_OPTIONS;
+};
+
+export const filterCitiesByTripMode = (cities, tripMode) => {
+  if (!Array.isArray(cities)) {
+    return [];
+  }
+
+  if (tripMode === 'expansion') {
+    return cities.filter((city) => isExpansionCityName(city));
+  }
+
+  if (tripMode === 'curated') {
+    return cities.filter((city) => !isExpansionCityName(city));
+  }
+
+  return cities;
+};
+
 export const getInterestMeta = (interest) =>
   INTEREST_OPTIONS.find((option) => option.value === interest) || {
     value: interest,
@@ -80,6 +136,70 @@ const CITY_HERO_IMAGES = {
   },
   munnar: {
     url: buildCommonsImageUrl('Tea Gardens at Munnar.jpg'),
+    position: 'center',
+  },
+  bengaluru: {
+    url: buildCommonsImageUrl('Vidhana Soudha Bangalore.jpg'),
+    position: 'center',
+  },
+  bangalore: {
+    url: buildCommonsImageUrl('Vidhana Soudha Bangalore.jpg'),
+    position: 'center',
+  },
+  chennai: {
+    url: buildCommonsImageUrl('Chennai Central.jpg'),
+    position: 'center',
+  },
+  mysuru: {
+    url: buildCommonsImageUrl('Mysore Palace Morning.jpg'),
+    position: 'center',
+  },
+  mysore: {
+    url: buildCommonsImageUrl('Mysore Palace Morning.jpg'),
+    position: 'center',
+  },
+  puducherry: {
+    url: buildCommonsImageUrl('Pondicherry Promenade Beach.jpg'),
+    position: 'center',
+  },
+  pondicherry: {
+    url: buildCommonsImageUrl('Pondicherry Promenade Beach.jpg'),
+    position: 'center',
+  },
+  hyderabad: {
+    url: buildCommonsImageUrl('Charminar Hyderabad 1.jpg'),
+    position: 'center',
+  },
+  goa: {
+    url: buildCommonsImageUrl('Palolem Beach Goa.jpg'),
+    position: 'center',
+  },
+  manali: {
+    url: buildCommonsImageUrl('Manali valley.jpg'),
+    position: 'center',
+  },
+  delhi: {
+    url: buildCommonsImageUrl('India Gate in New Delhi 03-2016.jpg'),
+    position: 'center',
+  },
+  mumbai: {
+    url: buildCommonsImageUrl('Gateway of India Mumbai 2013.jpg'),
+    position: 'center',
+  },
+  pune: {
+    url: buildCommonsImageUrl('Shaniwarwada Pune.jpg'),
+    position: 'center',
+  },
+  jaipur: {
+    url: buildCommonsImageUrl('Hawa Mahal 2011.jpg'),
+    position: 'center',
+  },
+  udaipur: {
+    url: buildCommonsImageUrl('City Palace Udaipur.jpg'),
+    position: 'center',
+  },
+  varanasi: {
+    url: buildCommonsImageUrl('Varanasi at dawn.jpg'),
     position: 'center',
   },
 };

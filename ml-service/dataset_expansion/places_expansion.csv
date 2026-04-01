@@ -1,0 +1,934 @@
+name,category,types,rating,review,city,lat,lng,review_count,review_avg_rating,user_ratings_total
+"Lalbagh Botanical Garden","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9494158,77.58468049999999,0,4.4,174721
+"ISKCON Bangalore","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",13.0096643,77.5511344,0,4.7,139451
+"Bengaluru Palace","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.2,"","bengaluru",13.0035068,77.5890953,0,4.2,98628
+"SkyJumper Amusement Park - Garuda Mall | Laser Tag | VR Games | Soft Play | Birthday Parties | School Trips | Corporate Party","amusement park","amusement_park | tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9701829,77.60993719999999,0,4.8,39011
+"Tipu Sultan's Summer Palace","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",3.9,"","bengaluru",12.9593513,77.5736415,0,3.9,31895
+"Bengaluru Fort","tourist attraction","tourist_attraction | point_of_interest | establishment",4,"","bengaluru",12.9628018,77.5758862,0,4,26547
+"Sri Karya Siddhi Anjaneya Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.9,"","bengaluru",12.9386187,77.54323900000001,0,4.9,26278
+"Bugle Rock Park","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9427052,77.5694287,0,4.5,25708
+"Ragigudda Sri Prasanna Anjaneya Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9142864,77.593172,0,4.8,22147
+"Snow City Bengaluru","tourist attraction","tourist_attraction | amusement_park | point_of_interest | establishment",4.1,"","bengaluru",13.0057596,77.59206089999999,0,4.1,22152
+"Karnataka Chitrakala Parishath","art gallery","art_gallery | tourist_attraction | museum | point_of_interest | establishment",4.5,"","bengaluru",12.9893213,77.5807437,0,4.5,21355
+"Freedom Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9779159,77.58218839999999,0,4.2,19865
+"St. Mary's Basilica, Bengaluru","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9843925,77.6044189,0,4.6,17427
+"Shrungagiri Sri Shanmukha Swami Gudi","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9124567,77.5289414,0,4.7,17387
+"Visvesvaraya Industrial & Technological Museum","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.6,"","bengaluru",12.9751593,77.59641979999999,0,4.6,16394
+"M.N. Krishna Rao Park","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9418183,77.5752478,0,4.5,14063
+"Shri Gavi Gangadhareshwara Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9480823,77.56286639999999,0,4.7,12661
+"Shri Someshwara Swamy Temple (Halasuru)","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9755527,77.6239473,0,4.7,12472
+"Mini Forest","park","park | tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9116185,77.5986986,0,4.4,11270
+"Indira Gandhi Musical Fountain Park","park","park | tourist_attraction | point_of_interest | establishment",4.1,"","bengaluru",12.9853733,77.59168389999999,0,4.1,11106
+"Breakout® Escape Rooms | Koramangala | #1 Escape Room in Bangalore","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","bengaluru",12.938395,77.63059950000002,0,4.7,10324
+"Namma Bengaluru Aquarium","aquarium","aquarium | tourist_attraction | point_of_interest | establishment",3.9,"","bengaluru",12.9765148,77.5985397,0,3.9,9674
+"Varaprada Sri Venkateshwara Temple, Devagiri","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9261498,77.5675473,0,4.8,7232
+"Tripper Trails- The most loved travel company | Best Travel Agency in Bangalore","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4.9,"","bengaluru",12.9351188,77.54752169999999,0,4.9,6307
+"Sri Dakshinamukha Nandi Tirtha Kalyaani Kshetra","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",13.004398,77.5721844,0,4.8,6126
+"St Patrick's Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9700658,77.60594429999999,0,4.7,5667
+"Ashoka Pillar Monument","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9437675,77.5852705,0,4.5,5410
+"Tavarekere Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.928664,77.6023044,0,4.2,5200
+"Jawaharlal Nehru Planetarium","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9848665,77.5896341,0,4.4,5142
+"Jayamahal Park (Bengaluru)","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",13.001197,77.5977297,0,4.3,4575
+"Om Shri Gangamma Devi Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",13.0044463,77.5720161,0,4.8,4298
+"St Francis Xavier's Cathedral","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9925965,77.6112263,0,4.6,4128
+"Yediyuru Lake Park","park","park | tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9327248,77.57759600000001,0,4.4,3996
+"Shri Ranadheera Kanteerava Park (Jayanagara)","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9344251,77.57982350000002,0,4.5,3932
+"Shri Dattatreya Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.934323,77.5658077,0,4.6,3131
+"Glass House (Lalbagh)","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9497909,77.5866423,0,4.5,3082
+"CSI St. Mark's Cathedral","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9759108,77.6004585,0,4.6,3030
+"Sri Lakshmi Narasimha Swami Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",13.0046692,77.5718648,0,4.8,2983
+"Shri Ramanjaneya Gudda Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9446167,77.5632595,0,4.7,2538
+"Sri Krishna Sri Raghavendra Swamy Matha","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9405477,77.5425569,0,4.7,2397
+"Gandhi Bhavana","museum","museum | tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.987898,77.58023299999999,0,4.3,2348
+"Sri Kailasa Vaikunta Mahakshetra Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9820268,77.5557736,0,4.7,2249
+"Hotel Grand Bee","tourist attraction","tourist_attraction | restaurant | lodging | point_of_interest | food | establishment",3.9,"","bengaluru",13.0199,77.5544449,0,3.9,2063
+"Ascension Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",13.0024983,77.6257601,0,4.6,1960
+"Sacred Heart Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9662738,77.609807,0,4.7,1877
+"National Gallery of Modern Art (Bengaluru)","library","library | art_gallery | tourist_attraction | cafe | museum | food | point_of_interest | store | establishment",4.3,"","bengaluru",12.9894116,77.5880553,0,4.3,1823
+"Maha Bodhi Society","tourist attraction","tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9784856,77.5810225,0,4.7,1796
+"Floral Clock","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9518954,77.58489329999999,0,4.3,1715
+"Sri Yadugiri Yathiraja Mutt","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","bengaluru",13.0021189,77.571186,0,4.5,1639
+"National Military Memorial Park","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9854791,77.59048469999999,0,4.5,1573
+"Kalyana Venkateshwara Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.910415,77.5822853,0,4.7,1560
+"Sree Lakshmi Venkateshwara Siddhi Vinayaka varadanjaneya Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9161402,77.602916,0,4.6,1485
+"The Weekend Dog Park @ Cubbon Park","park","park | tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9743559,77.5901927,0,4.8,1479
+"Rangoli Metro Art Center","art gallery","art_gallery | tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9763051,77.60379019999999,0,4.3,1473
+"NIMHANS Brain Museum Bengaluru","museum","museum | tourist_attraction | point_of_interest | establishment",4.6,"","bengaluru",12.9398589,77.595128,0,4.6,1394
+"Kote Sri Prasanna Venkataramana Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9595393,77.5740643,0,4.7,1299
+"Government Museum","museum","museum | tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9746376,77.595827,0,4.2,1199
+"Lalbagh Waterfall","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9466354,77.5864963,0,4.3,1171
+"Venkatappa Art Gallery Bengaluru","art gallery","art_gallery | tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9742357,77.5953023,0,4.2,1169
+"Shri Dattatreya Devasthana (Hosakerehalli)","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","bengaluru",12.9248842,77.5401899,0,4.5,1112
+"CSI Holy Trinity Church","church","church | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9721431,77.6205788,0,4.6,1020
+"Sri Ayyappa Swamy Temple Kalasipalya","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.959833,77.577503,0,4.8,968
+"Jayanagara Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9338816,77.5872718,0,4.2,897
+"View point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9385911,77.5375304,0,4.3,880
+"Shri Gundlu Muneshwara Swamy Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9361927,77.6068014,0,4.8,828
+"Sri Pralayakaalada Veerabhadraswami Gudi","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9479404,77.5581468,0,4.7,822
+"Shri Rama Devara Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9378201,77.5709804,0,4.6,818
+"Department of Archaeology and Museums","museum","museum | tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.97465,77.5958911,0,4.3,801
+"Bal Bhavan society","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9768883,77.5987379,0,4.2,781
+"Swarna Tours and Travels","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",5,"","bengaluru",12.9966747,77.57028199999999,0,5,703
+"Shri Ramanjaneya Swamy Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9353779,77.57165289999999,0,4.7,546
+"KRISHNA TOURS AND TRAVELS","travel agency","travel_agency | tourist_attraction | lodging | point_of_interest | establishment",4.8,"","bengaluru",12.9163266,77.6101673,0,4.8,533
+"Shri Manjunatha Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9969667,77.5546875,0,4.7,520
+"Shri Subramanya Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9968801,77.55893689999999,0,4.6,518
+"Shri Maramma Tayi Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9988972,77.5717777,0,4.6,480
+"Kempegowda Tower, Bengaluru","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9677725,77.588976,0,4.3,420
+"Kota Shri Venkataramana Swamy Temple Trust (R)","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9519928,77.5774023,0,4.7,413
+"Minsk Square","landmark","landmark | tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9815135,77.59677479999999,0,4.4,414
+"Kempegowda Tower, Bengaluru","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9486198,77.5894246,0,4.4,390
+"Sri Kodandarama Devasthana {R.}","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","bengaluru",12.9656973,77.5920325,0,4.5,372
+"Shri Nimishamba Devi Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.97233,77.5726428,0,4.7,357
+"Park - J.P Nagar","park","park | tourist_attraction | point_of_interest | establishment",4.1,"","bengaluru",12.9128992,77.59391769999999,0,4.1,359
+"Indian Military Memorial","museum","museum | tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.985431,77.59017159999999,0,4.5,347
+"KALPAKA TRAVELS","tourist attraction","tourist_attraction | point_of_interest | establishment",3.9,"","bengaluru",12.9608805,77.5778287,0,3.9,342
+"Mahatma Gandhi Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9771523,77.5997292,0,4.2,312
+"Sri Prasanna Krishnaswamy Swamy temple, Tulasithota","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9731905,77.5734846,0,4.6,288
+"Sri Venkateshwara Travel Agency","travel agency","travel_agency | car_rental | tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9998845,77.524961,0,4.8,279
+"Shri Rama Devara Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9485991,77.5970732,0,4.6,273
+"City Civil Courts Mayo Hall Unit","tourist attraction","tourist_attraction | courthouse | local_government_office | point_of_interest | establishment",4.1,"","bengaluru",12.9741112,77.6106502,0,4.1,268
+"Shri Kalabhairaveshwara Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9535301,77.5594191,0,4.7,242
+"BAPS Shri Swaminarayana Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | health | point_of_interest | establishment",4.8,"","bengaluru",12.9784742,77.54854639999999,0,4.8,236
+"Hanumagiri hills","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","bengaluru",12.9187258,77.5363998,0,4.6,224
+"Lotus Pond - Lalbagh","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9478225,77.5855733,0,4.3,222
+"HAL Tejas Model Display","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","bengaluru",12.9808402,77.59716039999999,0,4.6,217
+"Turnkey Holidays - International Tours and Travels Agency Bengaluru","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.7,"","bengaluru",13.0093173,77.5487012,0,4.7,208
+"RC HOLIDAYS TOURS AND TRAVELS -BEST TRAVEL AGENCY IN BANGALORE","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.8,"","bengaluru",12.9432924,77.56457710000001,0,4.8,206
+"Halasuru Lake","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.981375,77.6193141,0,4.2,211
+"Shri Venugopala Swami Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.4,"","bengaluru",12.9326768,77.5379445,0,4.4,201
+"White Silk Cotton Tree","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","bengaluru",12.9499104,77.5826604,0,4.6,189
+"Band Stand","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9767034,77.59394139999999,0,4.5,186
+"Queen Victoria Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9767965,77.5990644,0,4.4,177
+"Topiary Garden (Lalbagh)","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.950709,77.5831087,0,4.5,173
+"Madiwala Lake View","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9104073,77.6157401,0,4.2,176
+"Japanese Garden (Lalbagh)","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","bengaluru",12.9513341,77.5867169,0,4.1,174
+"ISKCON Temple View Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","bengaluru",13.0109351,77.5512182,0,4.7,163
+"Nigesh the cat","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9948322,77.58698489999999,0,4.8,162
+"Janatha Bazaar Park","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",13.0067661,77.5820851,0,4.5,164
+"Asian Travel Agency: Premier Tour Operator and Travel Agency","tourist attraction","tourist_attraction | local_government_office | travel_agency | point_of_interest | establishment",4.3,"","bengaluru",12.953733,77.5802526,0,4.3,155
+"Clock Tower","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9886242,77.60269579999999,0,4.3,139
+"BTM lake front","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9086844,77.61528009999999,0,4.4,130
+"Tree Fossil","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9505293,77.5838278,0,4.2,124
+"Shri Annapoorneshwari Devi Gudi","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9885435,77.5630281,0,4.7,119
+"ROYAL DREAM TO FLY PRIVATE LIMITED","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.3,"","bengaluru",12.940773,77.5426985,0,4.3,122
+"SME Tours and Travels","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9180139,77.5571105,0,4.8,115
+"K1BOND HILLS","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","bengaluru",12.9173021,77.5299081,0,4.3,114
+"Shri Kashi Vishveshwara Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9586051,77.5644367,0,4.6,108
+"Shri Arunachaleshwara Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9134129,77.5290813,0,4.7,102
+"Swami Vivekananda Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","bengaluru",12.9478686,77.56792329999999,0,4.7,100
+"Thathwamasi Tours Bengaluru","tourist attraction","tourist_attraction | travel_agency | place_of_worship | point_of_interest | establishment",4.9,"","bengaluru",12.9433,77.5586703,0,4.9,93
+"SNS Travels Holiday Package Trips","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4.7,"","bengaluru",12.9968546,77.5704966,0,4.7,94
+"Brigade Gateway Lake","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",13.0114688,77.5560344,0,4.5,95
+"Aralikatte","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","bengaluru",12.9224695,77.5743267,0,4.2,88
+"Mahua- The Art Gallery","art gallery","art_gallery | tourist_attraction | point_of_interest | establishment",4.1,"","bengaluru",13.005591,77.5816385,0,4.1,85
+"Sri Shreyas Tour and Travels","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.953209,77.577773,0,4.8,67
+"Peepletree Art Gallery","art gallery","art_gallery | tourist_attraction | museum | point_of_interest | establishment",4.3,"","bengaluru",13.0068362,77.58261720000002,0,4.3,67
+"Coorg Travel Bag Center","tourist attraction","tourist_attraction | point_of_interest | store | establishment",4.9,"","bengaluru",12.9863765,77.5372912,0,4.9,56
+"Tallest flag pole","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","bengaluru",12.960455,77.5297099,0,4.6,53
+"215 feet India flag","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","bengaluru",12.9603253,77.5296992,0,4.7,51
+"Shri Krishna Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","bengaluru",12.9752534,77.6221841,0,4.5,50
+"Sri Adishakthi Chikkannamma Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9607108,77.570168,0,4.7,44
+"Shri Venkataramana Swami Devasthana","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9234469,77.6206783,0,4.8,42
+"DR APJ ABDUL KALAM STATUE","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","bengaluru",12.9649773,77.570112,0,4.4,44
+"Falcon Tours & Travels","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.9,"","bengaluru",12.9731093,77.5464951,0,4.9,34
+"BTM Lake Northern Most Point","tourist attraction","tourist_attraction | point_of_interest | establishment",3.8,"","bengaluru",12.9151641,77.6164774,0,3.8,44
+"Statue Of Basavanna","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9843536,77.58854079999999,0,4.8,34
+"REBOUND ARCADE","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","bengaluru",12.9402545,77.5251347,0,4.6,33
+"ಕ್ರಾಂತಿ ವೀರ ಸಂಗೊಳ್ಳಿ ರಾಯಣ್ಣ ವೃತ್ತ","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","bengaluru",12.9799943,77.5711537,0,4.8,31
+"Veerabhumi","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","bengaluru",12.9854373,77.5904747,0,4.5,33
+"Kempegowda Tower","tourist attraction","tourist_attraction | point_of_interest | establishment",4,"","bengaluru",12.949338,77.5580263,0,4,36
+"Chilli the Billi","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","bengaluru",12.974729,77.605948,0,5,26
+"Eyelusion Bangalore","museum","museum | point_of_interest | establishment",4.8,"","bengaluru",13.0062264,77.5919552,0,4.8,9015
+"Museum of Art & Photography (MAP)","museum","museum | point_of_interest | establishment",4.5,"","bengaluru",12.9746026,77.5967537,0,4.5,2394
+"Cauvery Karnataka State Arts & Craft Emporium","store","store | museum | point_of_interest | establishment",4.2,"","bengaluru",12.9295553,77.5823999,0,4.2,1374
+"Param Science Experience Centre (ParSEC Jayanagar)","museum","museum | point_of_interest | establishment",4.3,"","bengaluru",12.9274379,77.57924729999999,0,4.3,1197
+"Vidhan sabha","museum","museum | point_of_interest | establishment",4.5,"","bengaluru",12.9796309,77.59068649999999,0,4.5,906
+"Bangalore Creative Circus","museum","museum | cafe | restaurant | point_of_interest | store | food | establishment",4.4,"","bengaluru",13.0138897,77.5481114,0,4.4,554
+"Bimba The Art Hut","museum","museum | point_of_interest | establishment",4.4,"","bengaluru",12.9381822,77.5717596,0,4.4,335
+"Shades Creative Gallery","art gallery","art_gallery | museum | store | point_of_interest | establishment",4.9,"","bengaluru",12.9367782,77.61517359999999,0,4.9,326
+"Rezwan Razack’s Museum of Indian Paper Money","museum","museum | point_of_interest | establishment",4.6,"","bengaluru",12.9711162,77.6142498,0,4.6,217
+"MAP Conservation Centre","museum","museum | point_of_interest | establishment",4.5,"","bengaluru",12.9744087,77.5964503,0,4.5,196
+"War Memorial Garden","museum","museum | point_of_interest | establishment",4.2,"","bengaluru",12.9856986,77.5913313,0,4.2,189
+"NIMHANS Heritage Museum","museum","museum | point_of_interest | establishment",4.4,"","bengaluru",12.9398127,77.5950616,0,4.4,146
+"DAN MURAL DESIGN| Murals | Wall Murals","art gallery","art_gallery | museum | point_of_interest | store | establishment",4.9,"","bengaluru",12.9402338,77.5340932,0,4.9,129
+"Kaveri Auto Gas (Bangalore Cng Fitment Centre)","museum","museum | car_repair | point_of_interest | store | establishment",4.9,"","bengaluru",12.9593386,77.58793469999999,0,4.9,111
+"Bosch India Experience Centre","museum","museum | point_of_interest | establishment",4.6,"","bengaluru",12.9460956,77.604113,0,4.6,109
+"Head Office - Param Innovation","amusement park","amusement_park | museum | point_of_interest | establishment",4.7,"","bengaluru",12.9272011,77.5872366,0,4.7,97
+"DeKulture Sadashiv store","jewelry store","jewelry_store | home_goods_store | museum | point_of_interest | store | establishment",5,"","bengaluru",13.0044888,77.5816771,0,5,89
+"Vimor Museum of Living textiles","museum","museum | point_of_interest | establishment",4.6,"","bengaluru",12.9640776,77.61353679999999,0,4.6,80
+"SANDESH - Museum of Communication","museum","museum | point_of_interest | establishment",4.7,"","bengaluru",12.9727432,77.6036058,0,4.7,76
+"MKF Museum of Art","art gallery","art_gallery | museum | point_of_interest | establishment",4.3,"","bengaluru",12.9707254,77.5978267,0,4.3,69
+"Mahaveer Marble ART Gallery | Marble Idols in Bangalore | God Idols in Bangalore","art gallery","art_gallery | museum | point_of_interest | store | establishment",4.3,"","bengaluru",12.9460308,77.6026397,0,4.3,68
+"Pandey Moorti Bhandar (Pandey Marble Arts) - Best Marble Murti Statue Manufacturer","museum","museum | point_of_interest | store | establishment",4.6,"","bengaluru",13.0041399,77.5494302,0,4.6,57
+"Science Park","museum","museum | point_of_interest | establishment",4.6,"","bengaluru",12.9847437,77.5900042,0,4.6,45
+"Hobby Ghar","art gallery","art_gallery | museum | cafe | point_of_interest | store | food | establishment",4.9,"","bengaluru",12.9958851,77.5794774,0,4.9,42
+"Dyu Art Cafe","art gallery","art_gallery | cafe | restaurant | food | point_of_interest | store | establishment",4.4,"","bengaluru",12.9374249,77.61765659999999,0,4.4,20752
+"Chitra Santhe - (Bengaluru)","art gallery","art_gallery | point_of_interest | establishment",4.6,"","bengaluru",12.9887836,77.58110669999999,0,4.6,1369
+"TRIPPINK Tattoo Studio","art gallery","art_gallery | point_of_interest | store | establishment",4.9,"","bengaluru",12.9338398,77.61950159999999,0,4.9,1339
+"Oviyam Tanjore Art Gallery - Tanjore Painting in Bengaluru","art gallery","art_gallery | point_of_interest | establishment",5,"","bengaluru",12.9222947,77.59715469999999,0,5,796
+"Reliance Fine Art","art gallery","art_gallery | point_of_interest | store | establishment",4.1,"","bengaluru",12.9817529,77.607878,0,4.1,777
+"Marudhar Arts","art gallery","art_gallery | home_goods_store | store | point_of_interest | establishment",4.4,"","bengaluru",12.9755888,77.6050894,0,4.4,718
+"Tarang Arts Jayanagar - Tanjore paintings and Handicrafts in Bangalore","art gallery","art_gallery | point_of_interest | establishment",4.5,"","bengaluru",12.9260005,77.5858568,0,4.5,478
+"Tanjore Collective","art gallery","art_gallery | point_of_interest | establishment",4.9,"","bengaluru",12.9475177,77.5752898,0,4.9,400
+"Kalakar Tattoo studio | ಕಲಾಕಾರ್ ಟ್ಯಾಟೂ ಸ್ಟುಡಿಯೋ","art gallery","art_gallery | clothing_store | point_of_interest | store | establishment",4.8,"","bengaluru",12.9291145,77.5853504,0,4.8,369
+"Bhavya Art Gallery","art gallery","art_gallery | general_contractor | point_of_interest | establishment",4.9,"","bengaluru",12.9428133,77.6026902,0,4.9,327
+"Divine Gallery","art gallery","art_gallery | store | point_of_interest | establishment",4.3,"","bengaluru",12.946563,77.60269,0,4.3,318
+"Tallenge Store","art gallery","art_gallery | point_of_interest | store | establishment",4.4,"","bengaluru",12.9327799,77.6304619,0,4.4,285
+"Flicker Colors - Resin Art Studio in Bangalore | Varmala Preservation | Flower Preservation | Resin wall Clock","art gallery","art_gallery | point_of_interest | store | establishment",4.8,"","bengaluru",12.9684919,77.5189908,0,4.8,272
+"1 ShanthiRoad Studio Gallery","art gallery","art_gallery | point_of_interest | establishment",4.4,"","bengaluru",12.9606478,77.5949345,0,4.4,273
+"Siddeshwara Arts & Frames","art gallery","art_gallery | store | point_of_interest | establishment",4.3,"","bengaluru",12.931137,77.5853205,0,4.3,262
+"Fidelitus Gallery","art gallery","art_gallery | point_of_interest | establishment",4.8,"","bengaluru",12.9205361,77.5725887,0,4.8,254
+"LAITON CRAFTS","art gallery","art_gallery | point_of_interest | establishment",4.9,"","bengaluru",12.9370114,77.5728744,0,4.9,224
+"VinShain Art Studio","art gallery","art_gallery | point_of_interest | establishment",4.8,"","bengaluru",12.9941126,77.5387291,0,4.8,218
+"Van Gogh's Arts & Frames","art gallery","art_gallery | point_of_interest | store | establishment",4.6,"","bengaluru",12.972625,77.6209697,0,4.6,207
+"balaji Tanjore Art Gallery ( Bengaluru Branch )","art gallery","art_gallery | point_of_interest | establishment",4.7,"","bengaluru",12.9218186,77.5860641,0,4.7,204
+"Sri Chamarajendra Park","park","park | point_of_interest | establishment",4.4,"","bengaluru",12.9752487,77.5928871,0,4.4,142651
+"Fun World Amusement Park","amusement park","amusement_park | park | point_of_interest | establishment",4.1,"","bengaluru",13.0069448,77.5920976,0,4.1,13015
+"Coles Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9945379,77.60880379999999,0,4.2,6031
+"‌Jinke Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9516245,77.55728479999999,0,4.2,5176
+"Nandini Layout Park","park","park | point_of_interest | establishment",4.4,"","bengaluru",13.0132452,77.5352504,0,4.4,4814
+"Avalahalli BDA Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9428725,77.5428541,0,4.3,4793
+"Mariyappanapalya Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9973544,77.55643239999999,0,4.3,4296
+"Madhavan Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9362236,77.5857619,0,4.2,4219
+"Ramakrishna Udyanavana (Vivekananda Udyanavana)","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9395828,77.547343,0,4.3,3982
+"Makkala Koota Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9577166,77.5725009,0,4.2,3696
+"'Mysuru Mallige' K.S Narasimhaswamy Park","park","park | point_of_interest | establishment",4.4,"","bengaluru",12.9295563,77.5480595,0,4.4,3394
+"Netaji Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9914619,77.5430334,0,4.2,3085
+"Manjunathanagara Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9930206,77.5500608,0,4.3,2893
+"Kurpad Gundappa Shamanna Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9378,77.57159999999999,0,4.3,2576
+"Halasuru Kere","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9864432,77.6196648,0,4.3,2426
+"Koramangala Post Office Ground","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9276224,77.6273006,0,4.2,2380
+"Gandhi Ground","park","park | point_of_interest | establishment",4.1,"","bengaluru",12.9714488,77.54290329999999,0,4.1,2221
+"Shrikanteshwara Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9267266,77.5542926,0,4.3,2170
+"Vishweshvarayya (Kothi) Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9901026,77.53626560000001,0,4.3,2073
+"Richmond Town Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.9635188,77.6016887,0,4.2,2060
+"Shri Mahadeva Mailara Park","park","park | point_of_interest | establishment",3.8,"","bengaluru",12.9973214,77.5525402,0,3.8,1899
+"Dhanvanthari Park","park","park | point_of_interest | establishment",4.4,"","bengaluru",12.9087939,77.5878109,0,4.4,1724
+"Devaiah Park","park","park | point_of_interest | establishment",4,"","bengaluru",12.9974407,77.56399929999999,0,4,1516
+"Pushpanjali Park","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9345258,77.54313309999999,0,4.3,1490
+"Subhash Chandra Bose Park","park","park | point_of_interest | establishment",4.4,"","bengaluru",12.9751766,77.5431045,0,4.4,1330
+"Dr.Rajkumar Park","park","park | point_of_interest | establishment",4.2,"","bengaluru",12.951618,77.5572679,0,4.2,1271
+"Sri Kalakesari Udayakumara Udyana","park","park | point_of_interest | establishment",4.3,"","bengaluru",13.0026562,77.55182140000001,0,4.3,1265
+"Kuvempu Ground","park","park | point_of_interest | establishment",4.1,"","bengaluru",12.990293,77.5397471,0,4.1,1227
+"Hosahalli Park","park","park | point_of_interest | establishment",4.1,"","bengaluru",12.9701729,77.5433461,0,4.1,1210
+"Nandhanavana Park (Dattatreya Nagara)","park","park | point_of_interest | establishment",4.3,"","bengaluru",12.9302413,77.5422315,0,4.3,1121
+"Truffles Koramangala","cafe","cafe | restaurant | food | point_of_interest | establishment",4.5,"","bengaluru",12.9335313,77.6143168,0,4.5,50456
+"PVR Cinemas, The NEXUS Mall, Koramangala","movie theater","movie_theater | point_of_interest | establishment",4.3,"","bengaluru",12.9346295,77.6112922,0,4.3,41621
+"MTR","restaurant","restaurant | food | point_of_interest | establishment",4.3,"","bengaluru",12.9551821,77.5855569,0,4.3,39100
+"Meghana Foods","restaurant","restaurant | food | point_of_interest | establishment",4.3,"","bengaluru",12.9261515,77.5845766,0,4.3,35028
+"Empire Restaurant Koramangala","restaurant","restaurant | food | point_of_interest | establishment",4.2,"","bengaluru",12.9347615,77.6158641,0,4.2,33510
+"Lakshmi Theatre RGB 4K 3D","movie theater","movie_theater | point_of_interest | establishment",3.9,"","bengaluru",12.9251943,77.607627,0,3.9,26993
+"The LaLiT Ashok Bengaluru","lodging","lodging | point_of_interest | establishment",4.3,"","bengaluru",12.9922264,77.5825643,0,4.3,26705
+"GRT Jewellers - Jayanagar, Bengaluru","jewelry store","jewelry_store | point_of_interest | store | establishment",4.6,"","bengaluru",12.9264368,77.58565329999999,0,4.6,26495
+"Lemon Tree Premier Ulsoor Lake Bengaluru","lodging","lodging | restaurant | food | point_of_interest | establishment",3.9,"","bengaluru",12.987448,77.61669359999999,0,3.9,26224
+"Hallimane Restaurant","cafe","cafe | restaurant | point_of_interest | store | food | establishment",4,"","bengaluru",12.995496,77.5717835,0,4,25571
+"Meghana Foods","restaurant","restaurant | food | point_of_interest | establishment",4.3,"","bengaluru",12.9728906,77.60923199999999,0,4.3,22071
+"Meghana Foods - Koramangala","restaurant","restaurant | food | point_of_interest | establishment",4.3,"","bengaluru",12.9346193,77.6163924,0,4.3,21719
+"ITC Windsor, a Luxury Collection Hotel, Bengaluru","lodging","lodging | point_of_interest | establishment",4.7,"","bengaluru",12.9941311,77.5858958,0,4.7,21558
+"Hotel empire - Central Street","restaurant","restaurant | food | point_of_interest | establishment",4.4,"","bengaluru",12.9797842,77.60270799999999,0,4.4,20787
+"Sapna Book House","book store","book_store | food | point_of_interest | store | establishment",4.4,"","bengaluru",12.9306046,77.58149689999999,0,4.4,20664
+"Srinivasa Theatre 4K 3D","movie theater","movie_theater | point_of_interest | establishment",3.8,"","bengaluru",12.931852,77.6074873,0,3.8,19708
+"The Ritz-Carlton, Bangalore","lodging","lodging | point_of_interest | establishment",4.6,"","bengaluru",12.9683498,77.6011114,0,4.6,19585
+"The Chancery Pavilion","lodging","lodging | restaurant | food | point_of_interest | establishment",4.1,"","bengaluru",12.9660768,77.59854779999999,0,4.1,19136
+"Taj West End, Bengaluru","lodging","lodging | point_of_interest | establishment",4.6,"","bengaluru",12.9845461,77.5845824,0,4.6,18209
+"Maiyas Beverages And Foods Private Limited","restaurant","restaurant | food | point_of_interest | establishment",4,"","bengaluru",12.9285581,77.5821806,0,4,17822
+"Infant Jesus Church and Shrine","church","church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9535628,77.61867120000001,0,4.7,14422
+"St. Thomas Forane Syro-Malabar Catholic Church Dharmaram, Bengaluru","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9311122,77.603246,0,4.6,4504
+"St Anthony's Friary Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9300866,77.61429009999999,0,4.7,4197
+"Holy Ghost Church","church","church | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",13.0060626,77.6178436,0,4.8,2756
+"C.S.I Hudson Memorial Church","church","church | place_of_worship | point_of_interest | establishment",4.4,"","bengaluru",12.9673883,77.5879205,0,4.4,853
+"Christha Prabhalaya Epiphany Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9272833,77.5878944,0,4.6,742
+"C.S.I St. Andrew's Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9793212,77.6042429,0,4.6,718
+"CSI East Parade Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9740668,77.6145545,0,4.6,534
+"CSI All Saints Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9657747,77.6074746,0,4.6,496
+"The Mar Thoma Syrian Church, 47 Primrose Road, Bangalore","church","church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9698209,77.6124327,0,4.7,490
+"St. John's Church (C.S.I.)","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9917041,77.6130611,0,4.6,480
+"Assumption Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9925024,77.554772,0,4.7,452
+"C.S.I St. Luke's Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9595756,77.5719015,0,4.6,448
+"St. Gregorios Orthodox Cathedral","church","church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9646911,77.6064683,0,4.7,435
+"Richmond Town Methodist Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9636302,77.6032373,0,4.7,321
+"St. Joseph's Church","church","church | place_of_worship | point_of_interest | establishment",4.5,"","bengaluru",12.963521,77.57017859999999,0,4.5,286
+"Zion A.G Church","church","church | place_of_worship | point_of_interest | establishment",4.4,"","bengaluru",12.9255995,77.6154682,0,4.4,245
+"St. Michael's Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9559856,77.5972032,0,4.6,237
+"St. THERESA’S CHURCH","church","church | place_of_worship | point_of_interest | establishment",4.3,"","bengaluru",12.9612307,77.5844125,0,4.3,226
+"Shree Banashankari Devi Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.915605,77.5732254,0,4.8,24462
+"Ramakrishna Math, Bengaluru","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9487437,77.5668096,0,4.7,7930
+"TTD Information Center","hindu temple","hindu_temple | travel_agency | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",13.0064285,77.57652829999999,0,4.6,5678
+"Shri Ayyappa Swami Seva Samiti (Madiwala)","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9242293,77.6181106,0,4.6,5217
+"Sri Raghavendra Swamy Matha","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9173491,77.5856091,0,4.8,4922
+"Shri Shirdi Saibaba Temple, Cambridge Layout","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9698295,77.6303075,0,4.8,4012
+"Shri Dharmaraya Swamy Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9655571,77.5834908,0,4.7,3186
+"Punyakshetra Sri Dharmagiri Manjunathaswamy Devalaya","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9211868,77.56436219999999,0,4.7,2831
+"Sri Sai Baba Spiritual Centre","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9354336,77.5701807,0,4.8,2701
+"Sri Prasanna Ganapati Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9362392,77.6177359,0,4.8,2688
+"Shri Kodandarama Swami Temple Ejipura","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9450062,77.6288142,0,4.6,2138
+"Shri Lakshmi Hayagreeva Sannidhi","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9779169,77.57408219999999,0,4.7,2119
+"Shri Muthyalamma Devi Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9892276,77.6084928,0,4.7,2068
+"ಶ್ರೀ ಅಖಿಲ ಹವ್ಯಕ ಮಹಾಸಭಾ - ಹವ್ಯಕ ಭವನ","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.3,"","bengaluru",13.0012991,77.5647,0,4.3,2034
+"SRI SUBRAHMANYA SWAMY TEMPLE TRUST","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.952708,77.5762335,0,4.8,1981
+"Sri Shirdi Saibaba Ananda Ashrama","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9181425,77.6021787,0,4.8,1892
+"ISKCON Seshadripuram","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9954844,77.5794318,0,4.7,1647
+"Masjid E Bilal","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9208199,77.5997447,0,4.8,4974
+"Masjid-E-Khadria","mosque","mosque | place_of_worship | point_of_interest | establishment",4.9,"","bengaluru",12.9945415,77.6023695,0,4.9,3510
+"Jamia Masjid Bengaluru City","mosque","mosque | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9641334,77.57845840000002,0,4.6,3235
+"Dargah Hazrat Tawakkal Shah Mastan Suhrawardi Rehmatullahi alayh","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9731759,77.57157099999999,0,4.8,2886
+"Masjid E Mamoor Bengaluru","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9354015,77.61575479999999,0,4.8,2106
+"Masjid e Abdul Majid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9870325,77.6070993,0,4.6,1475
+"Dargah Hazrath Sayyed Yaqeen Shah wali RA Mosque","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9831567,77.5877747,0,4.8,1298
+"Jamia Masjid Basavanagudi Bangaluru","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9403626,77.5792154,0,4.8,1066
+"Abdul Gafoor Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.9,"","bengaluru",12.9855643,77.59854109999999,0,4.9,1022
+"Quddus Saheb Eidgah","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9946607,77.60221229999999,0,4.8,976
+"Eidgah & Masjid Jayanagar 4th Block","mosque","mosque | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.928526,77.5852713,0,4.6,967
+"Masjid-E-Askari (Shia)","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9636245,77.6064335,0,4.8,854
+"Makkah Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.6,"","bengaluru",12.9552141,77.61451939999999,0,4.6,709
+"Masjid E Islamia","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.927816,77.59375639999999,0,4.8,654
+"Masjid e Ateeq","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9447034,77.5944108,0,4.7,643
+"Masjid e Munawara","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9241445,77.6043603,0,4.8,639
+"Masjid Salafiyah","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","bengaluru",12.9211033,77.6019656,0,4.8,585
+"Masjid-E-Minhaj","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","bengaluru",12.9110786,77.5621209,0,4.7,575
+"johur uddin","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","bengaluru",12.9715917,77.5944902,0,0,0
+"Ramesh Dahiya","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","bengaluru",12.9510199,77.595263,0,0,0
+"Cartoon","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","bengaluru",12.923413,77.5762155,0,0,0
+"Eng 707","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","bengaluru",12.9388014,77.61043529999999,0,0,0
+"God's House","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","bengaluru",13.0098825,77.6184335,0,0,0
+"Orion Mall","shopping mall","shopping_mall | point_of_interest | establishment",4.5,"","bengaluru",13.011023,77.55471519999999,0,4.5,196644
+"Mantri Square Mall","shopping mall","shopping_mall | point_of_interest | establishment",4.4,"","bengaluru",12.9916302,77.5711719,0,4.4,147831
+"Nexus Mall Koramangala","shopping mall","shopping_mall | point_of_interest | establishment",4.4,"","bengaluru",12.934692,77.6111212,0,4.4,139059
+"UB City","shopping mall","shopping_mall | point_of_interest | establishment",4.5,"","bengaluru",12.9716428,77.5959367,0,4.5,68466
+"Gopalan Innovation Mall","shopping mall","shopping_mall | movie_theater | point_of_interest | establishment",4,"","bengaluru",12.9144032,77.59958150000001,0,4,52157
+"GT World Mall - Bengaluru","shopping mall","shopping_mall | point_of_interest | establishment",4.3,"","bengaluru",12.9738099,77.5515904,0,4.3,48099
+"Gopalan Arcade Mall","shopping mall","shopping_mall | bowling_alley | movie_theater | cafe | grocery_or_supermarket | store | food | point_of_interest | establishment",4,"","bengaluru",12.9359899,77.5177757,0,4,45164
+"1 MG - Lido Mall","shopping mall","shopping_mall | point_of_interest | establishment",4,"","bengaluru",12.9734662,77.6204084,0,4,38933
+"ETA Mall","shopping mall","shopping_mall | point_of_interest | establishment",3.9,"","bengaluru",12.9656357,77.5618257,0,3.9,34729
+"Jayanagar Shopping Complex","shopping mall","shopping_mall | point_of_interest | establishment",4.2,"","bengaluru",12.9389444,77.5840747,0,4.2,23689
+"Gopalan Mall Sirsi Circle","shopping mall","shopping_mall | movie_theater | clothing_store | shoe_store | grocery_or_supermarket | store | restaurant | food | point_of_interest | establishment",4.1,"","bengaluru",12.9582639,77.55354059999999,0,4.1,18037
+"BDA Shopping Complex Koramangala","shopping mall","shopping_mall | point_of_interest | establishment",3.7,"","bengaluru",12.930627,77.6225267,0,3.7,16799
+"Ajaz Ahmed","shopping mall","shopping_mall | movie_theater | point_of_interest | establishment",3.2,"","bengaluru",12.9676153,77.575008,0,3.2,15529
+"POTHYS - Kasturba Nagar, Bengaluru","clothing store","clothing_store | shopping_mall | grocery_or_supermarket | food | point_of_interest | store | establishment",4.9,"","bengaluru",12.956214,77.54775769999999,0,4.9,14072
+"Lifestyle Stores","shopping mall","shopping_mall | clothing_store | shoe_store | store | point_of_interest | establishment",4.2,"","bengaluru",12.9375971,77.62812199999999,0,4.2,13237
+"BDA Complex Banashankari","shopping mall","shopping_mall | point_of_interest | establishment",4.2,"","bengaluru",12.9255724,77.56486009999999,0,4.2,12644
+"Safina Plaza","shopping mall","shopping_mall | point_of_interest | establishment",4,"","bengaluru",12.9797318,77.6068566,0,4,9993
+"Avenue Book Centre","book store","book_store | shopping_mall | store | point_of_interest | establishment",4,"","bengaluru",12.9712414,77.5804419,0,4,9104
+"Golden Heights","shopping mall","shopping_mall | point_of_interest | establishment",4,"","bengaluru",12.9829609,77.55969639999999,0,4,8948
+"Spar Hypermarket","shopping mall","shopping_mall | supermarket | grocery_or_supermarket | food | point_of_interest | store | establishment",4.1,"","bengaluru",12.991797,77.57043689999999,0,4.1,8354
+"Dr.M.G.R. and Dr.J.Jayalalitha Memorial","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0646502,80.2838605,0,4.3,37842
+"Arulmigu Vadapalani Murugan Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0530165,80.2137596,0,4.7,31859
+"Semmozhi Poonga - Chennai, Tamilnadu","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.1,"","chennai",13.0505371,80.2514128,0,4.1,29159
+"Arulmigu Sri Parthasarathyswamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0538093,80.2769534,0,4.7,28103
+"Marina Beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0471263,80.2824339,0,4.4,23059
+"Chennai Lighthouse","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.5,"","chennai",13.0397354,80.2792984,0,4.5,20930
+"Government Museum Chennai","museum","museum | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0697641,80.2570356,0,4.3,19623
+"Sri Venkateswara Swamy Temple, Tirumala Tirupati Devasthanam","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0359112,80.2365138,0,4.7,19550
+"Panagal Park","park","park | tourist_attraction | point_of_interest | establishment",4.1,"","chennai",13.0412089,80.2332009,0,4.1,19241
+"Mahatma Gandhi Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0433151,80.28002029999999,0,4.5,15543
+"Kalikambal Kamadeswarar Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0945949,80.2891805,0,4.8,13477
+"Vivekananda House","museum","museum | tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0494675,80.2803374,0,4.5,10210
+"Puratchi Thalaivi Dr. J. Jayalalithaa Memorial","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.3,"","chennai",13.0641773,80.28574909999999,0,4.3,9511
+"Chetpet Ecopark","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0767297,80.24108360000001,0,4.3,9234
+"Kandhakottam Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0860483,80.27915349999999,0,4.7,6983
+"Jeeva Park","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0439662,80.2377935,0,4.3,6538
+"Fort St. George Museum","museum","museum | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0806383,80.2876185,0,4.3,6036
+"Perarignar Anna Memorial","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.3,"","chennai",13.0654523,80.28552619999999,0,4.3,4356
+"Anna Nagar Ayyappa Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0851268,80.21313649999999,0,4.8,3816
+"A Cube","electronics store","electronics_store | tourist_attraction | point_of_interest | store | establishment",4,"","chennai",13.0926176,80.2918948,0,4,3057
+"Arulmigu Mundagakanni Amman Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0376933,80.2709817,0,4.7,2744
+"Walajah Big Mosque","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.06378,80.2725419,0,4.8,2657
+"Madras Kali Bari temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0445377,80.22125810000001,0,4.7,2514
+"Sri Chenna Kesava Perumal Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0884033,80.28053229999999,0,4.5,2328
+"My Ladys Garden","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0882587,80.272204,0,4.2,2197
+"Our Lady of Lourdes Shrine","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.1090791,80.241058,0,4.7,2085
+"Avvaiyar Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0462477,80.2803806,0,4.5,1888
+"Secretariat Park","park","park | tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0793055,80.2882834,0,4.4,1886
+"Sri Ayyappa Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.1109006,80.2455481,0,4.7,1702
+"Thousand Lights Shia Mosque","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.0551235,80.255128,0,4.4,1687
+"Arulmigu Muppathamman Aalayam","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0427354,80.23055029999999,0,4.7,1607
+"Arulmigu Gangadeeswarar Koil","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0845954,80.2542648,0,4.6,1548
+"Victory War Memorial","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0734897,80.285625,0,4.5,1471
+"Kittu Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0341736,80.22468099999999,0,4.2,1349
+"Votive Shrine Of The Immaculate Heart of Mary","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0814991,80.2356351,0,4.7,1330
+"MGR Memorial House","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.6,"","chennai",13.0385674,80.24177929999999,0,4.6,1318
+"Kodambakkam Puliyur Masjid","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0542849,80.22926389999999,0,4.7,1314
+"Parrot Sudarson","tourist attraction","tourist_attraction | point_of_interest | establishment",4.9,"","chennai",13.0785083,80.2705208,0,4.9,1302
+"Labour Statue","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.4,"","chennai",13.0641201,80.283706,0,4.4,1192
+"Arulmigu Thelliyasinga Perumal Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0539921,80.27601229999999,0,4.7,1164
+"Chennai Corporation Robinson park","park","park | tourist_attraction | point_of_interest | establishment",4.1,"","chennai",13.1093006,80.2876323,0,4.1,1158
+"Sri Adikesava Perumal Peyalwar Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0306912,80.2706536,0,4.7,1150
+"Church of Our Lady of Light (Luz Church)","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0381608,80.2623978,0,4.7,1073
+"May Day Park","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0734444,80.27322219999999,0,4.3,1041
+"Ravishwarar Shiva Temple (சிவ மயம்)","hindu temple","hindu_temple | tourist_attraction | health | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.1157502,80.26171509999999,0,4.7,910
+"Sri Kandaswamy temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0944753,80.2553382,0,4.6,894
+"Kotturpuram Urban Forest","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0239815,80.2444108,0,4.5,864
+"Madras High Court.","tourist attraction","tourist_attraction | courthouse | point_of_interest | local_government_office | establishment",4.3,"","chennai",13.0856293,80.2882667,0,4.3,850
+"Gandhi Beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0411187,80.2814025,0,4.4,710
+"Shiva Vishnu Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0359937,80.2302188,0,4.6,653
+"Sri Ramakrishna Math Chennai","hindu temple","hindu_temple | hospital | book_store | tourist_attraction | health | place_of_worship | school | point_of_interest | store | establishment",4.8,"","chennai",13.0310677,80.2675077,0,4.8,606
+"Periyapalayathamman Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.1193908,80.2487988,0,4.4,573
+"Zai Palace","tourist attraction","tourist_attraction | point_of_interest | establishment",3.8,"","chennai",13.1161287,80.2925666,0,3.8,563
+"Arulmigu Sri Paanchali Amman Thirukovil","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0769907,80.21068269999999,0,4.6,539
+"Veda Nilayam","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.4,"","chennai",13.0431412,80.25228779999999,0,4.4,526
+"Victoria Public Hall","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0819518,80.27261759999999,0,4.5,455
+"Kamarajar Memorial House","museum","museum | tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0474886,80.2395082,0,4.5,444
+"Big Street Masjid","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0629335,80.27550029999999,0,4.6,413
+"World's Second Longest Urban Beach - Marina Beach point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0551904,80.2847104,0,4.4,389
+"Artificial Water Falls","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.2,"","chennai",13.0637011,80.2837029,0,4.2,387
+"CSI St. Mary's Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.078749,80.2865717,0,4.6,376
+"The Armenian Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0891168,80.2876381,0,4.6,371
+"Arulmigu sri Ellamman Kovil","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0546029,80.27414519999999,0,4.6,335
+"Church of South India - Diocese of Madras","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0511758,80.2521772,0,4.6,312
+"Mahalingeswarar Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0573683,80.23465999999999,0,4.8,296
+"Marina Beach- Kannagi Statue Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.05759,80.2822002,0,4.4,296
+"Rajarajeshwari Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.1168104,80.2269451,0,4.7,279
+"Dugout Trampoline Park and Sports Arena.","amusement park","amusement_park | tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0734336,80.24697520000001,0,4.5,276
+"Egmore Srinivasa Perumal Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0754915,80.2545933,0,4.6,267
+"Chetpet Lake","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0749986,80.2411329,0,4.2,254
+"Marina Blue Flag Beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0585565,80.28408069999999,0,4.4,250
+"AdhiKesava Perumal Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0761908,80.2674315,0,4.6,244
+"St. Peter's Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.1084865,80.2949115,0,4.6,243
+"Angalamman Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.0586404,80.2176929,0,4.4,240
+"Sri Ayyappan Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0754945,80.25519829999999,0,4.7,219
+"Dr. APJ Abdul Kalam Park","park","park | tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0631126,80.234314,0,4.5,218
+"Kasimedu Rock Beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.1401813,80.3015298,0,4.4,203
+"Thiruthanivelmurugan Kovil","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.1382038,80.2812139,0,4.5,198
+"Arthanareeswarar Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0779678,80.2537929,0,4.7,180
+"Ramanujan Museum & Math Education Centre","museum","museum | tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.1135197,80.2906052,0,4.3,184
+"NOCHIKUPPAM BEACH","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.037871,80.2808135,0,4.2,180
+"Children's Museum","museum","museum | tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0699286,80.2563584,0,4.2,149
+"Light house Chennai","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0843007,80.2704622,0,4.4,146
+"Marina Sandy Beach Chennai","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","chennai",13.0585571,80.2861712,0,4.1,143
+"Sri Lankan Buddhist Temple මහා බෝධි","tourist attraction","tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0762703,80.26218220000001,0,4.6,134
+"Thirukadaiyur temple Marriage Services","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.7,"","chennai",13.0763506,80.22047429999999,0,4.7,132
+"Ranganathar Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0707852,80.26739189999999,0,4.5,122
+"Wooden Road sea sand beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0486366,80.28347819999999,0,4.4,108
+"Mannady street","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0952771,80.2894075,0,4.2,104
+"B2B HOLIDAYS","travel agency","travel_agency | finance | tourist_attraction | local_government_office | point_of_interest | establishment",4.9,"","chennai",13.0412501,80.2149822,0,4.9,92
+"Dharmaraja Draupadi Amman Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0750875,80.2665823,0,4.5,95
+"Simbu house","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","chennai",13.0393634,80.23875939999999,0,4.6,93
+"Perarignar Anna Museum","museum","museum | tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.066214,80.2850389,0,4.4,90
+"Dharmaraja Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.1023451,80.29072,0,4.5,86
+"Rock Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0681409,80.29039569999999,0,4.3,83
+"Shirdi Sai Baba Mandir","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.090457,80.25453279999999,0,4.4,77
+"Travel Fantasie","travel agency","travel_agency | tourist_attraction | finance | point_of_interest | establishment",4.8,"","chennai",13.1075954,80.2091008,0,4.8,68
+"Mangalam Travel & Tours | Alwarpet","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4.8,"","chennai",13.0349292,80.2541031,0,4.8,63
+"AL MATAF HAJ AND UMRAH SERVICES","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.3,"","chennai",13.0846635,80.2698241,0,4.3,67
+"Bharathidasan Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0483802,80.28067399999999,0,4.2,58
+"Marina beach sea view point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0586159,80.286378,0,4.3,56
+"N4 beach view point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.1341118,80.2979798,0,4.5,52
+"The Travel Xperts","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.7,"","chennai",13.0400146,80.2291912,0,4.7,48
+"N4 bech","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.1335117,80.30038809999999,0,4.5,48
+"Merina beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0627184,80.2857434,0,4.5,47
+"Arulmigu Draupadi Amman Alayam","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0383247,80.2505015,0,4.5,45
+"Sri Balasubramania Swamy Devasthanam","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0709335,80.265866,0,4.7,41
+"Chennai View Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","chennai",13.1313422,80.3049222,0,4.6,34
+"Sri Arasadi Karpaga Vinayagar Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.9,"","chennai",13.0592352,80.27563839999999,0,4.9,30
+"Netaji Subash Chandra Bose Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","chennai",13.0561402,80.2819477,0,4.7,29
+"Arulmigu Sri Venkatesa Narayana Perumal Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0921224,80.275445,0,4.6,28
+"Kasimedu beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","chennai",13.1391793,80.29902799999999,0,4.1,32
+"Shri Madurai Veeran Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0583611,80.2696716,0,4.5,27
+"Om Namo Narayana Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0962157,80.2350487,0,4.6,26
+"Marina Seashore","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","chennai",13.0547832,80.2853683,0,4.8,23
+"Kasimedu view point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","chennai",13.131934,80.3025059,0,4.7,24
+"Tree Monument","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","chennai",13.0653833,80.2834,0,4.3,24
+"T. Nagar Skywalk","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","chennai",13.0440253,80.23233019999999,0,4.2,24
+"Vergil Paradise","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","chennai",13.0571018,80.2856673,0,4.1,25
+"Subway, mountroad, chennai, Tamilnadu","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0681116,80.2716275,0,4.4,21
+"Old Light House","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0868685,80.2888226,0,4.4,20
+"Napier Bridge View","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0679589,80.2823303,0,4.5,17
+"Travels Chennai Sight seeing & Luxury Car for Corporate Events airport drop & pickup AC|bus|car|Van| 7wbs group","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",5,"","chennai",13.0613281,80.25457209999999,0,5,12
+"Chennai Lighthouse Beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","chennai",13.0395692,80.2811608,0,4.7,15
+"Parrot house","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","chennai",13.0785064,80.2705584,0,5,11
+"Special path for differently abled person to view Marina","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","chennai",13.0489681,80.28196109999999,0,4.4,17
+"PLR HOLIDAYS","tourist attraction","tourist_attraction | point_of_interest | establishment",4.9,"","chennai",13.0714455,80.2286345,0,4.9,11
+"Parrot sudarson","tourist attraction","tourist_attraction | point_of_interest | establishment",4.9,"","chennai",13.0785015,80.27052119999999,0,4.9,10
+"Marina Bamboo Arch (மெரினா மூங்கில் வளைவு)","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","chennai",13.0586049,80.2835168,0,4.5,13
+"Chennai Beach","tourist attraction","tourist_attraction | point_of_interest | establishment",4.9,"","chennai",13.041382,80.281896,0,4.9,9
+"Tamil Nadu Police Museum Chennai","museum","museum | point_of_interest | establishment",4.7,"","chennai",13.0741314,80.2626372,0,4.7,971
+"Egmore Museum","museum","museum | point_of_interest | establishment",4.4,"","chennai",13.0706481,80.25688579999999,0,4.4,311
+"National Art Gallery","museum","museum | point_of_interest | establishment",4.4,"","chennai",13.0695234,80.25677999999999,0,4.4,218
+"Periyar Thidal","museum","museum | point_of_interest | establishment",4.6,"","chennai",13.0815289,80.26108789999999,0,4.6,212
+"The Museum of Possibilities Chennai","museum","museum | point_of_interest | establishment",4.7,"","chennai",13.0467191,80.2800195,0,4.7,181
+"Kalaignar Memorial Museum","museum","museum | point_of_interest | establishment",4.5,"","chennai",13.0654125,80.2861094,0,4.5,176
+"Dr. M.G.R. Museum","museum","museum | point_of_interest | establishment",4.2,"","chennai",13.0649321,80.28513699999999,0,4.2,169
+"Sha Museum","museum","museum | point_of_interest | establishment",5,"","chennai",13.0615894,80.2131459,0,5,118
+"Global Marble Emporium","museum","museum | store | point_of_interest | establishment",4.9,"","chennai",13.0536635,80.21190659999999,0,4.9,108
+"Philatelic Bureau","museum","museum | point_of_interest | establishment",4.5,"","chennai",13.0672338,80.2697639,0,4.5,81
+"Vivekananda Statue and Park","museum","museum | point_of_interest | establishment",4.5,"","chennai",13.0491799,80.2803771,0,4.5,81
+"Thanthai Periyar E. V. Ramaswamy Memorial","library","library | book_store | museum | point_of_interest | store | establishment",4.4,"","chennai",13.0811677,80.2607412,0,4.4,67
+"Kashmir Emporium (govt regd )","museum","museum | point_of_interest | establishment",4.8,"","chennai",13.0614082,80.26163199999999,0,4.8,61
+"Robert Kennedy's Clock Museum","museum","museum | point_of_interest | establishment",4.5,"","chennai",13.0533892,80.2220486,0,4.5,64
+"Government Museum Ticket Counter","museum","museum | point_of_interest | establishment",4.3,"","chennai",13.0698868,80.2566964,0,4.3,62
+"Amma Museum","museum","museum | point_of_interest | establishment",4.6,"","chennai",13.0647557,80.2855653,0,4.6,54
+"War Memorial Tomb","museum","museum | point_of_interest | establishment",4.6,"","chennai",13.0735542,80.28559550000001,0,4.6,49
+"Bharat Insurance Building","museum","museum | point_of_interest | establishment",3.9,"","chennai",13.0653981,80.2674277,0,3.9,55
+"Chennai central museum","museum","museum | point_of_interest | establishment",4.4,"","chennai",13.0705634,80.2573141,0,4.4,48
+"Bronze Gallery","museum","museum | point_of_interest | establishment",4.8,"","chennai",13.0709097,80.25642309999999,0,4.8,42
+"Porutkattchi","museum","museum | point_of_interest | establishment",4,"","chennai",13.0718714,80.2847227,0,4,33
+"Krishna Tanjore Art Gallery (T.nagar)","art gallery","art_gallery | museum | store | point_of_interest | establishment",4.6,"","chennai",13.0329469,80.23070229999999,0,4.6,22
+"Kalaignar Karunanidhi Museum","museum","museum | point_of_interest | establishment",4.5,"","chennai",13.0658573,80.28646959999999,0,4.5,21
+"New Kashmir Art And Crafts(Govt Regd)","museum","museum | point_of_interest | establishment",4.3,"","chennai",13.0613,80.2611,0,4.3,23
+"Chozha Arts & Crafts","museum","museum | home_goods_store | point_of_interest | store | establishment",4.7,"","chennai",13.032457,80.26932800000002,0,4.7,16
+"Anthropology Gallery","museum","museum | point_of_interest | establishment",4.1,"","chennai",13.0709482,80.2570229,0,4.1,21
+"Lalit Kala Academi","art gallery","art_gallery | point_of_interest | establishment",4.4,"","chennai",13.064929,80.2546997,0,4.4,1111
+"Balaji Tanjore Art Gallery (Kodambakkam Branch)","art gallery","art_gallery | point_of_interest | establishment",4.8,"","chennai",13.0537694,80.2341987,0,4.8,741
+"Balaji Tanjore Art Gallery (Anna Nagar branch)","art gallery","art_gallery | point_of_interest | establishment",4.9,"","chennai",13.0825194,80.2130672,0,4.9,497
+"FOCUS art GALLERY","art gallery","art_gallery | point_of_interest | store | establishment",4.5,"","chennai",13.0447903,80.2558365,0,4.5,347
+"Lavanya's Pictures & Frames","art gallery","art_gallery | point_of_interest | store | establishment",4.4,"","chennai",13.0355689,80.2366405,0,4.4,344
+"Tamil Tanjore Art Gallery ( T.NAGAR )","art gallery","art_gallery | point_of_interest | establishment",3.8,"","chennai",13.0386637,80.24339499999999,0,3.8,339
+"Rani Arts & Teak","art gallery","art_gallery | furniture_store | home_goods_store | point_of_interest | store | establishment",4.8,"","chennai",13.0744047,80.23763339999999,0,4.8,249
+"Art Houz","art gallery","art_gallery | point_of_interest | establishment",4.4,"","chennai",13.0653499,80.235873,0,4.4,247
+"Sankalp Arts & Crafts Tanjore Paintings in Chennai","art gallery","art_gallery | point_of_interest | store | establishment",4.8,"","chennai",13.0352202,80.2538118,0,4.8,218
+"CHAYA -Tanjore Art & More","art gallery","art_gallery | point_of_interest | store | establishment",4.7,"","chennai",13.0381272,80.2534642,0,4.7,207
+"Mokksha Art Gallerry And Institutee","art gallery","art_gallery | point_of_interest | establishment",4.8,"","chennai",13.0821957,80.2180408,0,4.8,204
+"C.P. Art Centre","art gallery","art_gallery | point_of_interest | establishment",4.2,"","chennai",13.0381042,80.25557959999999,0,4.2,205
+"Ethnic Arts | Tanjore paintings","art gallery","art_gallery | point_of_interest | establishment",4.6,"","chennai",13.0413342,80.2290979,0,4.6,196
+"GURUBARAN TANJORE ART GALLERY","art gallery","art_gallery | tourist_attraction | health | point_of_interest | store | establishment",4,"","chennai",13.0353105,80.2679308,0,4,185
+"United Brothers Laminations Pvt Ltd (Picture Framing)","art gallery","art_gallery | point_of_interest | store | establishment",4.7,"","chennai",13.0408137,80.27328229999999,0,4.7,158
+"United Brothers Picture Framing","art gallery","art_gallery | store | point_of_interest | establishment",4.4,"","chennai",13.0833259,80.2266561,0,4.4,154
+"Dakshin Tanjore Arts (Mylapore branch)","art gallery","art_gallery | point_of_interest | store | establishment",4.9,"","chennai",13.0340479,80.2709878,0,4.9,138
+"Lakshana Art Gallery","art gallery","art_gallery | point_of_interest | establishment",4.2,"","chennai",13.0322588,80.2579482,0,4.2,127
+"SK's The Lines & Curves - Indian Art Factory","art gallery","art_gallery | point_of_interest | establishment",4.8,"","chennai",13.1256747,80.2197669,0,4.8,116
+"PARAMPARA HANDICRAFTS","art gallery","art_gallery | point_of_interest | establishment",4.8,"","chennai",13.0292191,80.2488284,0,4.8,94
+"Upshift Graphics","art gallery","art_gallery | store | point_of_interest | establishment",4.9,"","chennai",13.065354,80.2716126,0,4.9,80
+"Sunshine Arts & Frames Framing Company | Art Gallery","art gallery","art_gallery | home_goods_store | point_of_interest | store | establishment",4.7,"","chennai",13.0621393,80.2396128,0,4.7,82
+"CSR LEGACY ARTS","art gallery","art_gallery | point_of_interest | store | establishment",4.5,"","chennai",13.1295539,80.2148813,0,4.5,81
+"Ashvita's","art gallery","art_gallery | point_of_interest | establishment",4.4,"","chennai",13.0422928,80.2707337,0,4.4,76
+"Apparao Galleries","art gallery","art_gallery | point_of_interest | establishment",4.2,"","chennai",13.0611347,80.25005589999999,0,4.2,76
+"Dr. Natesan Park","park","park | point_of_interest | establishment",4.4,"","chennai",13.0374608,80.2361272,0,4.4,9954
+"Murasoli Maran Park","park","park | point_of_interest | establishment",4,"","chennai",13.1090664,80.2425514,0,4,2942
+"Anna Walkers Park","park","park | point_of_interest | establishment",4.4,"","chennai",13.0520336,80.22553719999999,0,4.4,2715
+"Shenoy Nagar Skating Park","park","park | point_of_interest | establishment",4.3,"","chennai",13.0809768,80.2256831,0,4.3,2509
+"Thiru Vi Ka Park","park","park | point_of_interest | establishment",4.5,"","chennai",13.0786161,80.2251643,0,4.5,2000
+"Nageswara Rao Park","park","park | point_of_interest | establishment",4.4,"","chennai",13.0365612,80.26350889999999,0,4.4,1577
+"Independence Day Park Children Play Area","park","park | point_of_interest | establishment",4.2,"","chennai",13.0562212,80.2420314,0,4.2,889
+"Chennai Corporation Park","park","park | point_of_interest | establishment",4.3,"","chennai",13.0632733,80.2486015,0,4.3,832
+"Jawahar Nagar Park","park","park | point_of_interest | establishment",4.2,"","chennai",13.1108598,80.2286163,0,4.2,808
+"kolathur Thamarai Kulam Punga","park","park | point_of_interest | establishment",4.4,"","chennai",13.1185993,80.2231812,0,4.4,683
+"Muthamizharignar Dr. Kalaignar M. Karunanidhi Memorial","park","park | point_of_interest | establishment",4.5,"","chennai",13.065406,80.2861021,0,4.5,633
+"K.P.Park","park","park | point_of_interest | establishment",4,"","chennai",13.0954223,80.2671486,0,4,618
+"Venus park","park","park | point_of_interest | establishment",4.1,"","chennai",13.113795,80.2352042,0,4.1,609
+"Sakthivel Nagar Park","park","park | point_of_interest | establishment",4.1,"","chennai",13.1239408,80.22472810000001,0,4.1,556
+"Park Choolai","park","park | point_of_interest | establishment",4.1,"","chennai",13.0905791,80.2638413,0,4.1,526
+"Jeeva Park","park","park | point_of_interest | establishment",4.2,"","chennai",13.0986207,80.2293241,0,4.2,481
+"MGR Memorial Arch","park","park | point_of_interest | establishment",4.5,"","chennai",13.064711,80.2838206,0,4.5,444
+"Corporation Park & Children's Playground","park","park | point_of_interest | establishment",4.4,"","chennai",13.0403949,80.26032649999999,0,4.4,415
+"Senganthal Poonga","park","park | point_of_interest | establishment",4.4,"","chennai",13.0514455,80.2546562,0,4.4,365
+"Express Avenue","shopping mall","shopping_mall | point_of_interest | establishment",4.4,"","chennai",13.0584546,80.26418439999999,0,4.4,105545
+"Sangam Cinemas","movie theater","movie_theater | point_of_interest | establishment",4.2,"","chennai",13.0789613,80.2493535,0,4.2,27106
+"GRT Jewellers - Perambur, Chennai","jewelry store","jewelry_store | point_of_interest | store | establishment",4.8,"","chennai",13.1111438,80.2398508,0,4.8,25662
+"Doveton Cafe","home goods store","home_goods_store | point_of_interest | store | establishment",4.4,"","chennai",13.086661,80.2581411,0,4.4,18267
+"Titan World - Royapuram, Chennai","store","store | point_of_interest | establishment",4.9,"","chennai",13.1122589,80.29204849999999,0,4.9,17140
+"Taj Coromandel, Chennai","lodging","lodging | point_of_interest | establishment",4.6,"","chennai",13.0582829,80.2478219,0,4.6,15658
+"Spectrum The Grand Venus Mall","shopping mall","shopping_mall | point_of_interest | establishment",4,"","chennai",13.1122705,80.2363842,0,4,13584
+"Ega Theatre","movie theater","movie_theater | point_of_interest | establishment",3.9,"","chennai",13.0776106,80.2405291,0,3.9,13551
+"New Woodlands Hotel","lodging","lodging | restaurant | food | point_of_interest | establishment",4.2,"","chennai",13.045397,80.2621209,0,4.2,12849
+"The Accord Metropolitan","bar","bar | lodging | spa | restaurant | food | point_of_interest | establishment",4.4,"","chennai",13.0460986,80.2426019,0,4.4,12115
+"Barbeque Nation- T Nagar","restaurant","restaurant | food | point_of_interest | establishment",4,"","chennai",13.0470453,80.23500539999999,0,4,11501
+"Jawaharlal Nehru Stadium","stadium","stadium | point_of_interest | establishment",4.3,"","chennai",13.0855653,80.2717282,0,4.3,11388
+"Murugan Idli Shop","restaurant","restaurant | food | point_of_interest | establishment",4,"","chennai",13.0453721,80.2328574,0,4,10719
+"Hotel Palmgrove","restaurant","restaurant | lodging | food | point_of_interest | establishment",4.1,"","chennai",13.0530231,80.2479628,0,4.1,10271
+"Ramada by Wyndham Chennai Egmore","lodging","lodging | point_of_interest | establishment",4.1,"","chennai",13.0767592,80.265051,0,4.1,10154
+"Taj Club House, Chennai","lodging","lodging | point_of_interest | establishment",4.4,"","chennai",13.0615995,80.26360969999999,0,4.4,9574
+"Reliance Smart Bazaar","department store","department_store | point_of_interest | supermarket | grocery_or_supermarket | store | food | establishment",4.1,"","chennai",13.0587349,80.26431219999999,0,4.1,9402
+"NAIR MESS","restaurant","restaurant | food | point_of_interest | establishment",4.1,"","chennai",13.0647229,80.2772578,0,4.1,9383
+"Courtyard by Marriott Chennai","lodging","lodging | point_of_interest | establishment",4.3,"","chennai",13.0460041,80.24782479999999,0,4.3,8994
+"Hotel Sangam","restaurant","restaurant | point_of_interest | food | establishment",3.9,"","chennai",13.0661,80.2682262,0,3.9,8598
+"Joyalukkas Jewellery - Chennai","jewelry store","jewelry_store | store | point_of_interest | establishment",4.5,"","chennai",13.0468509,80.2331433,0,4.5,8275
+"10 Downing Street - T Nagar","bar","bar | restaurant | food | point_of_interest | establishment",4.1,"","chennai",13.0430857,80.2442085,0,4.1,7300
+"Taj Connemara, Chennai","lodging","lodging | point_of_interest | establishment",4.5,"","chennai",13.0629468,80.2616561,0,4.5,6927
+"Quality Inn Sabari Grand","bar","bar | lodging | spa | restaurant | food | point_of_interest | establishment",4,"","chennai",13.0475718,80.2399274,0,4,6759
+"Hotel Paramount","restaurant","restaurant | food | point_of_interest | establishment",3.9,"","chennai",13.0814064,80.2476398,0,3.9,6537
+"Metropolis Labs | ECG, Radiology & Diagnostic Centre - Lister Metropolis in Nungambakkam, Jaganathan Road","doctor","doctor | health | point_of_interest | establishment",4.9,"","chennai",13.0614332,80.24552059999999,0,4.9,6376
+"Kamarajar Arangam","point of interest","point_of_interest | establishment",4.3,"","chennai",13.0491288,80.24948859999999,0,4.3,6027
+"Albert Theatres","movie theater","movie_theater | point_of_interest | establishment",3.4,"","chennai",13.0761553,80.2638793,0,3.4,5901
+"Ponnusamy Hotel","restaurant","restaurant | point_of_interest | food | establishment",4,"","chennai",13.0494835,80.2623471,0,4,5360
+"VBJ (Vummidi Bangaru Jewellers)","jewelry store","jewelry_store | store | point_of_interest | establishment",4.8,"","chennai",13.0531339,80.2513207,0,4.8,5309
+"Santhome Cathedral Basilica","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0335957,80.27768940000001,0,4.7,17227
+"St. Mary's Co-Cathedral","church","church | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0898182,80.2875811,0,4.8,1964
+"ST. ANTONY'S Shrine","church","church | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.089994,80.2875981,0,4.8,1476
+"St. Teresa's Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0552251,80.24899909999999,0,4.7,1153
+"St. Sebastian's Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.1401705,80.23733109999999,0,4.7,1011
+"Moosa bags suitcase repair shop","church","church | place_of_worship | point_of_interest | store | establishment",5,"","chennai",13.0991829,80.2900712,0,5,950
+"St. Andrew's Church (The Kirk)","church","church | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0795825,80.2640559,0,4.8,690
+"Divine Mercy Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0862585,80.2258418,0,4.7,651
+"Ascension Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.068474,80.22294079999999,0,4.6,467
+"Church Of The Good Shepherd (CSI)","church","church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.044855,80.26055219999999,0,4.6,324
+"The Church at Jehovah Shammah","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.083487,80.2571376,0,4.7,308
+"St. Thomas Syro-Malabar Catholic Church","church","church | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0932062,80.23540109999999,0,4.5,293
+"Rose of Sharon AG Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0555096,80.2299578,0,4.7,286
+"Madras (Chetpet) Mar Thoma Syrian Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0701229,80.2374545,0,4.6,284
+"St. Thomas Orthodox Cathedral","church","church | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.091162,80.2848626,0,4.5,264
+"Presentation Church","church","church | place_of_worship | point_of_interest | establishment",4.5,"","chennai",13.0554027,80.2707404,0,4.5,263
+"Laymen's Evangelical Fellowship Church (LEF HQ)","church","church | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0561535,80.247219,0,4.7,239
+"CSI SYNOD CENTRE","church","church | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.0576658,80.2626445,0,4.4,236
+"Mahalingapuram Sree Ayyappan Guruvayoorappan Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0563771,80.23176660000001,0,4.8,4124
+"Vengeeswarar Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0487917,80.2128285,0,4.7,2318
+"All India Sai Samaj Sai Baba Temple, Mylapore","hindu temple","hindu_temple | book_store | place_of_worship | point_of_interest | store | establishment",4.8,"","chennai",13.0328062,80.26489939999999,0,4.8,878
+"Chennai Sri Ekambareswarar Devasthanam","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0882165,80.2779285,0,4.7,859
+"Arulmigu Madhava Perumal Thirukovil","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0378181,80.2714608,0,4.7,793
+"Sai Baba Temple, Jai Shankar Street","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0377358,80.22182699999999,0,4.8,693
+"Arulmigu Kasi Vishwanathar Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0359079,80.2251744,0,4.7,686
+"Sree Agasthiyar Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0395704,80.2366679,0,4.8,671
+"Sri vadapalani Garbarakshambigai Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0539116,80.21733139999999,0,4.7,624
+"Kachaleeswarar Temple, Armenian Street","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0932419,80.2884236,0,4.7,587
+"Sai Baba Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.6,"","chennai",13.0803618,80.2240363,0,4.6,518
+"Gnanavapi temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.3,"","chennai",13.032432,80.2289261,0,4.3,497
+"Arulmiku Sathya Narayana Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0393167,80.2227772,0,4.7,488
+"JAI PRATHYANGIRA PEEDAM - OFFICE","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.9,"","chennai",13.0321449,80.2347497,0,4.9,478
+"Karukathamman Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0695356,80.24242339999999,0,4.7,433
+"Periamet Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0846326,80.2702348,0,4.8,1505
+"Anjuman-E-Himayath-E-Islam Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0437826,80.2449984,0,4.7,1268
+"Masjid E Mamoor ( Nawab Waqf )","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0947642,80.2904865,0,4.8,1102
+"The New College Mosque","mosque","mosque | place_of_worship | point_of_interest | establishment",4.9,"","chennai",13.053334,80.2594788,0,4.9,645
+"Saifee Masjid, Madras (Dawoodi Bohra) CMZ","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0915575,80.2902084,0,4.8,595
+"Ice House Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.053057,80.2736133,0,4.7,446
+"Mana Muna Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","chennai",13.0654719,80.25245579999999,0,4.8,426
+"Ameerunisa Masjid and Burial Ground","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.053439,80.2673652,0,4.7,401
+"Muthamizh Nagar Mosque","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.1324725,80.24791789999999,0,4.7,386
+"IRGC Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0506637,80.2626451,0,4.7,365
+"Jamia Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0740911,80.22605659999999,0,4.7,358
+"Model School Road Mosque - Anjuman","mosque","mosque | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.0578706,80.252032,0,4.4,298
+"Fazilat Unnisa Begum Tomb and Mosque","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0280222,80.2349594,0,4.7,290
+"Preston College Masjid Bilal","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","chennai",13.0353659,80.25308140000001,0,4.7,289
+"Madras Shri Kashi Math","hindu temple","hindu_temple | synagogue | place_of_worship | point_of_interest | establishment",4.4,"","chennai",13.0361741,80.2253813,0,4.4,263
+"St. Patrick’s Cemetery","synagogue","synagogue | place_of_worship | point_of_interest | establishment",5,"","chennai",13.0783892,80.274818,0,5,4
+"Kitto home","synagogue","synagogue | place_of_worship | point_of_interest | establishment",5,"","chennai",13.0420915,80.22446719999999,0,5,1
+"EL - ROI MEDIA","synagogue","synagogue | place_of_worship | point_of_interest | establishment",5,"","chennai",13.039189,80.2759572,0,5,1
+"Lalit Betala","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","chennai",13.0997952,80.2791941,0,0,0
+"friends home","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","chennai",13.066286,80.251516,0,0,0
+"Victory House","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","chennai",13.0818297,80.22331179999999,0,0,0
+"Priyanka","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","chennai",13.1340727,80.25024619999999,0,0,0
+"POTHYS TRADITIONAL - T.Nagar, Chennai","clothing store","clothing_store | shopping_mall | grocery_or_supermarket | point_of_interest | store | food | establishment",4.4,"","chennai",13.0404361,80.2320546,0,4.4,31143
+"Spencer Plaza","shopping mall","shopping_mall | point_of_interest | establishment",4,"","chennai",13.0614067,80.26130239999999,0,4,30533
+"POTHYS HYPER - T.Nagar, Chennai","clothing store","clothing_store | shopping_mall | grocery_or_supermarket | point_of_interest | store | food | establishment",4.6,"","chennai",13.0355069,80.23047100000001,0,4.6,26112
+"Super Saravana Stores - T.Nagar","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",3.9,"","chennai",13.0373401,80.22970749999999,0,3.9,19721
+"POTHYS BOUTIQUE - T.Nagar, Chennai","clothing store","clothing_store | shopping_mall | grocery_or_supermarket | point_of_interest | store | food | establishment",4.5,"","chennai",13.0445473,80.2398283,0,4.5,12258
+"CHENNAI CITI CENTRE","shopping mall","shopping_mall | point_of_interest | establishment",3.9,"","chennai",13.0429239,80.27377170000001,0,3.9,9239
+"Ramee Mall","shopping mall","shopping_mall | point_of_interest | establishment",3.8,"","chennai",13.0431252,80.24848209999999,0,3.8,8419
+"EA Chambers","shopping mall","shopping_mall | point_of_interest | establishment",4.4,"","chennai",13.0589865,80.2651911,0,4.4,8141
+"Max","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",4.1,"","chennai",13.0849588,80.2141177,0,4.1,5791
+"Max","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",4.1,"","chennai",13.0501798,80.2096835,0,4.1,2782
+"Max","shopping mall","shopping_mall | clothing_store | store | point_of_interest | establishment",4.2,"","chennai",13.0585762,80.2637128,0,4.2,2705
+"SNITCH - Express Avenue","shopping mall","shopping_mall | point_of_interest | establishment",4.8,"","chennai",13.0584546,80.26418439999999,0,4.8,2608
+"Imen ConneXions","book store","book_store | shopping_mall | point_of_interest | store | establishment",4.1,"","chennai",13.0862942,80.2155573,0,4.1,2588
+"Max","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",4,"","chennai",13.1127322,80.23031189999999,0,4,2541
+"VASANTH & CO","shopping mall","shopping_mall | furniture_store | home_goods_store | point_of_interest | store | establishment",3.6,"","chennai",13.0477673,80.2333146,0,3.6,2202
+"FOUNTAIN PLAZA","shopping mall","shopping_mall | point_of_interest | establishment",4,"","chennai",13.0682397,80.25594380000001,0,4,1860
+"Charminar","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","hyderabad",17.3615636,78.4746645,0,4.5,263497
+"Salar Jung Museum","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.4,"","hyderabad",17.3716084,78.48024389999999,0,4.4,76522
+"Birla Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4062367,78.46906010000001,0,4.7,54709
+"Chowmahalla Palace","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.4,"","hyderabad",17.3580016,78.4716789,0,4.4,51795
+"Shri Jagannatha Swami Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4151834,78.4261169,0,4.8,41541
+"Jalavihar Water Park","tourist attraction","tourist_attraction | amusement_park | point_of_interest | establishment",4,"","hyderabad",17.4329176,78.4647483,0,4,39329
+"Krishna Kanth Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4401416,78.430342,0,4.2,31751
+"Shri Shirdi Sai Baba Sansthan Trust","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","hyderabad",17.3678284,78.5272878,0,4.7,25170
+"Buddha Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4155657,78.474973,0,4.4,22768
+"ISKCON-Sri Sri Radha Madanmohan Mandir","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3879902,78.4751033,0,4.8,21270
+"Kasu Brahmanandha Reddy National Park","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.5,"","hyderabad",17.4200063,78.4230546,0,4.5,20443
+"Sanjeevaiah Children's Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4320751,78.4753877,0,4.2,20102
+"Snow World","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.4145065,78.48101199999999,0,4.1,18764
+"Priyadarshini Park","park","park | tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.3550396,78.5304108,0,4.1,17690
+"Sundarayya Park","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.3981978,78.4976538,0,4.3,15325
+"Love Hyderabad Sculpture","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4198415,78.4656979,0,4.4,15090
+"Makkah Masjid","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3604416,78.4735712,0,4.7,15026
+"Gulzar Houz","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.3634322,78.4750088,0,4.3,13975
+"Lock N Escape - Mystery Escape Room Games Hyderabad (with Live Actor)","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","hyderabad",17.4154962,78.4497217,0,4.8,11970
+"Sudha Car Museum","museum","museum | tourist_attraction | point_of_interest | establishment",3.8,"","hyderabad",17.3570362,78.4543447,0,3.8,10853
+"Swayambhu Sri Lakshmi Narasimha Swamy Temple (Hare Krishna Golden Temple)","hindu temple","hindu_temple | tourist_attraction | place_of_worship | health | restaurant | food | point_of_interest | establishment",4.8,"","hyderabad",17.4106742,78.4296628,0,4.8,10613
+"Jalagam Vengala Rao Park, Banjara Hills","park","park | tourist_attraction | point_of_interest | establishment",4,"","hyderabad",17.4223439,78.44836900000001,0,4,9784
+"Lotus Pond","park","park | tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4136151,78.42067349999999,0,4.4,8932
+"Dr. G.S. Melkote Park","park","park | tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.3982331,78.4891466,0,4.4,8687
+"Sri Ganesh Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.434524,78.50385539999999,0,4.7,8001
+"KLN Yadav Park | Kanjerla Laxmi Narayana Yadav Park","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.3,"","hyderabad",17.450088,78.4416147,0,4.3,7212
+"Chacha Nehru Park","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4019238,78.44999170000001,0,4.2,6842
+"Shri Kanchi Kamakoti Peetham Shri Shyam Baba Mandir","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3896854,78.49753299999999,0,4.8,4944
+"The Nizam's Museum","museum","museum | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.3664944,78.4828496,0,4.2,4886
+"Bansilalpet Stepwell","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.430557,78.49346249999999,0,4.3,4185
+"St. Mary's Basilica","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4413275,78.5028583,0,4.7,3513
+"Landscape Garden","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4.4,"","hyderabad",17.41637219999999,78.5277156,0,4.4,2976
+"Hussain Sagar Lake","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.4221803,78.4744262,0,4.3,2667
+"Mahabodhi Buddha Vihara Hyderabad","tourist attraction","tourist_attraction | place_of_worship | point_of_interest | store | establishment",4.7,"","hyderabad",17.4479055,78.5210549,0,4.7,2573
+"Jamia Masjid Hyderabad","mosque","mosque | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4437748,78.4723669,0,4.7,2545
+"Sri Kanaka Durga Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.434661,78.44783009999999,0,4.7,2176
+"Sri Vinayaka Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","hyderabad",17.4403062,78.44743609999999,0,4.5,1867
+"Shri Kesari Hanuman Mandir","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3703623,78.4414156,0,4.8,1799
+"St. Joseph's Cathedral","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3955589,78.4772875,0,4.7,1605
+"Khursheed Jah Devdi","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.35839739999999,78.4662682,0,4.3,1462
+"Saraswathi Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4180267,78.5253596,0,4.6,1436
+"Telangana State Archaeology Museum","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.2,"","hyderabad",17.3992596,78.4703147,0,4.2,1262
+"Shri AshtaBhuja Durga Mata Mandir | Sri Devi Bagh Mandir","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3599123,78.4555072,0,4.7,963
+"S.R.Nagar Peddamma Talli Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4401374,78.445687,0,4.6,901
+"Fountain NTR Gardens","park","park | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4129447,78.46894,0,4.2,747
+"Ramoji Film City Office","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.4434522,78.46148749999999,0,4.1,690
+"Lake View Park","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.4132105,78.4652466,0,4.3,672
+"Butterfly Garden","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.4302795,78.47690589999999,0,4.3,656
+"Santoshi Mata Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3838413,78.4890257,0,4.7,646
+"Purani Haveli","museum","museum | tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.3666724,78.4828835,0,4.4,647
+"Raymond's Tomb","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.3647648,78.5151941,0,4.1,616
+"Southern Travels Pvt. Ltd. - Lakdikapul, Hyderabad","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4,"","hyderabad",17.4025855,78.4619015,0,4,606
+"King Kothi Palace","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.3929514,78.4808474,0,4.1,577
+"St FRANCIS OF ASSISI CHURCH, Ramnagar","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4124222,78.5070015,0,4.6,566
+"ISKCON - Sri Sri Radha Gopinath Mandir","hindu temple","hindu_temple | tourist_attraction | place_of_worship | school | point_of_interest | establishment",4.6,"","hyderabad",17.4420621,78.5054973,0,4.6,556
+"Sri Akkanna Madanna Mahankali Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.3544585,78.4763895,0,4.6,533
+"Tiger Safari","tourist attraction","tourist_attraction | park | point_of_interest | establishment",4,"","hyderabad",17.3533953,78.43951349999999,0,4,482
+"Yaseen Overseas Umrah Haj Travel Agency Services","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4.5,"","hyderabad",17.4161049,78.4506827,0,4.5,413
+"Hussain Sagar View Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","hyderabad",17.4161054,78.48005549999999,0,4.5,402
+"The Royal Tourism","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.9,"","hyderabad",17.4340173,78.4551236,0,4.9,396
+"CSI - St. George's Church","tourist attraction","tourist_attraction | church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.3932732,78.47703059999999,0,4.6,390
+"Deer Park","zoo","zoo | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.3486328,78.4467717,0,4.2,387
+"JBS Jubliee bus stand","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.4473725,78.49749820000001,0,4.3,384
+"DoScience","tourist attraction","tourist_attraction | museum | point_of_interest | establishment",4.2,"","hyderabad",17.4325392,78.4770111,0,4.2,354
+"Sri Dattatreya Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3541268,78.5308389,0,4.7,345
+"Karmika Nagar Auto Stand","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4447699,78.4224989,0,4.2,341
+"Nehru Centenary Tribal Museum","museum","museum | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.40302849999999,78.4496918,0,4.2,333
+"Mahindra Hills","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","hyderabad",17.4524693,78.51849279999999,0,4.6,316
+"Tahniyat Mahal","museum","museum | tourist_attraction | point_of_interest | establishment",4.5,"","hyderabad",17.3569455,78.47158499999999,0,4.5,272
+"Gyan Bagh Palace","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.3799704,78.46571949999999,0,4.1,258
+"Tankbund Lakeview Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4286721,78.4866567,0,4.4,248
+"Quba Tours And Travels - Hajj & Umrah Packages Hyderabad","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",4.6,"","hyderabad",17.3584169,78.4791923,0,4.6,236
+"Snake Park","park","park | tourist_attraction | point_of_interest | establishment",3.8,"","hyderabad",17.3928471,78.45305929999999,0,3.8,231
+"Sri Sankat Haran Hanuman Devalayam 🚩","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3797312,78.4641882,0,4.8,196
+"Rainbow Aluminum & Glass Work","tourist attraction","tourist_attraction | place_of_worship | point_of_interest | establishment",4.3,"","hyderabad",17.3746274,78.4293241,0,4.3,193
+"Shiva Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4207785,78.4977004,0,4.6,187
+"Vintage Cars & Buggies","museum","museum | tourist_attraction | point_of_interest | establishment",4.5,"","hyderabad",17.3553922,78.471803,0,4.5,184
+"Veerabhadra Swamy Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3895645,78.49735179999999,0,4.7,119
+"Neymath's Haveli","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.3751721,78.4475001,0,4.3,88
+"P.V. Narshimha Rao Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","hyderabad",17.4150135,78.46633829999999,0,4.6,84
+"Buddha Statue - View Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4148766,78.4790536,0,4.4,76
+"Nizams Art Gallery","tourist attraction","tourist_attraction | home_goods_store | point_of_interest | store | establishment",4.9,"","hyderabad",17.3615723,78.4701947,0,4.9,71
+"Ark Tours | Best Tour Agency in Hyderabad | Best travel Agency in Hyderabad","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",5,"","hyderabad",17.4389682,78.4815978,0,5,69
+"Nizamia Observatory","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.4319634,78.45250899999999,0,4.3,75
+"Renuka Yellamma Temple","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.5,"","hyderabad",17.3687011,78.52448960000001,0,4.5,68
+"National tourist service (SINCE 1971)","tourist attraction","tourist_attraction | storage | travel_agency | point_of_interest | store | establishment",4.9,"","hyderabad",17.3741273,78.4766058,0,4.9,62
+"Hyderabad Tour Packages -Serendipity Holidays","travel agency","travel_agency | car_rental | tourist_attraction | point_of_interest | establishment",4.7,"","hyderabad",17.4503089,78.446308,0,4.7,59
+"Sri Mahankali Devalayam","hindu temple","hindu_temple | tourist_attraction | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3909897,78.4937607,0,4.7,54
+"Aysha Car Travel Hyderabad - One Day City Tour Package & Car Rental","car rental","car_rental | tourist_attraction | travel_agency | point_of_interest | establishment",4.9,"","hyderabad",17.4199807,78.4636329,0,4.9,51
+"Sri Laxmi Venkateswara Tours & travels","tourist attraction","tourist_attraction | travel_agency | lodging | place_of_worship | point_of_interest | establishment",5,"","hyderabad",17.3946738,78.4310595,0,5,45
+"Crocodiles","park","park | tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.3547448,78.4510785,0,4.3,50
+"HK VACATIONS","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",5,"","hyderabad",17.461907,78.44905709999999,0,5,43
+"Tankbund View Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","hyderabad",17.4140295,78.47037069999999,0,4.7,33
+"NTR Garden Giant Wheel","tourist attraction","tourist_attraction | point_of_interest | establishment",4.3,"","hyderabad",17.41131249999999,78.46606249999999,0,4.3,37
+"Paradise Cross road","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4432902,78.4874663,0,4.2,37
+"GREAT HOLIDAYS","travel agency","travel_agency | tourist_attraction | lodging | local_government_office | point_of_interest | establishment",4.9,"","hyderabad",17.4067022,78.47777459999999,0,4.9,29
+"Tyagayya Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","hyderabad",17.4160344,78.4802586,0,4.6,29
+"Birla Mandir Hill Entry (* Only From Here)","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","hyderabad",17.4050412,78.46942349999999,0,4.6,28
+"Secunderabad Flag Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.4342517,78.50173439999999,0,4.1,33
+"KASHYAPI PLANTS","tourist attraction","tourist_attraction | point_of_interest | establishment",4.6,"","hyderabad",17.4303083,78.44791959999999,0,4.6,27
+"Secunderabad West Metro Green Line","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","hyderabad",17.433715,78.499212,0,4.7,26
+"Go Nexo Holidays (OPC) Pvt Ltd","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.4352313,78.5061795,0,5,23
+"ALISON HOLIDAYS & EVENTS","tourist attraction","tourist_attraction | travel_agency | finance | point_of_interest | establishment",4.9,"","hyderabad",17.3930174,78.4730477,0,4.9,22
+"Nampally Pigeon Spot","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","hyderabad",17.3922104,78.4696632,0,4.5,24
+"Photoshoot Point","tourist attraction","tourist_attraction | point_of_interest | establishment",4.7,"","hyderabad",17.4098125,78.47154689999999,0,4.7,20
+"Babu Jagjivan Ram Statue","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.398408,78.4746444,0,4.4,23
+"Sri Journeyhippo Tours And Travels","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",5,"","hyderabad",17.413592,78.4904139,0,5,17
+"KBR Lake","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4173876,78.4191281,0,4.4,23
+"I Love OMC","tourist attraction","tourist_attraction | point_of_interest | establishment",4.9,"","hyderabad",17.3824088,78.48268499999999,0,4.9,16
+"Hyderabaddarshan (Tourism & Holidays Packages)","travel agency","travel_agency | tourist_attraction | point_of_interest | establishment",4.1,"","hyderabad",17.3941415,78.470529,0,4.1,23
+"Statue of Salar Jung III","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.37180709999999,78.4802284,0,4.4,20
+"Walk way","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.4091408,78.4713094,0,4.2,21
+"Strikers Chowrasta","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.4236817,78.51409029999999,0,5,12
+"AL-Kamran Tour & Travels","tourist attraction","tourist_attraction | point_of_interest | establishment",4.9,"","hyderabad",17.3927492,78.4666227,0,4.9,9
+"Jiyaguda ka raja Pandal","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.3656211,78.45290779999999,0,5,8
+"Car service","car rental","car_rental | tourist_attraction | travel_agency | point_of_interest | establishment",4.4,"","hyderabad",17.3753971,78.4923371,0,4.4,14
+"3 Giraffes","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","hyderabad",17.4137435,78.46064559999999,0,4.8,9
+"Hussain Sagar Lake View Sitting Place","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4221269,78.4652426,0,4.4,13
+"Navayug Seva dal Kummari Basthi Ameerpet","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.4356333,78.4463659,0,5,6
+"LARGEST CRICKET BAT","tourist attraction","tourist_attraction | point_of_interest | establishment",4.5,"","hyderabad",17.414803,78.4793416,0,4.5,10
+"Alison Holidays & Events Hyd","tourist attraction","tourist_attraction | travel_agency | finance | point_of_interest | establishment",4.5,"","hyderabad",17.3950615,78.4760077,0,4.5,10
+"Musical Water Fountain","tourist attraction","tourist_attraction | point_of_interest | establishment",3.7,"","hyderabad",17.4188969,78.4666769,0,3.7,18
+"Hyderabad Tours And Travels","travel agency","travel_agency | car_rental | tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.3900189,78.4421777,0,4.2,13
+"Team bya Bajrangdal Youth association🚩","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.3931165,78.5055706,0,5,5
+"Eight piller point","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.3549884,78.53033980000001,0,5,4
+"Hikes And Miles","tourist attraction","tourist_attraction | travel_agency | point_of_interest | establishment",5,"","hyderabad",17.3820487,78.5209343,0,5,3
+"Tank bund Dove 🕊️🕊️🕊️ View","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.4105825,78.4764314,0,5,2
+"Blue Tent","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.3989331,78.48142299999999,0,5,2
+"Rock of jibraltar","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","hyderabad",17.4155657,78.4751809,0,4.8,4
+"Horticultural Department & Museum","tourist attraction","tourist_attraction | point_of_interest | establishment",4.2,"","hyderabad",17.3993852,78.4690227,0,4.2,10
+"Captured Patton Tank","tourist attraction","tourist_attraction | point_of_interest | establishment",4.8,"","hyderabad",17.422377,78.4850326,0,4.8,4
+"New Janata travels","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.3556477,78.4342899,0,5,2
+"TEAM NFYA","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.4137022,78.5002243,0,5,2
+"Nand Kishore House","tourist attraction","tourist_attraction | point_of_interest | establishment",4.4,"","hyderabad",17.4352186,78.45728009999999,0,4.4,8
+"TEAM VYC","tourist attraction","tourist_attraction | point_of_interest | establishment",5,"","hyderabad",17.438975,78.4724782,0,5,2
+"B. M. Birla Science Centre","museum","museum | point_of_interest | establishment",4.4,"","hyderabad",17.4044409,78.46954,0,4.4,10725
+"Birla Planetarium","museum","museum | point_of_interest | establishment",4.2,"","hyderabad",17.4032767,78.4706855,0,4.2,1829
+"Paradox Museum Hyderabad","museum","museum | point_of_interest | establishment",4.6,"","hyderabad",17.4198262,78.4572266,0,4.6,461
+"Irram Manzil Palace","museum","museum | point_of_interest | establishment",4.2,"","hyderabad",17.4195715,78.454889,0,4.2,168
+"Rail Museum","museum","museum | point_of_interest | establishment",4,"","hyderabad",17.3889738,78.4989717,0,4,167
+"Parking Lot - Salarjung Museum","museum","museum | point_of_interest | establishment",4.4,"","hyderabad",17.3705064,78.4800114,0,4.4,133
+"Saifabad Mint Museum","museum","museum | point_of_interest | establishment",4.4,"","hyderabad",17.4094922,78.4673267,0,4.4,127
+"Aftab Mahal","museum","museum | point_of_interest | establishment",4.3,"","hyderabad",17.3559013,78.4714673,0,4.3,81
+"Jagdish and Kamla Mittal Museum of Indian Art","museum","museum | point_of_interest | establishment",4.1,"","hyderabad",17.4063856,78.4854388,0,4.1,68
+"Centenary Heritage Museum","museum","museum | point_of_interest | establishment",4.3,"","hyderabad",17.3969084,78.47452609999999,0,4.3,65
+"Luxekashmir","museum","museum | home_goods_store | point_of_interest | store | establishment",4.5,"","hyderabad",17.4159032,78.43667839999999,0,4.5,51
+"HHEC Museum Shop","museum","museum | point_of_interest | establishment",3.9,"","hyderabad",17.3714697,78.4803409,0,3.9,49
+"Salar Jung Museum Entry","museum","museum | point_of_interest | establishment",4.4,"","hyderabad",17.3722029,78.480614,0,4.4,42
+"Marathi Granth Sangrahalay","library","library | museum | point_of_interest | establishment",4.6,"","hyderabad",17.3846377,78.4884896,0,4.6,31
+"Archaeology and Museums Department","museum","museum | point_of_interest | establishment",4.4,"","hyderabad",17.3966813,78.4751299,0,4.4,27
+"The Art museum","museum","museum | point_of_interest | establishment",4.7,"","hyderabad",17.371642,78.4805001,0,4.7,22
+"Visual Quest India","museum","museum | point_of_interest | establishment",4.7,"","hyderabad",17.4237544,78.4363185,0,4.7,19
+"Vasu apartments","museum","museum | point_of_interest | establishment",4,"","hyderabad",17.364807,78.51981099999999,0,4,24
+"Strigifo","museum","museum | point_of_interest | establishment",5,"","hyderabad",17.4254985,78.450549,0,5,12
+"India Art Festival","museum","museum | point_of_interest | establishment",5,"","hyderabad",17.3873813,78.4306285,0,5,12
+"Zoo Train Booking And Departure","museum","museum | point_of_interest | establishment",4,"","hyderabad",17.3507008,78.44944,0,4,21
+"Indian Textile & Mughul Glass Gallery","museum","museum | point_of_interest | establishment",4.8,"","hyderabad",17.3711979,78.4802694,0,4.8,13
+"Tourist Plaza(Interpretation Center), Bansilalpet stepwell","museum","museum | point_of_interest | establishment",4.3,"","hyderabad",17.4305335,78.493544,0,4.3,16
+"Star Nandini Supari","museum","museum | point_of_interest | establishment",4.1,"","hyderabad",17.3754515,78.4665864,0,4.1,18
+"KNC----27","museum","museum | point_of_interest | establishment",4.9,"","hyderabad",17.4561531,78.502956,0,4.9,7
+"Jharokha Handicrafts (Jhalak Rajasthan Ki)","museum","museum | point_of_interest | store | establishment",5,"","hyderabad",17.39878509999999,78.4833415,0,5,5
+"Tahoor plaza","museum","museum | point_of_interest | establishment",4.5,"","hyderabad",17.3561188,78.4752366,0,4.5,10
+"Heritage Gallery SBEye Hyderabad","museum","museum | point_of_interest | establishment",5,"","hyderabad",17.3948463,78.4752808,0,5,3
+"Vishwaguru Basaveshwara statue","museum","museum | point_of_interest | establishment",4.5,"","hyderabad",17.4178249,78.4815211,0,4.5,8
+"Japanese Gallery","museum","museum | point_of_interest | establishment",5,"","hyderabad",17.3719159,78.4813084,0,5,3
+"The Gallery Cafe","art gallery","art_gallery | cafe | bakery | restaurant | food | point_of_interest | store | establishment",4.2,"","hyderabad",17.4202728,78.446649,0,4.2,2196
+"Manglam Handicrafts Boutique(Handicrafts Emporium)","art gallery","art_gallery | furniture_store | home_goods_store | point_of_interest | store | establishment",4.7,"","hyderabad",17.4108151,78.437064,0,4.7,1063
+"Kalakriti Art Gallery","art gallery","art_gallery | point_of_interest | establishment",4.4,"","hyderabad",17.420524,78.4467085,0,4.4,826
+"Ideal images","art gallery","art_gallery | point_of_interest | store | establishment",4.3,"","hyderabad",17.4299668,78.4448285,0,4.3,537
+"Glow Arts Pvt. Ltd - Best Art Gallery in Hyderabad","art gallery","art_gallery | point_of_interest | establishment",4.5,"","hyderabad",17.4294063,78.4246366,0,4.5,416
+"Inspire Drawing Painting Institute Online Offline Hyderabad","art gallery","art_gallery | point_of_interest | establishment",4.8,"","hyderabad",17.4001802,78.4873258,0,4.8,315
+"MS Maqta Art District, Blue Chowk","art gallery","art_gallery | point_of_interest | establishment",4.1,"","hyderabad",17.4175145,78.4632342,0,4.1,264
+"Inhabit","furniture store","furniture_store | art_gallery | general_contractor | home_goods_store | store | point_of_interest | establishment",4.4,"","hyderabad",17.4079343,78.44145309999999,0,4.4,238
+"Shubha Drishti Ganapathy","art gallery","art_gallery | point_of_interest | establishment",4.8,"","hyderabad",17.3648171,78.52177329999999,0,4.8,217
+"Studio di Calligraphia (Handwriting & Calligraphy Classes & Services)","art gallery","art_gallery | cafe | food | point_of_interest | store | establishment",4.9,"","hyderabad",17.42481279999999,78.4441385,0,4.9,128
+"Srishti Art Gallery","art gallery","art_gallery | point_of_interest | establishment",4.4,"","hyderabad",17.43443,78.416507,0,4.4,117
+"Sri Balaji Art Gallery & Idols","art gallery","art_gallery | point_of_interest | establishment",4.3,"","hyderabad",17.42979009999999,78.4480493,0,4.3,117
+"Sri Sri Parinaya Tanjore Paintings","art gallery","art_gallery | point_of_interest | store | establishment",4.9,"","hyderabad",17.3687087,78.52647720000002,0,4.9,94
+"Statue Makers ( G Pradeep Silpi)","art gallery","art_gallery | point_of_interest | establishment",4.9,"","hyderabad",17.4302582,78.42760969999999,0,4.9,89
+"Chitrakala Art studio -Tanjore Paintings Oil Paintings","art gallery","art_gallery | point_of_interest | establishment",4.8,"","hyderabad",17.4576844,78.4988759,0,4.8,84
+"Digital Art Gallery","art gallery","art_gallery | point_of_interest | store | establishment",5,"","hyderabad",17.3916645,78.43038760000002,0,5,73
+"Artguru","art gallery","art_gallery | point_of_interest | store | establishment",4,"","hyderabad",17.4268691,78.4466008,0,4,80
+"M. Eshwariah Art Gallery","art gallery","art_gallery | point_of_interest | establishment",4.5,"","hyderabad",17.44007239999999,78.43211,0,4.5,75
+"ICONART Gallery","art gallery","art_gallery | point_of_interest | establishment",4.4,"","hyderabad",17.4078787,78.4407511,0,4.4,74
+"G P Birla Centre","art gallery","art_gallery | library | point_of_interest | establishment",4.3,"","hyderabad",17.4030995,78.4703464,0,4.3,74
+"Dhi Artspace","art gallery","art_gallery | point_of_interest | establishment",4.6,"","hyderabad",17.4377261,78.451459,0,4.6,69
+"Colors N Shades Institute of Drawing and Painting","art gallery","art_gallery | point_of_interest | store | establishment",4.7,"","hyderabad",17.3725078,78.5186691,0,4.7,57
+"Nirmala Birla Gallery","art gallery","art_gallery | point_of_interest | establishment",4.3,"","hyderabad",17.4030316,78.4706064,0,4.3,55
+"Gallery Space","art gallery","art_gallery | point_of_interest | establishment",4.1,"","hyderabad",17.4135053,78.4221979,0,4.1,55
+"Lion India (Picture Decor) Banjara Hills","art gallery","art_gallery | home_goods_store | point_of_interest | store | establishment",4.8,"","hyderabad",17.4241867,78.4483843,0,4.8,48
+"Nehru Zoological Park","zoo","zoo | park | point_of_interest | establishment",4.2,"","hyderabad",17.3507037,78.451787,0,4.2,101678
+"NTR Gardens.","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.4130874,78.4697541,0,4.2,99515
+"Lumbini Park","park","park | point_of_interest | establishment",4.1,"","hyderabad",17.4093892,78.47202220000001,0,4.1,77850
+"Indira Park","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.4139694,78.4839721,0,4.2,36038
+"Padmarao Nagar Main Park","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.42543,78.5073048,0,4.2,8086
+"Dog's Park","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4312072,78.46357560000001,0,4.3,5006
+"Mallesh Fruits","park","park | point_of_interest | store | food | establishment",4.2,"","hyderabad",17.44458819999999,78.4466278,0,4.2,3168
+"Srinagar Colony Park","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.429809,78.439673,0,4.2,2667
+"Santosh Nagar Colony Park","park","park | point_of_interest | establishment",4.1,"","hyderabad",17.3910689,78.4364899,0,4.1,2356
+"Sri Nagar Colony Park","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.4304544,78.4424219,0,4.2,2184
+"Madhura Nagar Park D-Block","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.4395984,78.4351975,0,4.2,2080
+"Tank Bund Park","park","park | point_of_interest | establishment",4.5,"","hyderabad",17.4146856,78.4790033,0,4.5,1912
+"Gandhinagar Park","park","park | point_of_interest | establishment",4,"","hyderabad",17.4127823,78.4897122,0,4,1686
+"Kalyan Nagar Phase III Park","park","park | point_of_interest | establishment",4.2,"","hyderabad",17.451086,78.42273899999999,0,4.2,1619
+"HUSSAIN SAGAR WEST PARK","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4285365,78.462322,0,4.3,1608
+"Kundan Bagh Park","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4345919,78.4591853,0,4.3,1602
+"Lake Front Park , Hussain Sagar","park","park | point_of_interest | establishment",4.1,"","hyderabad",17.435044,78.4660849,0,4.1,1594
+"Nehru Nagar Park","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4447958,78.50414099999999,0,4.3,1538
+"Dr. YSR Municipal Park","park","park | point_of_interest | establishment",4,"","hyderabad",17.4132016,78.5112006,0,4,1462
+"Barkatpura Park","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.3944084,78.4959757,0,4.3,1369
+"NTR Memorial","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4121138,78.4703174,0,4.3,1351
+"Park","park","park | point_of_interest | establishment",4,"","hyderabad",17.4415089,78.4436636,0,4,1280
+"B Block Park","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.3660493,78.50995669999999,0,4.3,1168
+"Chilkalguda Park","park","park | point_of_interest | establishment",4.1,"","hyderabad",17.4248783,78.5053453,0,4.1,1139
+"B K Guda Park","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4465947,78.44623709999999,0,4.3,1102
+"Necklace Road Lawns","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.4243543,78.46332919999999,0,4.3,1068
+"Saleem Nagar Park 2","park","park | point_of_interest | establishment",4.3,"","hyderabad",17.3721144,78.51257249999999,0,4.3,954
+"Domalguda Park","park","park | point_of_interest | establishment",3.8,"","hyderabad",17.4056243,78.4852988,0,3.8,936
+"Hampshire Plaza Hotel","restaurant","restaurant | lodging | point_of_interest | food | establishment",4,"","hyderabad",17.4051207,78.4645687,0,4,57987
+"Grand Hotel","restaurant","restaurant | food | point_of_interest | establishment",4.1,"","hyderabad",17.3879007,78.4770363,0,4.1,32738
+"Vijaya Diagnostic Centre Himayathnagar - Pathology & Radiology Lab | Full Body Checkup","doctor","doctor | health | point_of_interest | establishment",4.5,"","hyderabad",17.4041605,78.4798766,0,4.5,31568
+"Alpha Hotel","restaurant","restaurant | point_of_interest | bakery | store | food | establishment",3.8,"","hyderabad",17.4345784,78.50066919999999,0,3.8,22532
+"Lifestyle Stores","shopping mall","shopping_mall | clothing_store | shoe_store | store | point_of_interest | establishment",4.2,"","hyderabad",17.4361651,78.45700719999999,0,4.2,21482
+"Taj Krishna, Hyderabad","lodging","lodging | point_of_interest | establishment",4.5,"","hyderabad",17.4164757,78.4496861,0,4.5,19407
+"ITC Kakatiya, a Luxury Collection Hotel, Hyderabad","lodging","lodging | point_of_interest | establishment",4.6,"","hyderabad",17.432514,78.4573526,0,4.6,18700
+"Barbeque Nation","restaurant","restaurant | food | point_of_interest | establishment",4.2,"","hyderabad",17.4151089,78.4500669,0,4.2,17639
+"Taj Deccan, Hyderabad","lodging","lodging | point_of_interest | establishment",4.4,"","hyderabad",17.4179204,78.4507689,0,4.4,17243
+"Bikanervala","restaurant","restaurant | food | point_of_interest | store | establishment",4.2,"","hyderabad",17.4107667,78.44983859999999,0,4.2,16808
+"Ramakrishna Math","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.411668,78.4815366,0,4.7,16733
+"Amrutha Castle","bar","bar | lodging | point_of_interest | establishment",4,"","hyderabad",17.4076886,78.469107,0,4,16167
+"Parampara - Flavours Of India","restaurant","restaurant | food | point_of_interest | establishment",4.6,"","hyderabad",17.4150787,78.4501365,0,4.6,15893
+"Blue Sea Tea & Snacks","cafe","cafe | point_of_interest | store | food | establishment",4.4,"","hyderabad",17.4367841,78.5049468,0,4.4,15383
+"Hussain Sagar Boating Point","point of interest","point_of_interest | establishment",4.2,"","hyderabad",17.4104384,78.4729705,0,4.2,15085
+"Marigold Hotel","lodging","lodging | restaurant | food | point_of_interest | establishment",4.4,"","hyderabad",17.4372519,78.454483,0,4.4,13236
+"Best Western Ashoka ( Hotel & AC Banquets)","bar","bar | lodging | restaurant | food | point_of_interest | establishment",4.1,"","hyderabad",17.4039563,78.4653786,0,4.1,10990
+"The Golkonda Hotel","lodging","lodging | point_of_interest | establishment",4.2,"","hyderabad",17.4044783,78.4537234,0,4.2,10404
+"The Manohar, Hyderabad","lodging","lodging | restaurant | food | point_of_interest | establishment",3.5,"","hyderabad",17.4450755,78.4710829,0,3.5,8773
+"Taj Banjara, Hyderabad","lodging","lodging | point_of_interest | establishment",4.2,"","hyderabad",17.409748,78.448753,0,4.2,8244
+"10 Downing Street","bar","bar | night_club | restaurant | food | point_of_interest | establishment",4.2,"","hyderabad",17.4362297,78.4571686,0,4.2,8241
+"Hebron Church","church","church | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4111306,78.4973629,0,4.8,1503
+"St. Anthony's Shrine","church","church | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4348854,78.5200777,0,4.8,1372
+"Hope Unlimited Church, Hyderbad","church","church | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4138501,78.4215624,0,4.7,1371
+"Shrine of Our Lady Of Health","church","church | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4069866,78.4560001,0,4.8,1056
+"Baptist Church Hyderabad","book store","book_store | church | place_of_worship | point_of_interest | store | establishment",4.7,"","hyderabad",17.396087,78.48932239999999,0,4.7,852
+"CSI Centenary Wesley Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.3902062,78.48358089999999,0,4.6,676
+"Centenary Methodist English Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3944433,78.47214629999999,0,4.7,595
+"Hope Unlimited Church, Secunderabad","church","church | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4470201,78.4950996,0,4.8,539
+"Baptist Church Dilsukhnagar","church","church | place_of_worship | point_of_interest | establishment",4.4,"","hyderabad",17.3701816,78.5213122,0,4.4,541
+"St. Alphonsus Church Banjara Hills, Hyderabad","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4168592,78.44346259999999,0,4.6,513
+"Laymen's Evangelical Fellowship","church","church | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4130867,78.4591586,0,4.8,450
+"Lutheran Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4038941,78.4663676,0,4.6,368
+"C.S.I ST. JOHN THE BAPTIST Church, Secunderabad","church","church | place_of_worship | point_of_interest | establishment",4.5,"","hyderabad",17.442693,78.506417,0,4.5,352
+"Prayer Power Church","church","church | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4142971,78.5085158,0,4.7,342
+"ROCK CHURCH HYDERABAD","church","church | place_of_worship | point_of_interest | establishment",4.5,"","hyderabad",17.4042451,78.4479972,0,4.5,321
+"Andhra Christian Theological College","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4166762,78.4882494,0,4.6,275
+"St. Thomas' Tamil Cathedral","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4348884,78.50001329999999,0,4.6,267
+"Secunderabad-Hyderabad Orthodox & Mar Thoma Syrian Churches","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4446445,78.4987337,0,4.6,254
+"Holy Trinity Church","church","church | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.4405285,78.4652322,0,4.6,217
+"St. Stanislaus Catholic Church","church","church | place_of_worship | point_of_interest | establishment",4.4,"","hyderabad",17.3645859,78.5234838,0,4.4,213
+"Sri Yellamma Pochamma Devasthanam","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4474897,78.4491142,0,4.7,22623
+"Shri Ujjaini Mahakali Devasthanam","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4367679,78.4910518,0,4.8,9578
+"TTD Sri Venkateswara Swami Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4061221,78.4789517,0,4.7,6112
+"Shri Bhagya Laxmi Mandir, Charminar","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.36145759999999,78.4747661,0,4.7,5947
+"Shri Raghavendra Swamy Math","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3954983,78.4969043,0,4.7,1949
+"Sri Shiridi Sai Baba Sansthan","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4002712,78.514574,0,4.8,1740
+"Shri Ahobilam Mutt","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4022667,78.51979879999999,0,4.7,1631
+"Shivam Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.40257,78.5139047,0,4.6,1627
+"Balaji Mandir","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4030275,78.4963686,0,4.7,1457
+"Sri Ranganatha Swamy Devalayam","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3695458,78.45127600000001,0,4.7,1425
+"Raghavendra Swamy Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3918571,78.4935721,0,4.8,1373
+"Shri Hanuman Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4535377,78.4397058,0,4.7,1350
+"Sri Sai Baba Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4273894,78.5050902,0,4.7,1062
+"Ayyappa Devasthanam Mettuguda","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4340595,78.5176634,0,4.8,1057
+"Sri Kanaka Durga Nagalakshmi Devalayam","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4008355,78.4759274,0,4.8,1005
+"Sri Subrahmanya Swamy Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4477212,78.50545290000001,0,4.7,936
+"Ayyappa Swamy Aalayam","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.3969842,78.51590279999999,0,4.6,791
+"Guruvayur Sri Krishna Mandiram","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.397171,78.5170517,0,4.8,785
+"Sai Baba Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.6,"","hyderabad",17.3863575,78.4397288,0,4.6,785
+"Shirdi Sai Baba Temple","hindu temple","hindu_temple | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.43449649999999,78.4468708,0,4.7,717
+"Masjid-e-Azizia","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3958248,78.4428313,0,4.8,3279
+"Shahi Masjid (Royal Mosque) Bagh -e- aam","mosque","mosque | place_of_worship | point_of_interest | establishment",4.9,"","hyderabad",17.400595,78.4690316,0,4.9,987
+"Masjid-e-Quba مسجدِ قبا","mosque","mosque | place_of_worship | point_of_interest | establishment",4.9,"","hyderabad",17.3915426,78.4266275,0,4.9,974
+"Jamia Masjid Siddiambar Bazar","mosque","mosque | place_of_worship | point_of_interest | establishment",4.3,"","hyderabad",17.3762644,78.4751084,0,4.3,945
+"Masjid-e-Mohammadia","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3773408,78.4264512,0,4.8,722
+"Masjid-E-Taqwa","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.4034933,78.4160473,0,4.8,697
+"Masjid e Mohammadia","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.3702626,78.5142362,0,4.7,685
+"Masjid-e-Kausar","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4173105,78.515716,0,4.7,680
+"Idar-e-Milia Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3771463,78.49808159999999,0,4.8,643
+"Masjid-e-Jahan Ara","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3961575,78.44842489999999,0,4.8,604
+"Madina Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.2,"","hyderabad",17.4342508,78.504075,0,4.2,559
+"Jamia Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.7,"","hyderabad",17.4364052,78.4892065,0,4.7,548
+"Jama Masjid Aliya","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3969107,78.4749724,0,4.8,540
+"Madeena Masjid","mosque","mosque | place_of_worship | point_of_interest | establishment",4.8,"","hyderabad",17.3924328,78.4325396,0,4.8,513
+"Masjid-e-Baqi","mosque","mosque | place_of_worship | point_of_interest | establishment",4.9,"","hyderabad",17.4072772,78.4458515,0,4.9,456
+"Dargha Hazrat Nirale Shah Baba RA","synagogue","synagogue | place_of_worship | point_of_interest | establishment",5,"","hyderabad",17.3558157,78.4352969,0,5,1
+"Finus naze","synagogue","synagogue | place_of_worship | point_of_interest | establishment",5,"","hyderabad",17.4218907,78.4321588,0,5,1
+"Venkatram puram masjid road","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","hyderabad",17.3874659,78.4924474,0,0,0
+"Hari Hara boys hostel","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","hyderabad",17.3710041,78.53095449999999,0,0,0
+"Prince kirana general Store","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","hyderabad",17.443962,78.464843,0,0,0
+"फैक्ट्री कर्नाटक मिल प्रो","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","hyderabad",17.4422929,78.4688011,0,0,0
+"Nikil","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","hyderabad",17.452753,78.492361,0,0,0
+"Emmaus JY Boys","synagogue","synagogue | place_of_worship | point_of_interest | establishment",0,"","hyderabad",17.4403677,78.50358430000001,0,0,0
+"GVK One Mall","shopping mall","shopping_mall | point_of_interest | establishment",4.3,"","hyderabad",17.4192427,78.448484,0,4.3,73272
+"INOX GVK One","movie theater","movie_theater | shopping_mall | point_of_interest | establishment",4.3,"","hyderabad",17.4195273,78.4485986,0,4.3,28804
+"City Center Mall","shopping mall","shopping_mall | point_of_interest | establishment",4.2,"","hyderabad",17.4150974,78.4488686,0,4.2,26018
+"Aziz Plaza","shopping mall","shopping_mall | point_of_interest | establishment",4.1,"","hyderabad",17.3756513,78.47353640000001,0,4.1,22352
+"MCube Mall","shopping mall","shopping_mall | movie_theater | point_of_interest | establishment",4,"","hyderabad",17.3717233,78.4297149,0,4,13511
+"R.S. Brothers","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",4,"","hyderabad",17.432298,78.447636,0,4,13212
+"South India Shopping Mall Textile & Jewellery - Ameerpet","clothing store","clothing_store | shopping_mall | point_of_interest | store | establishment",4,"","hyderabad",17.435323,78.44536070000001,0,4,12236
+"KLM Fashion Mall","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",3.9,"","hyderabad",17.4319984,78.4478577,0,3.9,11591
+"CMR Shopping Mall","shopping mall","shopping_mall | point_of_interest | establishment",4.8,"","hyderabad",17.4513962,78.5328215,0,4.8,11542
+"CMR Family Mall","shopping mall","shopping_mall | point_of_interest | establishment",4.5,"","hyderabad",17.4418938,78.4957451,0,4.5,11359
+"Max","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",4,"","hyderabad",17.3943084,78.4415006,0,4,10711
+"Max","shopping mall","shopping_mall | clothing_store | point_of_interest | store | establishment",4,"","hyderabad",17.4007057,78.4867245,0,4,7215
+"Next Galleria Mall Musarambagh","shopping mall","shopping_mall | point_of_interest | establishment",4.3,"","hyderabad",17.3716094,78.5097998,0,4.3,7136
+"Pvt market kothapet dilsukhnagar Hyderabad 500035","shopping mall","shopping_mall | point_of_interest | establishment",4.1,"","hyderabad",17.367185,78.53851759999999,0,4.1,6915
+"The Chennai Shopping Mall - Patny Center","shopping mall","shopping_mall | clothing_store | store | point_of_interest | establishment",4.1,"","hyderabad",17.440306,78.4946757,0,4.1,6611
+"RS Brothers-Mehdipatnam","shopping mall","shopping_mall | jewelry_store | clothing_store | point_of_interest | store | establishment",3.9,"","hyderabad",17.3947753,78.4364281,0,3.9,5878
+"Nagari Market","shopping mall","shopping_mall | point_of_interest | establishment",4,"","hyderabad",17.3746652,78.4729846,0,4,5858

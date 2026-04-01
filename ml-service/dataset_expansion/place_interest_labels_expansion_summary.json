@@ -1,0 +1,29 @@
+{
+  "rows": 933,
+  "labeled_rows": 707,
+  "intent_labeled_rows": 522,
+  "top_interest_tags": {
+    "culture": 471,
+    "art": 177,
+    "nature": 126,
+    "history": 116,
+    "shopping": 61,
+    "food": 43
+  },
+  "top_intent_tags": {
+    "spiritual stop": 304,
+    "museum visit": 110,
+    "art experience": 102,
+    "fashion shopping": 19,
+    "heritage site": 16,
+    "cafe stop": 10,
+    "craft shopping": 9,
+    "local shopping": 9,
+    "street shopping": 9,
+    "jewelry shopping": 8,
+    "cultural landmark": 3,
+    "family-friendly": 3,
+    "scenic views": 1,
+    "street food": 1
+  }
+}

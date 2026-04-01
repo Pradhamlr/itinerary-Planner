@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { CITY_LOOKUP } = require('../config/cityExpansionPlan');
 
 const GOOGLE_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 const GEOCODING_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
@@ -14,34 +15,41 @@ const buildPlacePhotoUrl = (photoReference, maxWidth = 800) => {
   return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photo_reference=${encodeURIComponent(photoReference)}&key=${encodeURIComponent(GOOGLE_API_KEY)}`;
 };
 
-// Delay utility
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const normalizeCity = (value) => String(value || '').trim().toLowerCase();
+
+const buildGeocodingAddress = (cityName) => (
+  CITY_LOOKUP.has(normalizeCity(cityName))
+    ? `${cityName}, India`
+    : `${cityName}, Kerala, India`
+);
 
 /**
  * Get coordinates for a city using Google Geocoding API
  */
 const getCityCoordinates = async (cityName) => {
   try {
+    const address = buildGeocodingAddress(cityName);
     const response = await axios.get(GEOCODING_URL, {
       params: {
-        address: `${cityName}, Kerala, India`,
+        address,
         key: GOOGLE_API_KEY,
       },
     });
 
     if (response.data.status === 'OK' && response.data.results.length > 0) {
       const location = response.data.results[0].geometry.location;
-      console.log(`✓ Geocoded ${cityName}: ${location.lat}, ${location.lng}`);
+      console.log(`Geocoded ${cityName} using "${address}": ${location.lat}, ${location.lng}`);
       return {
         lat: location.lat,
         lng: location.lng,
       };
     }
 
-    console.error(`✗ Failed to geocode ${cityName}: ${response.data.status}`);
+    console.error(`Failed to geocode ${cityName} using "${address}": ${response.data.status}`);
     return null;
   } catch (error) {
-    console.error(`✗ Error geocoding ${cityName}:`, error.message);
+    console.error(`Error geocoding ${cityName}:`, error.message);
     return null;
   }
 };
@@ -51,11 +59,9 @@ const getCityCoordinates = async (cityName) => {
  */
 const generateGridCoordinates = (centerLat, centerLng, gridSize = 0.02) => {
   const coordinates = [];
-  
-  // Center point
+
   coordinates.push({ lat: centerLat, lng: centerLng });
-  
-  // Grid points around center
+
   for (let latOffset = -gridSize; latOffset <= gridSize; latOffset += gridSize) {
     for (let lngOffset = -gridSize; lngOffset <= gridSize; lngOffset += gridSize) {
       if (latOffset !== 0 || lngOffset !== 0) {
@@ -66,7 +72,7 @@ const generateGridCoordinates = (centerLat, centerLng, gridSize = 0.02) => {
       }
     }
   }
-  
+
   return coordinates;
 };
 
@@ -81,7 +87,6 @@ const fetchPlacesNearby = async (lat, lng, type, radius = 5000) => {
 
   try {
     do {
-      // Wait before requesting next page
       if (pageToken) {
         await delay(2000);
       }
@@ -102,24 +107,22 @@ const fetchPlacesNearby = async (lat, lng, type, radius = 5000) => {
       if (response.data.status === 'OK' || response.data.status === 'ZERO_RESULTS') {
         const places = response.data.results || [];
         allPlaces.push(...places);
-        
+
         pageToken = response.data.next_page_token;
-        pageCount++;
-        
-        console.log(`  → Fetched ${places.length} places (page ${pageCount})`);
+        pageCount += 1;
+
+        console.log(`  -> Fetched ${places.length} places (page ${pageCount})`);
       } else {
-        console.error(`  ✗ API error: ${response.data.status}`);
+        console.error(`  API error: ${response.data.status}`);
         break;
       }
 
-      // Rate limiting
       await delay(600);
-
     } while (pageToken && pageCount < maxPages);
 
     return allPlaces;
   } catch (error) {
-    console.error(`  ✗ Error fetching places:`, error.message);
+    console.error('  Error fetching places:', error.message);
     return allPlaces;
   }
 };
@@ -143,7 +146,7 @@ const getPlaceDetails = async (placeId) => {
 
     return null;
   } catch (error) {
-    console.error(`  ✗ Error fetching place details:`, error.message);
+    console.error('  Error fetching place details:', error.message);
     return null;
   }
 };
@@ -151,36 +154,34 @@ const getPlaceDetails = async (placeId) => {
 /**
  * Normalize place data from Google API
  */
-const normalizePlaceData = (place, cityName) => {
-  return {
-    place_id: place.place_id,
-    name: place.name,
-    city: cityName.toLowerCase(),
-    lat: place.geometry.location.lat,
-    lng: place.geometry.location.lng,
-    rating: place.rating || 0,
-    user_ratings_total: place.user_ratings_total || 0,
-    types: place.types || [],
-    description: place.vicinity || '',
-    photos: Array.isArray(place.photos)
-      ? place.photos
-        .map((photo) => ({
-          photo_reference: photo.photo_reference,
-          height: photo.height,
-          width: photo.width,
-          html_attributions: Array.isArray(photo.html_attributions) ? photo.html_attributions : [],
-        }))
-        .filter((photo) => photo.photo_reference)
-      : [],
-    reviews: [],
-    opening_hours: {
-      open_now: place.opening_hours?.open_now ?? undefined,
-      weekday_text: Array.isArray(place.opening_hours?.weekday_text) ? place.opening_hours.weekday_text : [],
-      periods: [],
-    },
-    source: 'google',
-  };
-};
+const normalizePlaceData = (place, cityName) => ({
+  place_id: place.place_id,
+  name: place.name,
+  city: cityName.toLowerCase(),
+  lat: place.geometry.location.lat,
+  lng: place.geometry.location.lng,
+  rating: place.rating || 0,
+  user_ratings_total: place.user_ratings_total || 0,
+  types: place.types || [],
+  description: place.vicinity || '',
+  photos: Array.isArray(place.photos)
+    ? place.photos
+      .map((photo) => ({
+        photo_reference: photo.photo_reference,
+        height: photo.height,
+        width: photo.width,
+        html_attributions: Array.isArray(photo.html_attributions) ? photo.html_attributions : [],
+      }))
+      .filter((photo) => photo.photo_reference)
+    : [],
+  reviews: [],
+  opening_hours: {
+    open_now: place.opening_hours?.open_now ?? undefined,
+    weekday_text: Array.isArray(place.opening_hours?.weekday_text) ? place.opening_hours.weekday_text : [],
+    periods: [],
+  },
+  source: 'google',
+});
 
 const fetchPlaceByTextQuery = async (query, cityName, options = {}) => {
   try {
@@ -192,7 +193,7 @@ const fetchPlaceByTextQuery = async (query, cityName, options = {}) => {
     });
 
     if (response.data.status !== 'OK' || !Array.isArray(response.data.results) || response.data.results.length === 0) {
-      console.error(`✗ Failed to fetch "${query}": ${response.data.status}`);
+      console.error(`Failed to fetch "${query}": ${response.data.status}`);
       return null;
     }
 
@@ -213,9 +214,10 @@ const fetchPlaceByTextQuery = async (query, cityName, options = {}) => {
 
       return matchesName && matchesType;
     }) || results[0];
+
     return normalizePlaceData(primaryResult, cityName);
   } catch (error) {
-    console.error(`✗ Error fetching "${query}":`, error.message);
+    console.error(`Error fetching "${query}":`, error.message);
     return null;
   }
 };
@@ -224,30 +226,26 @@ const fetchPlaceByTextQuery = async (query, cityName, options = {}) => {
  * Fetch all places for a city with grid search
  */
 const fetchPlacesForCity = async (cityName, placeTypes) => {
-  console.log(`\n📍 Processing ${cityName}...`);
-  
-  // Get city coordinates
+  console.log(`\nProcessing ${cityName}...`);
+
   const cityCoords = await getCityCoordinates(cityName);
   if (!cityCoords) {
-    console.error(`✗ Skipping ${cityName} - geocoding failed`);
+    console.error(`Skipping ${cityName} - geocoding failed`);
     return [];
   }
 
-  // Generate grid coordinates
   const gridCoordinates = generateGridCoordinates(cityCoords.lat, cityCoords.lng);
   console.log(`  Grid size: ${gridCoordinates.length} points`);
 
   const allPlaces = [];
   const seenPlaceIds = new Set();
 
-  // Fetch places for each type at each grid point
   for (const type of placeTypes) {
     console.log(`  Fetching ${type}...`);
-    
+
     for (const coord of gridCoordinates) {
       const places = await fetchPlacesNearby(coord.lat, coord.lng, type);
-      
-      // Filter duplicates
+
       for (const place of places) {
         if (!seenPlaceIds.has(place.place_id)) {
           seenPlaceIds.add(place.place_id);
@@ -257,7 +255,7 @@ const fetchPlacesForCity = async (cityName, placeTypes) => {
     }
   }
 
-  console.log(`✓ ${cityName}: Collected ${allPlaces.length} unique places`);
+  console.log(`Collected ${allPlaces.length} unique places for ${cityName}`);
   return allPlaces;
 };
 
